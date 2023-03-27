@@ -1,0 +1,45 @@
+:root {
+/********* Цвета *********/
+
+  --color__bg: #000;
+  --color__bg_cards: #fff;
+  --color__text: #fff;
+  --color__text_cards: #000;
+  --color__text_copyright: #545454;
+
+/********* Отступы *********/
+
+  /* --gap__ */
+
+/********* Шрифты *********/
+
+  --font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+
+  --font-size__h1: 42px;
+  --font-size__h2: 24px;
+  --font-size__text: 18px;
+  --font-size__form: 14px;
+
+  --line-height__h1:;
+  --line-height__h2:;
+  --line-height__text:;
+  --line-height__form:;
+
+  --font-weight_reg: 400;
+  --font-weight_medium: 500;
+  --font-weight_black: 900;
+
+/********* Анимации *********/
+
+  --trans__link: opacity .5s ease-out;
+
+}
+
+
+
+
+/* @media screen and (max-width: ) {
+  :root {
+
+  }
+} */
