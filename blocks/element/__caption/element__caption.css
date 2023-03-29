@@ -1,3 +1,15 @@
 .element__caption {
+  display: block;
+  line-height: 80px;
+  background-color: var(--color__white);
 
+  color: var(--color__black);
+  font-size: var(--font-size__h2);
+  font-weight: var(--font-weight_black);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
+  padding: 0 57px 0 21px;
+  box-sizing: border-box;
 }

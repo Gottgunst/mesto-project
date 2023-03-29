@@ -1,11 +1,9 @@
 :root {
 /********* Цвета *********/
 
-  --color__bg: #000;
-  --color__bg_cards: #fff;
-  --color__text: #fff;
-  --color__text_cards: #000;
-  --color__text_copyright: #545454;
+  --color__black: #000;
+  --color__white: #fff;
+  --color__grey: #545454;
 
 /********* Отступы *********/
 
@@ -20,10 +18,10 @@
   --font-size__text: 18px;
   --font-size__form: 14px;
 
-  --line-height__h1:;
-  --line-height__h2:;
-  --line-height__text:;
-  --line-height__form:;
+  --line-height__h1: 48px;
+  --line-height__text: auto;
+  /* --line-height__h2: var(--line-height__text);
+  --line-height__form: var(--line-height__text); */
 
   --font-weight_reg: 400;
   --font-weight_medium: 500;
@@ -31,13 +29,16 @@
 
 /********* Анимации *********/
 
-  --trans__link: opacity .5s ease-out;
+  --trans__link: opacity .3s ease-out;
 
 }
 
-
-/* @media screen and (max-width: ) {
+/*
+@media screen and (max-width: 768px ) {
   :root {
+  --font-size__h1: 27px;
+  --font-size__text: 14px;
 
+  --line-height__h1: auto;
   }
 } */

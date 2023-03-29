@@ -1,3 +1,5 @@
 .element__image {
-
+  display: block;
+  object-fit: cover;
+  object-position: center;
 }
