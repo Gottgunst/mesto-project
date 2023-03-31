@@ -24,19 +24,19 @@
       alt='Фотопортрет Кусто'>
     <div class="profile__info">
       <h1 class="profile__name">Жак-Ив Кусто</h1>
-      <button class="profile__button profile__button_edit"></button>
+      <button class="profile__button profile__button_edit" title="Редактировать"></button>
       <p class="profile__subtitle">Исследователь океана</p>
     </div>
-    <button class="profile__button profile__button_add"></button>
+    <button class="profile__button profile__button_add" title="Добавить фотографию"></button>
   </section>
 
-  <section class="popup popup_opened">
+  <section class="popup">
     <form class="popup__container">
       <label class="popup__title">Редактировать профиль</label>
-      <input type="text" name="name" id="" class="popup__field">
-      <input type="text" name="subtitle" id="" class="popup__field">
+      <input type="text" name="name" id="" class="popup__field" value="Жак-Ив Кусто" placeholder="Имя фотографа" required>
+      <input type="text" name="subtitle" id="" class="popup__field" value="Исследователь океана" placeholder="Краткое описание">
       <button type="submit" class="popup__submit">Сохранить</button>
-      <a href="#" class="popup__close"></a>
+      <a href="#" class="popup__close" title="Закрыть"></a>
     </form>
   </section>
 

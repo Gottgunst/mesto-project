@@ -1,3 +1,16 @@
 .popup__title {
+  display: block;
+  margin: 0 0 24px;
+  padding: 0;
 
+  font-size: var(--font-size__label);
+  font-weight: var(--font-weight_black);
+  color: var(--color__black);
+}
+
+
+@media screen and (max-width: 586px) {
+  .popup__title {
+    margin: 0 0 46px;
+  }
 }

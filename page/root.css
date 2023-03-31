@@ -35,6 +35,7 @@
 @media screen and (max-width: 879px ) {
   :root {
   --font-size__h1: clamp(27px, 5vw, 42px);
+  --font-size__label: clamp(18px, 4vw, 24px);
   --font-size__text: clamp(14px, 2.2vw, 18px);
 
   --line-height__h1: auto;

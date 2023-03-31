@@ -1,3 +1,16 @@
 .popup__field {
+  display: block;
+  height: 27px;
+  margin: 0;
+  padding: 0;
+  font-size: var(--font-size__form);
+  font-weight: var(--font-weight_reg);
+  outline: none;
+  border: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, .2);
+}
 
+.popup__field:focus,
+.popup__field:hover {
+  border-bottom-color: rgba(0, 0, 0, .8);
 }
