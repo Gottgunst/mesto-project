@@ -6,7 +6,7 @@
   bottom: 30px;
   right: 20px;
   opacity: 1;
-  transition: var(--trans__link);
+  transition: var(--transition__link);
 }
 
 .element__like:hover {

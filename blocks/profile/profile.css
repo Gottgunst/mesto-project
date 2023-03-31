@@ -2,12 +2,15 @@
   display: grid;
   padding:0 19px 50px;
   grid-template-columns: 120px 1fr 150px;
+  align-items: center;
 }
-
-/* --------------MEDIA--------------- */
 
 @media screen and (max-width: 879px) {
   .profile {
     padding-bottom: 36px;
+    grid-template-columns: 1fr;
+    row-gap: 26px;
+    justify-items: center;
+    text-align: center;
   }
 }

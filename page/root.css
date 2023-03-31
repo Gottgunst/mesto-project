@@ -27,15 +27,15 @@
 
 /********* Анимации *********/
 
-  --trans__link: opacity .3s ease-out;
+  --transition__link: opacity .3s ease-out;
 
 }
 
 
 @media screen and (max-width: 879px ) {
   :root {
-  --font-size__h1: clamp(27px, 3vw, 42px);
-  --font-size__text: clamp(14px, 3vw, 18px);
+  --font-size__h1: clamp(27px, 5vw, 42px);
+  --font-size__text: clamp(14px, 2.2vw, 18px);
 
   --line-height__h1: auto;
   }

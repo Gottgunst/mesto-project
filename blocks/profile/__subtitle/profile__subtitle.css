@@ -5,4 +5,5 @@
   font-size: var(--font-size__text);
   line-height: var(--line-height__text);
   font-weight: var(--font-weight_reg);
+  grid-area: Subtitle;
 }

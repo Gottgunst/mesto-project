@@ -4,4 +4,14 @@
   display: grid;
   grid-template-columns: minmax(min-content, max-content) 24px;
   grid-template-rows: max-content max-content;
+  grid-template-areas:
+  "Name Edit"
+  "Subtitle Subtitle";
+  align-items: center;
+}
+
+@media screen and (max-width: 879px) {
+  .profile__info {
+    padding: 0;
+  }
 }

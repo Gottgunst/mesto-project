@@ -1,8 +1,16 @@
 .profile__name {
   margin: 0;
-  padding: 0;
+  padding: 0 18px 0 0;
 
   font-size: var(--font-size__h1);
-  font-weight: var(--font-weight_black);
+  font-weight: var(--font-weight_medium);
   line-height: var(--line-height__h1);
+}
+
+/* --------------MEDIA--------------- */
+
+@media screen and (max-width: 879px) {
+  .profile__name {
+    padding: 0 10px 0 28px;
+  }
 }
