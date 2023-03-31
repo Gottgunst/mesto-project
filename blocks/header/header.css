@@ -1,15 +1,16 @@
 .header {
   height: 74px;
-  padding-top: 45px;
+  padding: 45px 19px 0;
   margin-bottom: 40px;
-  box-sizing: content-box;
   border-bottom: 1px solid var(--color__grey);
 }
 
-/* @media screen and (max-width: 879px ) {
+@media screen and (max-width: 879px ) {
   .header {
-    height: 56px;
-    padding: 28px 28px 0;
+    height: clamp(56px, 12vw, 74px);
+    padding:
+    clamp(28px, 6vw, 45px)
+    28px 0;
     margin-bottom: 42px;
   }
-} */
+}

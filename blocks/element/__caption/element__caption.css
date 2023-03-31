@@ -4,7 +4,7 @@
   background-color: var(--color__white);
 
   color: var(--color__black);
-  font-size: var(--font-size__h2);
+  font-size: var(--font-size__label);
   font-weight: var(--font-weight_black);
   text-overflow: ellipsis;
   white-space: nowrap;

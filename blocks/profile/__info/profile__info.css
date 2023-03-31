@@ -1,3 +1,7 @@
 .profile__info {
-
+  padding: 0 50px 0 30px;
+  flex-basis: auto;
+  display: grid;
+  grid-template-columns: minmax(min-content, max-content) 24px;
+  grid-template-rows: max-content max-content;
 }

@@ -1,3 +1,13 @@
 .profile {
+  display: grid;
+  padding:0 19px 50px;
+  grid-template-columns: 120px 1fr 150px;
+}
 
+/* --------------MEDIA--------------- */
+
+@media screen and (max-width: 879px) {
+  .profile {
+    padding-bottom: 36px;
+  }
 }

@@ -1,3 +1,6 @@
 .footer__copyright {
-
+  margin: 0;
+  padding: 0;
+  font-size: var(--font-size__text);
+  color: var(--color__grey);
 }
