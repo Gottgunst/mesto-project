@@ -13,14 +13,13 @@
   </header>
 
   <section class="profile">
+
     <img class='profile__avatar'
-      sizes='(max-width: 1200px) 100vw, 1200px'
+      sizes='120px'
       srcset='
-        ./images/avatar/Avatar.webp 1x,
-        ./images/avatar/Avatar@2x.webp 2x,
-        ./images/avatar/Avatar.jpeg 1x,
-        ./images/avatar/Avatar@2x.jpeg 2x'
-      src='./images/avatar/Avatar.jpg'
+        ./images/avatar/avatar_120w.jpeg 120w,
+        ./images/avatar/avatar_240w.jpeg 240w'
+      src='./images/avatar/avatar_282w.jpeg'
       alt='Фотопортрет Кусто'>
     <div class="profile__info">
       <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -33,8 +32,8 @@
   <section class="popup">
     <form class="popup__container">
       <label class="popup__title">Редактировать профиль</label>
-      <input type="text" name="name" id="" class="popup__field" value="Жак-Ив Кусто" placeholder="Имя фотографа" required>
-      <input type="text" name="subtitle" id="" class="popup__field" value="Исследователь океана" placeholder="Краткое описание">
+      <input type="text" name="name" id="name" class="popup__field" value="Жак-Ив Кусто" placeholder="Имя фотографа" required>
+      <input type="text" name="subtitle" id="subtitle" class="popup__field" value="Исследователь океана" placeholder="Краткое описание">
       <button type="submit" class="popup__submit">Сохранить</button>
       <a href="#" class="popup__close" title="Закрыть"></a>
     </form>
@@ -44,44 +43,116 @@
     <ul class="elements__grid">
       <li>
         <figure class="element">
-          <img src="./images/places/kirill-pershin-1088404-unsplash.jpeg" alt="11" class="element__image">
+          <img class='element__image'
+          sizes='
+            (min-width: 920px) 282px,
+            (min-width: 620px) calc(50vw - 27px),
+            (min-width: 380px) calc(100vw - 38px),
+            calc(66.67vw + 82px)'
+          srcset='
+            ./images/places/06_282w.jpeg 282w,
+            ./images/places/06_564w.jpeg 564w,
+            ./images/places/06_846w.jpeg 846w,
+            ./images/places/06_1128w.jpeg 1128w'
+          src='./images/places/06_282w.jpeg'
+          alt='Нерпа в сиянии водорослей'>
           <div class="element__like"></div>
-          <figcaption class="element__caption">Домбай</figcaption>
+          <figcaption class="element__caption">Нерпа</figcaption>
         </figure>
       </li>
       <li>
         <figure class="element">
-          <img src="./images/places/kirill-pershin-1088404-unsplash.jpeg" alt="11" class="element__image">
+          <img class='element__image'
+          sizes='
+            (min-width: 920px) 282px,
+            (min-width: 620px) calc(50vw - 27px),
+            (min-width: 380px) calc(100vw - 38px),
+            calc(66.67vw + 82px)'
+          srcset='
+            ./images/places/05_282w.jpeg 282w,
+            ./images/places/05_564w.jpeg 564w,
+            ./images/places/05_846w.jpeg 846w,
+            ./images/places/05_1128w.jpeg 1128w'
+          src='./images/places/05_282w.jpeg'
+          alt='Колонии Байкала'>
           <div class="element__like"></div>
-          <figcaption class="element__caption">Карачаевск</figcaption>
+          <figcaption class="element__caption">Кораллы</figcaption>
         </figure>
       </li>
       <li>
         <figure class="element">
-          <img src="./images/places/kirill-pershin-1088404-unsplash.jpeg" alt="11" class="element__image">
+          <img class='element__image'
+            sizes='
+              (min-width: 920px) 282px,
+              (min-width: 620px) calc(50vw - 27px),
+              (min-width: 380px) calc(100vw - 38px),
+              calc(66.67vw + 82px)'
+            srcset='
+              ./images/places/04_282w.jpeg 282w,
+              ./images/places/04_564w.jpeg 564w,
+              ./images/places/04_846w.jpeg 846w,
+              ./images/places/04_1128w.jpeg 1128w'
+            src='./images/places/04_282w.jpeg'
+            alt='Подводный сад'>
           <div class="element__like"></div>
-          <figcaption class="element__caption">Гора Эльбрус</figcaption>
+          <figcaption class="element__caption">Сады Байкала</figcaption>
         </figure>
       </li>
       <li>
         <figure class="element">
-          <img src="./images/places/kirill-pershin-1088404-unsplash.jpeg" alt="11" class="element__image">
+          <img class='element__image'
+            sizes='
+              (min-width: 920px) 282px,
+              (min-width: 620px) calc(50vw - 27px),
+              (min-width: 380px) calc(100vw - 38px),
+              calc(66.67vw + 82px)'
+            srcset='
+              ./images/places/02_282w.jpeg 282w,
+              ./images/places/02_564w.jpeg 564w,
+              ./images/places/02_846w.jpeg 846w,
+              ./images/places/02_1128w.jpeg 1128w'
+            src='./images/places/02_282w.jpeg'
+            alt='Байкальский лёд>'>
           <div class="element__like"></div>
-          <figcaption class="element__caption">Карачаево-Черкесия</figcaption>
+          <figcaption class="element__caption">Чистый лёд</figcaption>
         </figure>
       </li>
       <li>
         <figure class="element">
-          <img src="./images/places/kirill-pershin-1088404-unsplash.jpeg" alt="11" class="element__image">
+            <img class='element__image'
+            sizes='
+              (min-width: 920px) 282px,
+              (min-width: 620px) calc(50vw - 27px),
+              (min-width: 380px) calc(100vw - 38px),
+              calc(66.67vw + 82px)'
+            srcset='
+              ./images/places/01_282w.jpeg 282w,
+              ./images/places/01_564w.jpeg 564w,
+              ./images/places/01_846w.jpeg 846w,
+              ./images/places/01_1128w.jpeg 1128w'
+            src='./images/places/01_282w.jpeg'
+            alt='Рыбка в кораллах'>
           <div class="element__like"></div>
-          <figcaption class="element__caption">Иркутск</figcaption>
+          <figcaption class="element__caption">Коралловые рифы</figcaption>
         </figure>
       </li>
       <li>
         <figure class="element">
-          <img src="./images/places/kirill-pershin-1088404-unsplash.jpeg" alt="11" class="element__image">
+          <img class='element__image'
+            sizes='
+              (min-width: 920px) 282px,
+              (min-width: 620px) calc(50vw - 27px),
+              (min-width: 380px) calc(100vw - 38px),
+              calc(66.67vw + 82px)'
+            srcset='
+              ./images/places/03_282w.jpeg 282w,
+              ./images/places/03_564w.jpeg 564w,
+              ./images/places/03_846w.jpeg 846w,
+              ./images/places/03_1128w.jpeg 1128w'
+            src='./images/places/03_282w.jpeg'
+            alt='Нерпа в подводном лесу'>
           <div class="element__like"></div>
-          <figcaption class="element__caption">Адыгея</figcaption>
+          <figcaption class="element__caption">Подводные леса</figcaption>
         </figure>
       </li>
     </ul>

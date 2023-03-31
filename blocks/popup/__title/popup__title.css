@@ -8,7 +8,6 @@
   color: var(--color__black);
 }
 
-
 @media screen and (max-width: 586px) {
   .popup__title {
     margin: 0 0 46px;
