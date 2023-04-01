@@ -1,16 +1,20 @@
 .profile__name {
+  display: block;
+  max-width: calc(100% - 24px);
   margin: 0;
   padding: 0 18px 0 0;
-
+  box-sizing: border-box;
   font-size: var(--font-size__h1);
   font-weight: var(--font-weight_medium);
   line-height: var(--line-height__h1);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
-
-/* --------------MEDIA--------------- */
 
 @media screen and (max-width: 879px) {
   .profile__name {
+    max-width: calc(100% - 18px);
     padding: 0 10px 0 28px;
   }
 }

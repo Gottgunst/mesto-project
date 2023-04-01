@@ -3,6 +3,7 @@
   margin: 18px 0 0;
   padding: 0;
   height: 50px;
+  border: 0;
   border-radius: 2px;
   background-color: var(--color__black);
   font-size: var(--font-size__text);

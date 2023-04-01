@@ -1,14 +1,12 @@
 .header__logo {
   max-width: 142px;
-  height: 100%;
-  background-image: url('../../../images/svg/logo.svg');
-  background-size: contain;
-  background-position: top;
-  background-repeat: no-repeat;
+  height: 33px;
+  background: url('../../../images/svg/logo.svg') top / contain no-repeat;
 }
 
 @media screen and (max-width: 879px) {
   .header__logo {
     width: clamp(103px, 23vw, 142px);
+    height: clamp(25px, 12vw, 33px);
   }
 }

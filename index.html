@@ -8,117 +8,33 @@
   <link rel="stylesheet" href="page/index.css">
 </head>
 <body class="page">
+
   <header class="header">
     <div class="header__logo"></div>
   </header>
 
-  <section class="profile">
+  <main>
 
-    <img class='profile__avatar'
-      sizes='120px'
-      srcset='
-        ./images/avatar/avatar_120w.jpeg 120w,
-        ./images/avatar/avatar_240w.jpeg 240w'
-      src='./images/avatar/avatar_282w.jpeg'
-      alt='Фотопортрет Кусто'>
-    <div class="profile__info">
-      <h1 class="profile__name">Жак-Ив Кусто</h1>
-      <button class="profile__button profile__button_edit" title="Редактировать"></button>
-      <p class="profile__subtitle">Исследователь океана</p>
-    </div>
-    <button class="profile__button profile__button_add" title="Добавить фотографию"></button>
-  </section>
+    <section class="profile">
+      <img class='profile__avatar'
+        sizes='120px'
+        srcset='
+          ./images/avatar/avatar_120w.jpeg 120w,
+          ./images/avatar/avatar_240w.jpeg 240w'
+        src='./images/avatar/avatar_282w.jpeg'
+        alt='Фотопортрет Кусто'>
+      <div class="profile__info">
+        <h1 class="profile__name">Жак-Ив Кусто</h1>
+        <button class="profile__button profile__button_type_edit" title="Редактировать" type="button" aria-label="Редактировать имя"></button>
+        <p class="profile__subtitle">Исследователь океана</p>
+      </div>
+      <button class="profile__button profile__button_type_add" title="Добавить фотографию" type="button" aria-label="Добавить фотографию"></button>
+    </section>
 
-  <section class="popup">
-    <form class="popup__container">
-      <label class="popup__title">Редактировать профиль</label>
-      <input type="text" name="name" id="name" class="popup__field" value="Жак-Ив Кусто" placeholder="Имя фотографа" required>
-      <input type="text" name="subtitle" id="subtitle" class="popup__field" value="Исследователь океана" placeholder="Краткое описание">
-      <button type="submit" class="popup__submit">Сохранить</button>
-      <a href="#" class="popup__close" title="Закрыть"></a>
-    </form>
-  </section>
-
-  <section class="elements">
-    <ul class="elements__grid">
-      <li>
-        <figure class="element">
-          <img class='element__image'
-          sizes='
-            (min-width: 920px) 282px,
-            (min-width: 620px) calc(50vw - 27px),
-            (min-width: 380px) calc(100vw - 38px),
-            calc(66.67vw + 82px)'
-          srcset='
-            ./images/places/06_282w.jpeg 282w,
-            ./images/places/06_564w.jpeg 564w,
-            ./images/places/06_846w.jpeg 846w,
-            ./images/places/06_1128w.jpeg 1128w'
-          src='./images/places/06_282w.jpeg'
-          alt='Нерпа в сиянии водорослей'>
-          <div class="element__like"></div>
-          <figcaption class="element__caption">Нерпа</figcaption>
-        </figure>
-      </li>
-      <li>
-        <figure class="element">
-          <img class='element__image'
-          sizes='
-            (min-width: 920px) 282px,
-            (min-width: 620px) calc(50vw - 27px),
-            (min-width: 380px) calc(100vw - 38px),
-            calc(66.67vw + 82px)'
-          srcset='
-            ./images/places/05_282w.jpeg 282w,
-            ./images/places/05_564w.jpeg 564w,
-            ./images/places/05_846w.jpeg 846w,
-            ./images/places/05_1128w.jpeg 1128w'
-          src='./images/places/05_282w.jpeg'
-          alt='Колонии Байкала'>
-          <div class="element__like"></div>
-          <figcaption class="element__caption">Кораллы</figcaption>
-        </figure>
-      </li>
-      <li>
-        <figure class="element">
-          <img class='element__image'
-            sizes='
-              (min-width: 920px) 282px,
-              (min-width: 620px) calc(50vw - 27px),
-              (min-width: 380px) calc(100vw - 38px),
-              calc(66.67vw + 82px)'
-            srcset='
-              ./images/places/04_282w.jpeg 282w,
-              ./images/places/04_564w.jpeg 564w,
-              ./images/places/04_846w.jpeg 846w,
-              ./images/places/04_1128w.jpeg 1128w'
-            src='./images/places/04_282w.jpeg'
-            alt='Подводный сад'>
-          <div class="element__like"></div>
-          <figcaption class="element__caption">Сады Байкала</figcaption>
-        </figure>
-      </li>
-      <li>
-        <figure class="element">
-          <img class='element__image'
-            sizes='
-              (min-width: 920px) 282px,
-              (min-width: 620px) calc(50vw - 27px),
-              (min-width: 380px) calc(100vw - 38px),
-              calc(66.67vw + 82px)'
-            srcset='
-              ./images/places/02_282w.jpeg 282w,
-              ./images/places/02_564w.jpeg 564w,
-              ./images/places/02_846w.jpeg 846w,
-              ./images/places/02_1128w.jpeg 1128w'
-            src='./images/places/02_282w.jpeg'
-            alt='Байкальский лёд>'>
-          <div class="element__like"></div>
-          <figcaption class="element__caption">Чистый лёд</figcaption>
-        </figure>
-      </li>
-      <li>
-        <figure class="element">
+    <section class="elements">
+      <ul class="elements__grid">
+        <li>
+          <article class="element">
             <img class='element__image'
             sizes='
               (min-width: 920px) 282px,
@@ -126,41 +42,132 @@
               (min-width: 380px) calc(100vw - 38px),
               calc(66.67vw + 82px)'
             srcset='
-              ./images/places/01_282w.jpeg 282w,
-              ./images/places/01_564w.jpeg 564w,
-              ./images/places/01_846w.jpeg 846w,
-              ./images/places/01_1128w.jpeg 1128w'
-            src='./images/places/01_282w.jpeg'
-            alt='Рыбка в кораллах'>
-          <div class="element__like"></div>
-          <figcaption class="element__caption">Коралловые рифы</figcaption>
-        </figure>
-      </li>
-      <li>
-        <figure class="element">
-          <img class='element__image'
-            sizes='
-              (min-width: 920px) 282px,
-              (min-width: 620px) calc(50vw - 27px),
-              (min-width: 380px) calc(100vw - 38px),
-              calc(66.67vw + 82px)'
-            srcset='
-              ./images/places/03_282w.jpeg 282w,
-              ./images/places/03_564w.jpeg 564w,
-              ./images/places/03_846w.jpeg 846w,
-              ./images/places/03_1128w.jpeg 1128w'
-            src='./images/places/03_282w.jpeg'
-            alt='Нерпа в подводном лесу'>
-          <div class="element__like"></div>
-          <figcaption class="element__caption">Подводные леса</figcaption>
-        </figure>
-      </li>
-    </ul>
-  </section>
+              ./images/places/06_282w.jpeg 282w,
+              ./images/places/06_564w.jpeg 564w,
+              ./images/places/06_846w.jpeg 846w,
+              ./images/places/06_1128w.jpeg 1128w'
+            src='./images/places/06_282w.jpeg'
+            alt='Нерпа в сиянии водорослей'>
+            <h2 class="element__caption">Нерпа</h2>
+            <button class="element__like-button" title="Нравится" type="button" aria-label="Нравится фотография"></button>
+          </article>
+        </li>
+        <li>
+          <article class="element">
+              <img class='element__image'
+              sizes='
+                (min-width: 920px) 282px,
+                (min-width: 620px) calc(50vw - 27px),
+                (min-width: 380px) calc(100vw - 38px),
+                calc(66.67vw + 82px)'
+              srcset='
+                ./images/places/05_282w.jpeg 282w,
+                ./images/places/05_564w.jpeg 564w,
+                ./images/places/05_846w.jpeg 846w,
+                ./images/places/05_1128w.jpeg 1128w'
+              src='./images/places/05_282w.jpeg'
+              alt='Колонии Байкала'>
+              <h2 class="element__caption">Кораллы</h2>
+              <button class="element__like-button" title="Нравится" type="button" aria-label="Нравится фотография"></button>
+          </article>
+        </li>
+        <li>
+          <article class="element">
+              <img class='element__image'
+                sizes='
+                  (min-width: 920px) 282px,
+                  (min-width: 620px) calc(50vw - 27px),
+                  (min-width: 380px) calc(100vw - 38px),
+                  calc(66.67vw + 82px)'
+                srcset='
+                  ./images/places/04_282w.jpeg 282w,
+                  ./images/places/04_564w.jpeg 564w,
+                  ./images/places/04_846w.jpeg 846w,
+                  ./images/places/04_1128w.jpeg 1128w'
+                src='./images/places/04_282w.jpeg'
+                alt='Подводный сад'>
+              <h2 class="element__caption">Сады Байкала</h2>
+              <button class="element__like-button" title="Нравится" type="button" aria-label="Нравится фотография"></button>
+          </article>
+        </li>
+        <li>
+          <article class="element">
+              <img class='element__image'
+                sizes='
+                  (min-width: 920px) 282px,
+                  (min-width: 620px) calc(50vw - 27px),
+                  (min-width: 380px) calc(100vw - 38px),
+                  calc(66.67vw + 82px)'
+                srcset='
+                  ./images/places/02_282w.jpeg 282w,
+                  ./images/places/02_564w.jpeg 564w,
+                  ./images/places/02_846w.jpeg 846w,
+                  ./images/places/02_1128w.jpeg 1128w'
+                src='./images/places/02_282w.jpeg'
+                alt='Байкальский лёд>'>
+              <h2 class="element__caption">Чистый лёд</h2>
+              <button class="element__like-button" title="Нравится" type="button" aria-label="Нравится фотография"></button>
+          </article>
+        </li>
+        <li>
+          <article class="element">
+                <img class='element__image'
+                sizes='
+                  (min-width: 920px) 282px,
+                  (min-width: 620px) calc(50vw - 27px),
+                  (min-width: 380px) calc(100vw - 38px),
+                  calc(66.67vw + 82px)'
+                srcset='
+                  ./images/places/01_282w.jpeg 282w,
+                  ./images/places/01_564w.jpeg 564w,
+                  ./images/places/01_846w.jpeg 846w,
+                  ./images/places/01_1128w.jpeg 1128w'
+                src='./images/places/01_282w.jpeg'
+                alt='Рыбка в кораллах'>
+              <h2 class="element__caption">Коралловые рифы</h2>
+              <button class="element__like-button" title="Нравится" type="button" aria-label="Нравится фотография"></button>
+          </article>
+        </li>
+        <li>
+          <article class="element">
+              <img class='element__image'
+                sizes='
+                  (min-width: 920px) 282px,
+                  (min-width: 620px) calc(50vw - 27px),
+                  (min-width: 380px) calc(100vw - 38px),
+                  calc(66.67vw + 82px)'
+                srcset='
+                  ./images/places/03_282w.jpeg 282w,
+                  ./images/places/03_564w.jpeg 564w,
+                  ./images/places/03_846w.jpeg 846w,
+                  ./images/places/03_1128w.jpeg 1128w'
+                src='./images/places/03_282w.jpeg'
+                alt='Нерпа в подводном лесу'>
+              <h2 class="element__caption">Подводные леса</h2>
+              <button class="element__like-button" title="Нравится" type="button" aria-label="Нравится фотография"></button>
+          </article>
+        </li>
+      </ul>
+    </section>
+
+  </main>
 
   <footer class="footer">
     <p class="footer__copyright">© 2020 Mesto Russia</p>
   </footer>
+
+  <div class="popup">
+    <div class="popup__container">
+      <h2 class="popup__title">Редактировать профиль</h2>
+      <form class="popup__form" name="edit-info" method="POST" >
+        <input type="text" name="name" id="name" class="popup__field" placeholder="Имя" required>
+        <input type="text" name="subtitle" id="subtitle" class="popup__field" placeholder="О себе">
+        <button type="submit" class="popup__submit" aria-label="Сохранить изменения">Сохранить</button>
+      </form>
+      <a href="#" class="popup__close" title="Закрыть"></a>
+    </div>
+  </div>
+
 </body>
 </html>
 

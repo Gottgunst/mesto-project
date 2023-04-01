@@ -8,6 +8,12 @@
   cursor: pointer;
 }
 
-.profile__button:hover {
+.profile__button:hover,
+.profile__button:focus {
   opacity: .6;
+  outline-width:0;
+}
+
+.profile__button:active {
+  transform: scale(.95);
 }

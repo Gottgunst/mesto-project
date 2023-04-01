@@ -7,10 +7,10 @@
   font-weight: var(--font-weight_reg);
   outline: none;
   border: 0;
-  border-bottom: 1px solid rgba(0, 0, 0, .2);
+  border-bottom: 1px solid var(--color__black_2);
 }
 
 .popup__field:focus,
 .popup__field:hover {
-  border-bottom-color: rgba(0, 0, 0, .8);
+  border-bottom-color: var(--color__black);
 }

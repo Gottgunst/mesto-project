@@ -1,17 +1,16 @@
 .profile__info {
+  display: flex;
+  flex-wrap: wrap;
   padding: 0 50px 0 30px;
-  flex-basis: auto;
-  display: grid;
-  grid-template-columns: minmax(min-content, max-content) 24px;
-  grid-template-rows: max-content max-content;
-  grid-template-areas:
-  "Name Edit"
-  "Subtitle Subtitle";
+  box-sizing: border-box;
   align-items: center;
+  overflow: hidden;
+  max-width: 100%;
 }
 
 @media screen and (max-width: 879px) {
   .profile__info {
+    justify-content: center;
     padding: 0;
   }
 }

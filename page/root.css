@@ -1,21 +1,24 @@
 :root {
 /********* Цвета *********/
 
-  --color__black: #000;
+  --color__black: rgba(0, 0, 0, 1);
+  --color__black_2: rgba(0, 0, 0, .2);
   --color__white: #fff;
-  --color__grey: #545454;
+  --color__grey: rgba(84, 84, 84, 1);
+  --color__grey_7: rgba(84, 84, 84, .7);
 
 /********* Шрифты *********/
 
   --font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
 
   --font-size__h1: 42px;
+  --font-size__h2: 24px;
   --font-size__label: 24px;
   --font-size__text: 18px;
   --font-size__form: 14px;
 
   --line-height__h1: 48px;
-  --line-height__text: auto;
+  --line-height__text: normal;
 
   --font-weight_reg: 400;
   --font-weight_medium: 500;
@@ -34,6 +37,6 @@
   --font-size__label: clamp(18px, 4vw, 24px);
   --font-size__text: clamp(14px, 2.2vw, 18px);
 
-  --line-height__h1: auto;
+  --line-height__h1: normal;
   }
 }
