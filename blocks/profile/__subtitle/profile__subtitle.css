@@ -10,8 +10,3 @@
   overflow: hidden;
 }
 
-@media screen and (max-width: 879px) {
-  .profile__subtitle {
-    padding: 0 28px;
-  }
-}

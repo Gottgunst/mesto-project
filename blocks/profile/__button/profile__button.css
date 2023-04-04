@@ -15,5 +15,5 @@
 }
 
 .profile__button:active {
-  transform: scale(.95);
+  transform: var(--transform__button);
 }

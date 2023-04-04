@@ -14,8 +14,13 @@
   cursor: pointer;
 }
 
+.popup__submit:focus,
 .popup__submit:hover {
   opacity: .8;
+}
+
+.popup__submit:active {
+  transform: var(--transform__button);
 }
 
 @media screen and (max-width: 586px) {
