@@ -2,6 +2,7 @@
   padding: 45px 19px 41px;
   margin-bottom: 40px;
   border-bottom: 1px solid var(--color__grey_7);
+  flex-shrink: 0;
 }
 
 @media screen and (max-width: 879px ) {
