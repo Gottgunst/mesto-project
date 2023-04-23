@@ -1,14 +1,18 @@
 .popup {
+  display: flex;
   width: 100%;
   min-width: 320px;
   height: 100%;
   position: fixed;
   top: 0;
   left: 0;
-  display: none;
   justify-content: center;
   align-items: center;
   z-index: 20;
+
+  visibility: hidden;
+  opacity: 0;
+  transition: var(--transition__popup);
 }
 
 .popup::before {
