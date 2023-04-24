@@ -20,4 +20,5 @@
 .element__like-button:active {
   background-image: url('../../../images/svg/heart_fill.svg');
   cursor: pointer;
+  transform: var(--transform__button);
 }
