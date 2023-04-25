@@ -1,6 +1,6 @@
 .button {
   opacity: 1;
-  transition: var(--transition__link);
+  transition: visibility .2s, opacity .2s linear;
   border: 0;
   cursor: pointer;
 }
