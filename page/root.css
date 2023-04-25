@@ -27,6 +27,7 @@
 /********* Анимации *********/
 
   --transition__link: opacity .3s ease-out;
+  --transition__popup: visibility .4s, opacity .4s linear;
   --transform__button: scale(.97);
 }
 
