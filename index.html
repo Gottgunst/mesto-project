@@ -25,16 +25,17 @@
         alt='Фотопортрет Кусто'>
       <div class="profile__info">
         <h1 class="profile__name">Жак-Ив Кусто</h1>
-        <button class="profile__button profile__button_type_edit" title="Редактировать" type="button" aria-label="Редактировать имя"></button>
+        <button class="button profile__button profile__button_type_edit" title="Редактировать" type="button" aria-label="Редактировать имя"></button>
         <p class="profile__subtitle">Исследователь океана</p>
       </div>
-      <button class="profile__button profile__button_type_add" title="Добавить фотографию" type="button" aria-label="Добавить фотографию"></button>
+      <button class="button profile__button profile__button_type_add" title="Добавить фотографию" type="button" aria-label="Добавить фотографию"></button>
     </section>
 
     <section class="elements">
       <ul class="elements__grid">
         <li>
           <article class="element">
+            <button class="button element__button-del" title="Удалить" type="button" aria-label="Удалить фотокарточку"></button>
             <img class='element__image'
             sizes='
               (min-width: 920px) 282px,
@@ -49,102 +50,107 @@
             src='./images/places/06_282w.jpeg'
             alt='Нерпа в сиянии водорослей'>
             <h2 class="element__caption">Нерпа</h2>
-            <button class="element__like-button" title="Нравится" type="button" aria-label="Нравится фотография"></button>
+            <button class="button element__button-like" title="Нравится" type="button" aria-label="Нравится фотография"></button>
           </article>
         </li>
         <li>
           <article class="element">
+            <button class="button element__button-del" title="Удалить" type="button" aria-label="Удалить фотокарточку"></button>
+            <img class='element__image'
+            sizes='
+              (min-width: 920px) 282px,
+              (min-width: 620px) calc(50vw - 27px),
+              (min-width: 380px) calc(100vw - 38px),
+              calc(66.67vw + 82px)'
+            srcset='
+              ./images/places/05_282w.jpeg 282w,
+              ./images/places/05_564w.jpeg 564w,
+              ./images/places/05_846w.jpeg 846w,
+              ./images/places/05_1128w.jpeg 1128w'
+            src='./images/places/05_282w.jpeg'
+            alt='Колонии Байкала'>
+            <h2 class="element__caption">Кораллы</h2>
+            <button class="button element__button-like" title="Нравится" type="button" aria-label="Нравится фотография"></button>
+          </article>
+        </li>
+        <li>
+          <article class="element">
+            <button class="button element__button-del" title="Удалить" type="button" aria-label="Удалить фотокарточку"></button>
               <img class='element__image'
+                sizes='
+                (min-width: 920px) 282px,
+                (min-width: 620px) calc(50vw - 27px),
+                (min-width: 380px) calc(100vw - 38px),
+                calc(66.67vw + 82px)'
+              srcset='
+                ./images/places/04_282w.jpeg 282w,
+                ./images/places/04_564w.jpeg 564w,
+                ./images/places/04_846w.jpeg 846w,
+                ./images/places/04_1128w.jpeg 1128w'
+              src='./images/places/04_282w.jpeg'
+              alt='Подводный сад'>
+            <h2 class="element__caption">Сады Байкала</h2>
+            <button class="button element__button-like" title="Нравится" type="button" aria-label="Нравится фотография"></button>
+          </article>
+        </li>
+        <li>
+          <article class="element">
+            <button class="button element__button-del" title="Удалить" type="button" aria-label="Удалить фотокарточку"></button>
+            <img class='element__image'
               sizes='
                 (min-width: 920px) 282px,
                 (min-width: 620px) calc(50vw - 27px),
                 (min-width: 380px) calc(100vw - 38px),
                 calc(66.67vw + 82px)'
               srcset='
-                ./images/places/05_282w.jpeg 282w,
-                ./images/places/05_564w.jpeg 564w,
-                ./images/places/05_846w.jpeg 846w,
-                ./images/places/05_1128w.jpeg 1128w'
-              src='./images/places/05_282w.jpeg'
-              alt='Колонии Байкала'>
-              <h2 class="element__caption">Кораллы</h2>
-              <button class="element__like-button" title="Нравится" type="button" aria-label="Нравится фотография"></button>
+                ./images/places/02_282w.jpeg 282w,
+                ./images/places/02_564w.jpeg 564w,
+                ./images/places/02_846w.jpeg 846w,
+                ./images/places/02_1128w.jpeg 1128w'
+              src='./images/places/02_282w.jpeg'
+              alt='Байкальский лёд>'>
+            <h2 class="element__caption">Чистый лёд</h2>
+            <button class="button element__button-like" title="Нравится" type="button" aria-label="Нравится фотография"></button>
           </article>
         </li>
         <li>
           <article class="element">
-              <img class='element__image'
-                sizes='
-                  (min-width: 920px) 282px,
-                  (min-width: 620px) calc(50vw - 27px),
-                  (min-width: 380px) calc(100vw - 38px),
-                  calc(66.67vw + 82px)'
-                srcset='
-                  ./images/places/04_282w.jpeg 282w,
-                  ./images/places/04_564w.jpeg 564w,
-                  ./images/places/04_846w.jpeg 846w,
-                  ./images/places/04_1128w.jpeg 1128w'
-                src='./images/places/04_282w.jpeg'
-                alt='Подводный сад'>
-              <h2 class="element__caption">Сады Байкала</h2>
-              <button class="element__like-button" title="Нравится" type="button" aria-label="Нравится фотография"></button>
+            <button class="button element__button-del" title="Удалить" type="button" aria-label="Удалить фотокарточку"></button>
+            <img class='element__image'
+            sizes='
+              (min-width: 920px) 282px,
+              (min-width: 620px) calc(50vw - 27px),
+              (min-width: 380px) calc(100vw - 38px),
+              calc(66.67vw + 82px)'
+            srcset='
+              ./images/places/01_282w.jpeg 282w,
+              ./images/places/01_564w.jpeg 564w,
+              ./images/places/01_846w.jpeg 846w,
+              ./images/places/01_1128w.jpeg 1128w'
+            src='./images/places/01_282w.jpeg'
+            alt='Рыбка в кораллах'>
+            <h2 class="element__caption">Коралловые рифы</h2>
+            <button class="button element__button-like" title="Нравится" type="button" aria-label="Нравится фотография"></button>
           </article>
         </li>
         <li>
           <article class="element">
-              <img class='element__image'
-                sizes='
-                  (min-width: 920px) 282px,
-                  (min-width: 620px) calc(50vw - 27px),
-                  (min-width: 380px) calc(100vw - 38px),
-                  calc(66.67vw + 82px)'
-                srcset='
-                  ./images/places/02_282w.jpeg 282w,
-                  ./images/places/02_564w.jpeg 564w,
-                  ./images/places/02_846w.jpeg 846w,
-                  ./images/places/02_1128w.jpeg 1128w'
-                src='./images/places/02_282w.jpeg'
-                alt='Байкальский лёд>'>
-              <h2 class="element__caption">Чистый лёд</h2>
-              <button class="element__like-button" title="Нравится" type="button" aria-label="Нравится фотография"></button>
-          </article>
-        </li>
-        <li>
-          <article class="element">
-                <img class='element__image'
-                sizes='
-                  (min-width: 920px) 282px,
-                  (min-width: 620px) calc(50vw - 27px),
-                  (min-width: 380px) calc(100vw - 38px),
-                  calc(66.67vw + 82px)'
-                srcset='
-                  ./images/places/01_282w.jpeg 282w,
-                  ./images/places/01_564w.jpeg 564w,
-                  ./images/places/01_846w.jpeg 846w,
-                  ./images/places/01_1128w.jpeg 1128w'
-                src='./images/places/01_282w.jpeg'
-                alt='Рыбка в кораллах'>
-              <h2 class="element__caption">Коралловые рифы</h2>
-              <button class="element__like-button" title="Нравится" type="button" aria-label="Нравится фотография"></button>
-          </article>
-        </li>
-        <li>
-          <article class="element">
-              <img class='element__image'
-                sizes='
-                  (min-width: 920px) 282px,
-                  (min-width: 620px) calc(50vw - 27px),
-                  (min-width: 380px) calc(100vw - 38px),
-                  calc(66.67vw + 82px)'
-                srcset='
-                  ./images/places/03_282w.jpeg 282w,
-                  ./images/places/03_564w.jpeg 564w,
-                  ./images/places/03_846w.jpeg 846w,
-                  ./images/places/03_1128w.jpeg 1128w'
-                src='./images/places/03_282w.jpeg'
-                alt='Нерпа в подводном лесу'>
-              <h2 class="element__caption">Подводные леса</h2>
-              <button class="element__like-button" title="Нравится" type="button" aria-label="Нравится фотография"></button>
+            <button class="button element__button-del" title="Удалить" type="button" aria-label="Удалить фотокарточку"></button>
+            <img class='element__image'
+              sizes='
+                (min-width: 920px) 282px,
+                (min-width: 620px) calc(50vw - 27px),
+                (min-width: 380px) calc(100vw - 38px),
+                calc(66.67vw + 82px)'
+              srcset='
+                ./images/places/03_282w.jpeg 282w,
+                ./images/places/03_564w.jpeg 564w,
+                ./images/places/03_846w.jpeg 846w,
+                ./images/places/03_1128w.jpeg 1128w'
+              src='./images/places/03_282w.jpeg'
+              alt='Нерпа в подводном лесу'>
+            <h2 class="element__caption">Подводные леса</h2>
+            <button class="button element__button-like" title="Нравится" type="button" aria-label="Нравится фотография"></button>
           </article>
         </li>
       </ul>
@@ -169,6 +175,7 @@
   </div>
 
   <script src="./script/like.js"></script>
+  <script src="./script/delete.js"></script>
 </body>
 </html>
 

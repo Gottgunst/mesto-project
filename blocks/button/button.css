@@ -1,0 +1,18 @@
+.button {
+  opacity: 1;
+  transition: var(--transition__link);
+  border: 0;
+  cursor: pointer;
+}
+
+.button:hover,
+.button:focus {
+  opacity: .6;
+  cursor: pointer;
+  outline-width:0;
+}
+
+.button:active {
+  transform: scale(.97);
+  cursor: pointer;
+}
