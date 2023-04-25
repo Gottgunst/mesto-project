@@ -1,0 +1,15 @@
+.element__button-like {
+  width: 22px;
+  height: 19px;
+  margin-right: 20px;
+  background: url('../../../images/svg/heart.svg') center / contain no-repeat;
+}
+
+.element__button-like:hover,
+.element__button-like:focus {
+  opacity: .5;
+}
+
+.element__button-like:active {
+  background-image: url('../../../images/svg/heart_fill.svg');
+}

@@ -1,0 +1,19 @@
+.element__button-del {
+  width: 18px;
+  height: 19px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: url('../../../images/svg/trash.svg') center / contain no-repeat;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.element:hover > .element__button-del {
+  visibility: visible;
+  opacity: 1;
+}
+
+.element:hover > .element__button-del:hover {
+  opacity: .6;
+}
