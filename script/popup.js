@@ -19,6 +19,11 @@ function popupClose(evt) {
 
 // POP-UP connect name and subtitle data
 
+
+import {initialCards} from './data.js';
+import {addCard} from './image-add.js';
+
+
 const profileName = document.querySelector('.profile__name');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 
@@ -40,10 +45,15 @@ function formEditHandler(evt) {
 
 function formAddHandler(evt) {
   evt.preventDefault();
-  const imageName = evt.target.closest('.popup').querySelector('#imageName').value;
+  const imageTitle = evt.target.closest('.popup').querySelector('#imageName').value;
   const imageURL = evt.target.closest('.popup').querySelector('#imageLink').value;
 
-  // вызов функции по добавлению картинки
+  initialCards.push({
+    title: imageTitle,
+    imageName: imageURL,
+  });
+  addCard(initialCards[initialCards.length-1]);
+
 
   popupClose(evt);
 }
