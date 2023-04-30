@@ -61,7 +61,10 @@ inputSubtitle.value = profileSubtitle.textContent;
 // функция по правке данных о пользователе
 function formEditHandler(evt) {
   evt.preventDefault();
-  profileName.textContent = inputName.value;
+
+  profileName.textContent =
+  inputName.value.replace(/\s/g, '').length ? inputName.value : inputName.value = 'Безымянный';
+
   profileSubtitle.textContent = inputSubtitle.value;
   popupClose(evt);
 }
