@@ -1,7 +1,7 @@
 export const initialCards = [
   {
     title: 'Нерпа',
-    imageName: 'nerpa-shine.jpeg',
+    image: 'nerpa-shine.jpeg',
     imageAlt: 'Нерпа в сиянии водорослей',
     imageSet: [
       '282w',
@@ -18,7 +18,7 @@ export const initialCards = [
   },
   {
     title: 'Кораллы',
-    imageName: 'green-coral.jpeg',
+    image: 'green-coral.jpeg',
     imageAlt: 'Колонии Байкала',
     imageSet: [
       '282w',
@@ -35,7 +35,7 @@ export const initialCards = [
   },
   {
     title: 'Сады Байкала',
-    imageName: 'baikal-garden.jpeg',
+    image: 'baikal-garden.jpeg',
     imageAlt: 'Подводный сад',
     imageSet: [
       '282w',
@@ -52,7 +52,7 @@ export const initialCards = [
   },
   {
     title: 'Чистый лёд',
-    imageName: 'baikal-ice.jpeg',
+    image: 'baikal-ice.jpeg',
     imageAlt: 'Байкальский лёд',
     imageSet: [
       '282w',
@@ -69,7 +69,7 @@ export const initialCards = [
   },
   {
     title: 'Коралловые рифы',
-    imageName: 'coral-riff.jpeg',
+    image: 'coral-riff.jpeg',
     imageAlt: 'Рыбка в кораллах',
     imageSet: [
       '282w',
@@ -86,7 +86,7 @@ export const initialCards = [
   },
   {
     title: 'Подводные леса',
-    imageName: 'nerpa-in-forest.jpeg',
+    image: 'nerpa-in-forest.jpeg',
     imageAlt: 'Нерпа в подводном лесу',
     imageSet: [
       '282w',
