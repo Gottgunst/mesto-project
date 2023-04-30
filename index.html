@@ -36,7 +36,7 @@
         <template id="templateCard"><li>
             <article class="element">
               <button class="button element__button-del" title="Удалить" type="button" aria-label="Удалить фотокарточку"></button>
-              <img class='element__image' src="./images/places/filler.png" alt="Заглушка">
+              <img class='element__image' src="./images/places/filler.jpeg" alt="Заглушка">
               <h2 class="element__caption">Заглушка</h2>
               <button class="button element__button-like" title="Нравится" type="button" aria-label="Нравится фотография"></button>
             </article>
@@ -74,12 +74,20 @@
     </div>
   </div>
 
+  <div class="popup popup_type_image" id="popup-image">
+    <div class="popup__container popup__container_type_image">
+      <figure class="popup__figure" >
+        <img class="popup__image" src="./images/places/filler.jpeg" alt="Filler">
+        <figcaption class="popup__caption">Заглушка</figcaption>
+      </figure>
+      <button type="button" class="popup__close" title="Закрыть" aria-label="Закрыть фотографию"></button>
+    </div>
+  </div>
 
   <script src="./script/data.js" type="module"></script>
-  <script src="./script/image-add.js" type="module"></script>
+  <script src="./script/card.js" type="module"></script>
   <script src="./script/popup.js" type="module"></script>
   <script src="./script/buttons.js" type="module"></script>
-
 </body>
 </html>
 

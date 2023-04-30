@@ -9,4 +9,11 @@
   color: var(--color__grey);
   font-size: var(--font-size__form);
   text-align: center;
+  cursor: pointer;
+  transform: scale(1);
+  transition: transform .3s linear;
+}
+
+.element__image:hover {
+  transform: scale(1.01);
 }
