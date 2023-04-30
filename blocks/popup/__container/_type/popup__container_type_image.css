@@ -1,0 +1,16 @@
+.popup__container_type_image {
+  background: none;
+  width: auto;
+  height: auto;
+  padding: 0;
+  margin: 90px 0 0 ;
+  border-radius: unset;
+  display: block;
+  max-width: 75vw;
+}
+
+@media screen and (max-width: 586px) {
+  .popup__container_type_image {
+    margin: 0;
+  }
+}

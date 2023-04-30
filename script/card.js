@@ -2,11 +2,16 @@
 // Image add function
 // ##################
 
-import { imageDel, imageLike } from './buttons.js';
 import { initialCards } from './data.js';
+import { popupOpenImage } from './popup.js';
+import { imageDel, imageLike } from './buttons.js';
 
 const cardContainer = document.querySelector('.elements__grid');
 const templateCard = document.querySelector('#templateCard').content;
+
+
+initialCards.forEach(image => addCard(image));
+
 
 export function addCard(imageObject) {
 
@@ -14,20 +19,14 @@ export function addCard(imageObject) {
 
   //проверяем название карточки, не состоит ли оно только из пробелов
   cardElement.querySelector('.element__caption').textContent =
-    imageObject.title.replace(/\s/g, '').length ? imageObject.title : 'Безымянный';
-
+    imageObject.title.replace(/\s/g, '').length ? imageObject.title : imageObject.title = 'Безымянный';
 
   cardElement.querySelector('.element__button-del').addEventListener('click', imageDel);
   cardElement.querySelector('.element__button-like').addEventListener('click', imageLike);
   const image = cardElement.querySelector('.element__image');
 
-  // проверяем изображение — оно из базы данных или загружено пользователем
-  if (imageObject.image.indexOf('http', 0) === 0) {
-
-    image.src = imageObject.image;
-    image.alt = imageObject.title;
-
-  } else {
+  // проверяем данные изображения — оно из базы данных или загружено пользователем
+  if (imageObject.initial) {
 
     const imageName = imageObject.image.slice(0, imageObject.image.indexOf('.',-1));
 
@@ -42,12 +41,15 @@ export function addCard(imageObject) {
 
     image.src = `./images/places/${imageName}_${imageObject.thumbSet[0]}_thumb.jpeg`;
 
-    image.alt = imageObject.imageAlt || imageObject.title;
+  } else {
+
+    image.src = imageObject.image;
 
   }
+
+  image.alt = imageObject.imageAlt || imageObject.title;
+  image.addEventListener('click', popupOpenImage.bind(null, imageObject));
 
   cardContainer.append(cardElement);
 
 }
-
-initialCards.forEach(image => addCard(image));
