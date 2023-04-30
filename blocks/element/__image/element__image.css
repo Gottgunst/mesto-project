@@ -6,7 +6,8 @@
   max-height: 282px;
   object-fit: cover;
   object-position: center;
-  background: url('../../../images/places/filler.png') center / cover no-repeat;
+  /* background: url('../../../images/places/filler.png') center / cover no-repeat; */
+  background-color: var(--color__black_2);
   color: var(--color__grey);
   font-size: var(--font-size__form);
   text-align: center;
