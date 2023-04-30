@@ -4,10 +4,19 @@
   height: 100%;
   min-height: 100px;
   min-width: 240px;
-  background: url('../../../images/places/filler.png') center / cover no-repeat;
-  color: var(--color__black);
+  max-width: 75vw;
+  max-height: 75vh;
+  /* background: url('../../../images/places/filler.png') center / cover no-repeat; */
+  background-color: var(--color__black_2);
+  color: var(--color__white);
   object-fit: contain;
   object-position: center;
   text-align: center;
-  content: "no image";
+
+}
+
+@media screen and (max-width: 376px) {
+  .popup__image {
+    max-width: unset;
+  }
 }
