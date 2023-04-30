@@ -9,10 +9,6 @@ import { imageDel, imageLike } from './buttons.js';
 const cardContainer = document.querySelector('.elements__grid');
 const templateCard = document.querySelector('#templateCard').content;
 
-
-initialCards.forEach(image => addCard(image));
-
-
 export function addCard(imageObject) {
 
   const cardElement = templateCard.querySelector('li').cloneNode(true);
@@ -53,3 +49,5 @@ export function addCard(imageObject) {
   cardContainer.append(cardElement);
 
 }
+
+initialCards.forEach(obj => addCard(obj));
