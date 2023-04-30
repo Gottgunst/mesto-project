@@ -10,12 +10,6 @@ export const initialCards = [
       '1637w',
       '2000w',
     ],
-    thumbSet: [
-      '282w',
-      '564w',
-      '846w',
-      '1128w',
-    ],
   },
   {
     title: 'Кораллы',
@@ -27,12 +21,6 @@ export const initialCards = [
       '1050w',
       '1465w',
       '1760w',
-    ],
-    thumbSet: [
-      '282w',
-      '564w',
-      '846w',
-      '1128w',
     ],
   },
   {
@@ -46,12 +34,6 @@ export const initialCards = [
       '1695w',
       '2000w',
     ],
-    thumbSet: [
-      '282w',
-      '564w',
-      '846w',
-      '1128w',
-    ],
   },
   {
     title: 'Чистый лёд',
@@ -63,12 +45,6 @@ export const initialCards = [
       '817w',
       '1102w',
       '1260w',
-    ],
-    thumbSet: [
-      '282w',
-      '564w',
-      '846w',
-      '1128w',
     ],
   },
   {
@@ -82,12 +58,6 @@ export const initialCards = [
       '1604w',
       '2000w',
     ],
-    thumbSet: [
-      '282w',
-      '564w',
-      '846w',
-      '1128w',
-    ],
   },
   {
     title: 'Подводные леса',
@@ -99,12 +69,6 @@ export const initialCards = [
       '1131w',
       '1532w',
       '2000w',
-    ],
-    thumbSet: [
-      '282w',
-      '564w',
-      '846w',
-      '1128w',
     ],
   },
 ];

@@ -25,17 +25,7 @@ export function addCard(imageObject) {
   if (imageObject.initial) {
 
     const imageName = imageObject.image.slice(0, imageObject.image.indexOf('.',-1));
-
-    image.sizes = `
-      (min-width: 920px) 282px,
-      (min-width: 620px) calc(50vw - 27px),
-      (min-width: 380px) calc(100vw - 38px),
-      calc(66.67vw + 82px)`;
-
-    image.srcset = imageObject.thumbSet.map(thumb =>
-          `./images/places/${imageName}_${thumb}_thumb.jpeg ${thumb},`);
-
-    image.src = `./images/places/${imageName}_${imageObject.thumbSet[0]}_thumb.jpeg`;
+    image.src = `./images/places/${imageName}_thumb.jpeg`;
 
   } else {
 
