@@ -6,6 +6,11 @@ const buttonEdit = document.querySelector('.profile__button_type_edit');
 const buttonAdd = document.querySelector('.profile__button_type_add');
 const buttonsClose = document.querySelectorAll('.popup__close');
 
+// после загрузки сайта сменяем "none" на "flex",
+// чтобы при первичной загрузке не было паразитной анимации
+const popups = document.querySelectorAll('.popup');
+popups.forEach(el => el.style.display="flex");
+
 buttonEdit.addEventListener('click', popupOpen.bind(null, '#popup-profile'));
 buttonAdd.addEventListener('click', popupOpen.bind(null, '#popup-add'));
 buttonsClose.forEach(button => button.addEventListener('click', popupClose));
@@ -96,11 +101,16 @@ formAdd.addEventListener('submit', formAddHandler);
 // POP-UP open image
 // #################
 
+const popupImageContainer = document.querySelector('#popup-image');
+const popupImage = popupImageContainer.querySelector('.popup__image');
+const popupCaption = popupImageContainer.querySelector('.popup__caption');
+
 export function popupOpenImage(imageObject) {
 
-  const popupImageContainer = document.querySelector('#popup-image');
-  const popupImage = popupImageContainer.querySelector('.popup__image');
-  const popupCaption = popupImageContainer.querySelector('.popup__caption');
+  //обнуляю данные, чтобы избавиться от паразитных данных прошлой итерации
+  popupImage.sizes ='';
+  popupImage.srcset ='';
+  popupImage.src = '';
 
   popupCaption.textContent = imageObject.title;
 
@@ -117,8 +127,6 @@ export function popupOpenImage(imageObject) {
 
   } else {
 
-    popupImage.sizes ='';
-    popupImage.srcset ='';
     popupImage.src = imageObject.image;
 
   }
