@@ -3,17 +3,4 @@
   border: 2px solid var(--color__white);
   background-position: center;
   background-repeat: no-repeat;
-  transition: var(--transition__link);
-  opacity: 1;
-  cursor: pointer;
-}
-
-.profile__button:hover,
-.profile__button:focus {
-  opacity: .6;
-  outline-width:0;
-}
-
-.profile__button:active {
-  transform: var(--transform__button);
 }

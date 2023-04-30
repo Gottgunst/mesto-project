@@ -1,0 +1,22 @@
+.element__button-del {
+  width: 18px;
+  height: 19px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: url('../../../images/svg/trash.svg') center / contain no-repeat;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 20;
+  -webkit-filter: drop-shadow( 0px 1px 3px rgba(0, 0, 0, .2));
+  filter: drop-shadow( 0px 1px 3px rgba(0, 0, 0, .2));
+}
+
+.element:hover > .element__button-del {
+  visibility: visible;
+  opacity: 1;
+}
+
+.element:hover > .element__button-del:hover {
+  opacity: .6;
+}

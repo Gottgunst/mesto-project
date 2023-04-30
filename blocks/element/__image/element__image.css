@@ -2,6 +2,19 @@
   display: block;
   width: 100%;
   height: 100%;
+  min-height: 282px;
+  max-height: 282px;
   object-fit: cover;
   object-position: center;
+  background: url('../../../images/places/filler.png') center / cover no-repeat;
+  color: var(--color__grey);
+  font-size: var(--font-size__form);
+  text-align: center;
+  cursor: pointer;
+  transform: scale(1);
+  transition: transform .3s linear;
+}
+
+.element__image:hover {
+  transform: scale(1.01);
 }
