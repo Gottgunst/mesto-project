@@ -1,4 +1,6 @@
+// ######################
 // POP-UP toggle function
+// ######################
 
 const buttonEdit = document.querySelector('.profile__button_type_edit');
 const buttonAdd = document.querySelector('.profile__button_type_add');
@@ -17,12 +19,12 @@ function popupClose(evt) {
   evt.target.closest('.popup').classList.remove('popup_opened');
 }
 
-// POP-UP connect name and subtitle data
-
+// ###################
+// POP-UP connect data
+// ###################
 
 import {initialCards} from './data.js';
 import {addCard} from './image-add.js';
-
 
 const profileName = document.querySelector('.profile__name');
 const profileSubtitle = document.querySelector('.profile__subtitle');
@@ -36,6 +38,7 @@ const formAdd = document.querySelector('[name="add-image"]');
 inputName.value = profileName.textContent;
 inputSubtitle.value = profileSubtitle.textContent;
 
+// функция по правке данных о пользователе
 function formEditHandler(evt) {
   evt.preventDefault();
   profileName.textContent = inputName.value;
@@ -43,17 +46,20 @@ function formEditHandler(evt) {
   popupClose(evt);
 }
 
+// функция по добавлению новых данных об изображениях
 function formAddHandler(evt) {
   evt.preventDefault();
   const imageTitle = evt.target.closest('.popup').querySelector('#imageName').value;
   const imageURL = evt.target.closest('.popup').querySelector('#imageLink').value;
 
+  //добавляем новые данные в базу
   initialCards.push({
     title: imageTitle,
-    imageName: imageURL,
+    image: imageURL,
   });
-  addCard(initialCards[initialCards.length-1]);
 
+  // запускаем функцию по рендеру карточки
+  addCard(initialCards[initialCards.length-1]);
 
   popupClose(evt);
 }

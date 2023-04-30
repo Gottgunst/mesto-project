@@ -33,7 +33,14 @@
 
     <section class="elements">
       <ul class="elements__grid">
-
+        <template id="templateCard"><li>
+            <article class="element">
+              <button class="button element__button-del" title="Удалить" type="button" aria-label="Удалить фотокарточку"></button>
+              <img class='element__image' src="./images/places/filler.png" alt="Заглушка">
+              <h2 class="element__caption">Заглушка</h2>
+              <button class="button element__button-like" title="Нравится" type="button" aria-label="Нравится фотография"></button>
+            </article>
+          </li></template>
       </ul>
     </section>
 
@@ -71,9 +78,8 @@
   <script src="./script/data.js" type="module"></script>
   <script src="./script/image-add.js" type="module"></script>
   <script src="./script/popup.js" type="module"></script>
-
-  <!-- rework functions -- when add cards -->
   <script src="./script/buttons.js" type="module"></script>
+
 </body>
 </html>
 
