@@ -16,9 +16,8 @@
   min-height: 100vh;
 }
 
-@media screen and (max-width: 917px) {
+@media screen and (max-width: 935px) {
   .page {
     min-width: 320px;
-    width: 100vw;
   }
 }
