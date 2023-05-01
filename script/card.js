@@ -3,8 +3,8 @@
 // ##################
 
 import { initialCards } from './data.js';
-import { popupOpenImage } from './popup.js';
-import { imageDel, imageLike } from './buttons.js';
+import { openPopupImage } from './popup.js';
+import { delCard, likeCard } from './buttons.js';
 
 const cardContainer = document.querySelector('.elements__grid');
 const templateCard = document.querySelector('#templateCard').content;
@@ -17,8 +17,8 @@ export function addCard(imageObject) {
   cardElement.querySelector('.element__caption').textContent =
     imageObject.title.replace(/\s/g, '').length ? imageObject.title : imageObject.title = 'Безымянный';
 
-  cardElement.querySelector('.element__button-del').addEventListener('click', imageDel);
-  cardElement.querySelector('.element__button-like').addEventListener('click', imageLike);
+  cardElement.querySelector('.element__button-del').addEventListener('click', delCard);
+  cardElement.querySelector('.element__button-like').addEventListener('click', likeCard);
   const image = cardElement.querySelector('.element__image');
 
   // проверяем данные изображения — оно из базы данных или загружено пользователем
@@ -34,7 +34,7 @@ export function addCard(imageObject) {
   }
 
   image.alt = imageObject.imageAlt || imageObject.title;
-  image.addEventListener('click', popupOpenImage.bind(null, imageObject));
+  image.addEventListener('click', openPopupImage.bind(null, imageObject));
 
   cardContainer.append(cardElement);
 

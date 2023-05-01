@@ -11,13 +11,13 @@ const buttonsClose = document.querySelectorAll('.popup__close');
 const popups = document.querySelectorAll('.popup');
 popups.forEach(el => el.style.display="flex");
 
-buttonEdit.addEventListener('click', popupOpen.bind(null, '#popup-profile'));
-buttonAdd.addEventListener('click', popupOpen.bind(null, '#popup-add'));
-buttonsClose.forEach(button => button.addEventListener('click', popupClose));
+buttonEdit.addEventListener('click', openPopup.bind(null, '#popup-profile'));
+buttonAdd.addEventListener('click', openPopup.bind(null, '#popup-add'));
+buttonsClose.forEach(button => button.addEventListener('click', closePopup));
 
 
 
-function popupOpen(popupSelector) {
+function openPopup(popupSelector) {
   document.querySelector(popupSelector).classList.add('popup_opened');
 
   // Фиксируем body убирая scroll
@@ -26,7 +26,7 @@ function popupOpen(popupSelector) {
 
 }
 
-function popupClose(evt) {
+function closePopup(evt) {
   evt.target.closest('.popup').classList.remove('popup_opened');
 
   // Открепляем body возвращая scroll сохранив позицию прокрутки
@@ -56,18 +56,18 @@ inputName.value = profileName.textContent;
 inputSubtitle.value = profileSubtitle.textContent;
 
 // функция по правке данных о пользователе
-function formEditHandler(evt) {
+function editFormHandler(evt) {
   evt.preventDefault();
 
   profileName.textContent =
   inputName.value.replace(/\s/g, '').length ? inputName.value : inputName.value = 'Безымянный';
 
   profileSubtitle.textContent = inputSubtitle.value;
-  popupClose(evt);
+  closePopup(evt);
 }
 
 // функция по добавлению новых данных об изображениях
-function formAddHandler(evt) {
+function addFormHandler(evt) {
   evt.preventDefault();
   const imageTitle = evt.target.closest('.popup').querySelector('#imageName').value;
   const imageURL = evt.target.closest('.popup').querySelector('#imageLink').value;
@@ -82,11 +82,11 @@ function formAddHandler(evt) {
   // запускаем функцию по рендеру карточки
   addCard(initialCards[initialCards.length-1]);
 
-  popupClose(evt);
+  closePopup(evt);
 }
 
-formEdit.addEventListener('submit', formEditHandler);
-formAdd.addEventListener('submit', formAddHandler);
+formEdit.addEventListener('submit', editFormHandler);
+formAdd.addEventListener('submit', addFormHandler);
 
 
 // #################
@@ -97,7 +97,7 @@ const popupImageContainer = document.querySelector('#popup-image');
 const popupImage = popupImageContainer.querySelector('.popup__image');
 const popupCaption = popupImageContainer.querySelector('.popup__caption');
 
-export function popupOpenImage(imageObject) {
+export function openPopupImage(imageObject) {
 
   //обнуляю данные, чтобы избавиться от паразитных данных прошлой итерации
   popupImage.sizes ='';
@@ -125,5 +125,5 @@ export function popupOpenImage(imageObject) {
 
   popupImage.alt = imageObject.imageAlt || imageObject.title;
 
-  popupOpen('#popup-image');
+  openPopup('#popup-image');
 }
