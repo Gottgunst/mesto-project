@@ -1,6 +1,6 @@
 import { initialCards } from './data.js';
 import { gatherCard, renderCard } from './card.js';
-import { openPopup, closePopup, editFormHandler, addFormHandler, openPopupImage } from './popup.js';
+import { openPopup, closePopup, editFormHandler, addFormHandler } from './popup.js';
 
 // ######################
 // Конфигурация элементов
@@ -33,28 +33,28 @@ inputImage.url = document.querySelector('#imageLink');
 const formEdit = document.querySelector('[name="edit-info"]');
 const formAdd = document.querySelector('[name="add-image"]');
 
-// Всплывающие окна
+// Модальные окна
 const popupArray = document.querySelectorAll('.popup');
 const popupEditProfile = document.querySelector('#popup-profile');
 const popupAddImage = document.querySelector('#popup-add');
-const popupImageContainer = document.querySelector('#popup-image');
 
-// Полноформатное изображение с подписью
-const fullscreen = { image:{}, caption: {} };
-fullscreen.image = popupImageContainer.querySelector('.popup__image');
-fullscreen.caption = popupImageContainer.querySelector('.popup__caption');
+// Модальное окно с полноформатным изображением с подписью
+const templatePopup = { container:{}, image:{}, caption: {} };
+templatePopup.container = document.querySelector('#popup-image');
+templatePopup.image = templatePopup.container.querySelector('.popup__image');
+templatePopup.caption = templatePopup.container.querySelector('.popup__caption');
 
 // #####################
 // Инициализация функций
 // #####################
 
 // Получаем массив заготовленных элементов
-const initialElements = initialCards.map(cardObject => gatherCard(cardObject, templateCard));
+const initialElements = initialCards.map(cardObject => gatherCard(cardObject, templateCard, templatePopup));
 
 // Рендерим массив заготовленных элементов
 initialElements.forEach(el => renderCard(el, cardContainer));
 
-// После загрузки страницы сменяем Display с "none" на "flex",
+// После загрузки страницы сменяем display с "none" на "flex",
 // чтобы при первичной загрузке не было паразитной анимации
 window.onload = popupArray.forEach(el => el.classList.add('popup_flexed'));
 
@@ -66,7 +66,7 @@ buttonsClose.forEach(button => button.addEventListener('click', closePopup));
 // Связываем кнопки и обработчик данных
 formEdit.addEventListener('submit', (evt) => {editFormHandler(evt, profile, inputProfile)});
 formAdd.addEventListener('submit', (evt) => {
-  renderCard( gatherCard( addFormHandler(evt, inputImage), templateCard), cardContainer)});
+  renderCard( gatherCard( addFormHandler(evt, inputImage), templateCard, templatePopup), cardContainer)});
 
 
 
