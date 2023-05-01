@@ -1,24 +1,18 @@
+import { checkSpace } from "./check.js";
+
 // ######################
-// POP-UP toggle function
+// POP-UP Toggle Function
 // ######################
 
-const buttonEdit = document.querySelector('.profile__button_type_edit');
-const buttonAdd = document.querySelector('.profile__button_type_add');
-const buttonsClose = document.querySelectorAll('.popup__close');
+export function openPopup(popupElement, profile = false, inputProfile = false) {
 
-// после загрузки сайта сменяем "none" на "flex",
-// чтобы при первичной загрузке не было паразитной анимации
-const popups = document.querySelectorAll('.popup');
-popups.forEach(el => el.style.display="flex");
+  popupElement.classList.add('popup_opened');
 
-buttonEdit.addEventListener('click', openPopup.bind(null, '#popup-profile'));
-buttonAdd.addEventListener('click', openPopup.bind(null, '#popup-add'));
-buttonsClose.forEach(button => button.addEventListener('click', closePopup));
-
-
-
-function openPopup(popupSelector) {
-  document.querySelector(popupSelector).classList.add('popup_opened');
+  // Если работаем с формой профиля, устанавливаем данные полей
+  if(profile && inputProfile){
+    inputProfile.name.value = profile.name.textContent;
+    inputProfile.subtitle.value = profile.subtitle.textContent;
+  }
 
   // Фиксируем body убирая scroll
   document.body.style.top = `-${window.scrollY}px`;
@@ -26,7 +20,7 @@ function openPopup(popupSelector) {
 
 }
 
-function closePopup(evt) {
+export function closePopup(evt) {
   evt.target.closest('.popup').classList.remove('popup_opened');
 
   // Открепляем body возвращая scroll сохранив позицию прокрутки
@@ -36,68 +30,44 @@ function closePopup(evt) {
   document.body.removeAttribute('style');
 }
 
-// ###################
-// POP-UP connect data
-// ###################
+// ########################
+// POP-UP Profile Form Data
+// ########################
 
-import {initialCards} from './data.js';
-import {addCard} from './card.js';
-
-const profileName = document.querySelector('.profile__name');
-const profileSubtitle = document.querySelector('.profile__subtitle');
-
-const inputName = document.querySelector('#name');
-const inputSubtitle = document.querySelector('#subtitle');
-
-const formEdit = document.querySelector('[name="edit-info"]');
-const formAdd = document.querySelector('[name="add-image"]');
-
-inputName.value = profileName.textContent;
-inputSubtitle.value = profileSubtitle.textContent;
-
-// функция по правке данных о пользователе
-function editFormHandler(evt) {
+export function editFormHandler(evt, profile, input) {
   evt.preventDefault();
 
-  profileName.textContent =
-  inputName.value.replace(/\s/g, '').length ? inputName.value : inputName.value = 'Безымянный';
+  // проверка на поле состоящее из пробелов?
+  profile.name.textContent = checkSpace(input.name.value);
 
-  profileSubtitle.textContent = inputSubtitle.value;
+  profile.subtitle.textContent = input.subtitle.value;
   closePopup(evt);
 }
 
-// функция по добавлению новых данных об изображениях
-function addFormHandler(evt) {
-  evt.preventDefault();
-  const imageTitle = evt.target.closest('.popup').querySelector('#imageName').value;
-  const imageURL = evt.target.closest('.popup').querySelector('#imageLink').value;
+// ########################
+// POP-UP Image Form Data
+// ########################
 
-  //добавляем новые данные в базу
-  initialCards.push({
-    title: imageTitle,
-    image: imageURL,
+export function addFormHandler(evt, input) {
+  evt.preventDefault();
+
+  const newCard = {
+    title: input.title.value,
+    image: input.url.value,
     initial: false,
-  });
-
-  // запускаем функцию по рендеру карточки
-  addCard(initialCards[initialCards.length-1]);
+  };
 
   closePopup(evt);
+  evt.target.reset();
+
+  return newCard;
 }
 
-formEdit.addEventListener('submit', editFormHandler);
-formAdd.addEventListener('submit', addFormHandler);
-
-
 // #################
-// POP-UP open image
+// POP-UP Open Image
 // #################
 
-const popupImageContainer = document.querySelector('#popup-image');
-const popupImage = popupImageContainer.querySelector('.popup__image');
-const popupCaption = popupImageContainer.querySelector('.popup__caption');
-
-export function openPopupImage(imageObject) {
+export function openPopupImage(cardObject) {
 
   //обнуляю данные, чтобы избавиться от паразитных данных прошлой итерации
   popupImage.sizes ='';
