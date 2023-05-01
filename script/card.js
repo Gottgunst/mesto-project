@@ -1,43 +1,45 @@
-// ##################
-// Image add function
-// ##################
+import { openPopupImage } from './popup.js';
+import { delCard, likeCard } from './buttons.js';
+import { checkSpace, sliceExt } from './utilities.js';
 
-import { initialCards } from './data.js';
-import { popupOpenImage } from './popup.js';
-import { imageDel, imageLike } from './buttons.js';
+// #########################
+// Image Card Crate Function
+// #########################
 
-const cardContainer = document.querySelector('.elements__grid');
-const templateCard = document.querySelector('#templateCard').content;
+export function gatherCard(cardObject, templateCard, templatePopup) {
 
-export function addCard(imageObject) {
+  const cardElement = templateCard.querySelector('.element__wrapper').cloneNode(true);
+  const image = cardElement.querySelector('.element__image');
+  const caption = cardElement.querySelector('.element__caption');
 
-  const cardElement = templateCard.querySelector('li').cloneNode(true);
+  cardElement.querySelector('.element__button-del').addEventListener('click', delCard);
+  cardElement.querySelector('.element__button-like').addEventListener('click', likeCard);
 
   //проверяем название карточки, не состоит ли оно только из пробелов
-  cardElement.querySelector('.element__caption').textContent =
-    imageObject.title.replace(/\s/g, '').length ? imageObject.title : imageObject.title = 'Безымянный';
-
-  cardElement.querySelector('.element__button-del').addEventListener('click', imageDel);
-  cardElement.querySelector('.element__button-like').addEventListener('click', imageLike);
-  const image = cardElement.querySelector('.element__image');
+  caption.textContent = checkSpace(cardObject.title);
 
   // проверяем данные изображения — оно из базы данных или загружено пользователем
-  if (imageObject.initial) {
+  if (cardObject.initial) {
 
-    const imageName = imageObject.image.slice(0, imageObject.image.indexOf('.',-1));
+    const imageName = sliceExt(cardObject.image);
     image.src = `./images/places/${imageName}_thumb.jpeg`;
 
   } else {
 
-    image.src = imageObject.image;
+    image.src = cardObject.image;
 
   }
 
-  image.alt = imageObject.imageAlt || imageObject.title;
-  image.addEventListener('click', popupOpenImage.bind(null, imageObject));
+  image.alt = cardObject.imageAlt || cardObject.title;
+  image.addEventListener('click', () => {openPopupImage(cardObject, templatePopup)});
 
-  cardContainer.append(cardElement);
-
+  return cardElement;
 }
 
-initialCards.forEach(obj => addCard(obj));
+// ##########################
+// Image Card Render Function
+// ##########################
+
+export function renderCard(cardElement, cardContainer) {
+  cardContainer.append(cardElement);
+}

@@ -1,137 +1,101 @@
+import { checkSpace, sliceExt } from "./utilities.js";
+
 // ######################
-// POP-UP toggle function
+// POP-UP Toggle Function
 // ######################
 
-const buttonEdit = document.querySelector('.profile__button_type_edit');
-const buttonAdd = document.querySelector('.profile__button_type_add');
-const buttonsClose = document.querySelectorAll('.popup__close');
+export function openPopup(popupElement, profile = false, inputProfile = false) {
 
-// после загрузки сайта сменяем "none" на "flex",
-// чтобы при первичной загрузке не было паразитной анимации
-const popups = document.querySelectorAll('.popup');
-popups.forEach(el => el.style.display="flex");
+  popupElement.classList.add('popup_opened');
 
-buttonEdit.addEventListener('click', popupOpen.bind(null, '#popup-profile'));
-buttonAdd.addEventListener('click', popupOpen.bind(null, '#popup-add'));
-buttonsClose.forEach(button => button.addEventListener('click', popupClose));
-
-function popupOpen(popupSelector) {
-  document.querySelector(popupSelector).classList.add('popup_opened');
-
-  // Фиксируем страницу убирая scroll
-  document.body.style.top = `-${window.scrollY}px`;
-  document.body.style.position = 'fixed';
-
-  // корректируем положение контента на фоне в зависимости от ширины экрана
-  if(window.screen.width > 918){
-    document.body.style.left = '50%';
-    document.body.style.marginLeft = '-459px';
-  } else {
-    document.body.style.width = window.screen.width + 'px';
+  // Если работаем с формой профиля, устанавливаем данные полей
+  if(profile && inputProfile){
+    inputProfile.name.value = profile.name.textContent;
+    inputProfile.subtitle.value = profile.subtitle.textContent;
   }
+
+  // Фиксируем body убирая scroll
+  document.body.style.top = `-${window.scrollY}px`;
+  document.body.classList.add('page_fixed');
+
 }
 
-function popupClose(evt) {
+export function closePopup(evt) {
   evt.target.closest('.popup').classList.remove('popup_opened');
 
-  // возвращаем пользователя на прежнее место
+  // Открепляем body возвращая scroll сохранив позицию прокрутки
+  document.body.classList.remove('page_fixed');
   const scrollY = document.body.style.top;
-  document.body.style.position = '';
-  document.body.style.top = '';
-  document.body.style.left = '';
-  document.body.style.marginLeft = '';
-  document.body.style.width  = '';
   window.scrollTo(0, parseInt(scrollY || '0') * -1);
+  document.body.removeAttribute('style');
 }
 
-// ###################
-// POP-UP connect data
-// ###################
+// ########################
+// POP-UP Profile Form Data
+// ########################
 
-import {initialCards} from './data.js';
-import {addCard} from './card.js';
-
-const profileName = document.querySelector('.profile__name');
-const profileSubtitle = document.querySelector('.profile__subtitle');
-
-const inputName = document.querySelector('#name');
-const inputSubtitle = document.querySelector('#subtitle');
-
-const formEdit = document.querySelector('[name="edit-info"]');
-const formAdd = document.querySelector('[name="add-image"]');
-
-inputName.value = profileName.textContent;
-inputSubtitle.value = profileSubtitle.textContent;
-
-// функция по правке данных о пользователе
-function formEditHandler(evt) {
+export function editFormHandler(evt, profile, input) {
   evt.preventDefault();
 
-  profileName.textContent =
-  inputName.value.replace(/\s/g, '').length ? inputName.value : inputName.value = 'Безымянный';
+  // проверка на поле состоящее из пробелов?
+  profile.name.textContent = checkSpace(input.name.value);
+  profile.subtitle.textContent = input.subtitle.value;
 
-  profileSubtitle.textContent = inputSubtitle.value;
-  popupClose(evt);
+  closePopup(evt);
 }
 
-// функция по добавлению новых данных об изображениях
-function formAddHandler(evt) {
-  evt.preventDefault();
-  const imageTitle = evt.target.closest('.popup').querySelector('#imageName').value;
-  const imageURL = evt.target.closest('.popup').querySelector('#imageLink').value;
+// ########################
+// POP-UP Image Form Data
+// ########################
 
-  //добавляем новые данные в базу
-  initialCards.push({
-    title: imageTitle,
-    image: imageURL,
+export function addFormHandler(evt, input) {
+  evt.preventDefault();
+
+  const newCard = {
+    title: input.title.value,
+    image: input.url.value,
     initial: false,
-  });
+  };
 
-  // запускаем функцию по рендеру карточки
-  addCard(initialCards[initialCards.length-1]);
+  closePopup(evt);
+  evt.target.reset();
 
-  popupClose(evt);
+  return newCard;
 }
 
-formEdit.addEventListener('submit', formEditHandler);
-formAdd.addEventListener('submit', formAddHandler);
-
-
 // #################
-// POP-UP open image
+// POP-UP Open Image
 // #################
 
-const popupImageContainer = document.querySelector('#popup-image');
-const popupImage = popupImageContainer.querySelector('.popup__image');
-const popupCaption = popupImageContainer.querySelector('.popup__caption');
-
-export function popupOpenImage(imageObject) {
+export function openPopupImage(cardObject, templatePopup) {
 
   //обнуляю данные, чтобы избавиться от паразитных данных прошлой итерации
-  popupImage.sizes ='';
-  popupImage.srcset ='';
-  popupImage.src = '';
+  templatePopup.image.sizes ='';
+  templatePopup.image.srcset ='';
+  templatePopup.image.src = '';
 
-  popupCaption.textContent = imageObject.title;
+  templatePopup.caption.textContent = cardObject.title;
 
-  if(imageObject.initial) {
+  if(cardObject.initial) {
 
-    const imageName = imageObject.image.slice(0, imageObject.image.indexOf('.',-1));
+    const imageName = sliceExt(cardObject.image);
 
-    popupImage.sizes = `(max-width: 2000px) 100vw, 2000px`;
+    // Обозначение свойства <img sizes="">
+    // для правильной работы адаптивности <img scrset="">
+    templatePopup.image.sizes = `(max-width: 2000px) 100vw, 2000px`;
 
-    popupImage.srcset = imageObject.imageSet.map(width =>
+    templatePopup.image.srcset = cardObject.imageSet.map(width =>
       `./images/places/${imageName}_${width}.jpeg ${width},`);
 
-    popupImage.src = './images/places/'+imageObject.image;
+    templatePopup.image.src = './images/places/'+cardObject.image;
 
   } else {
 
-    popupImage.src = imageObject.image;
+    templatePopup.image.src = cardObject.image;
 
   }
 
-  popupImage.alt = imageObject.imageAlt || imageObject.title;
+  templatePopup.image.alt = cardObject.imageAlt || cardObject.title;
 
-  popupOpen('#popup-image');
+  openPopup(templatePopup.container);
 }
