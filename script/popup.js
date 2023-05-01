@@ -15,33 +15,25 @@ buttonEdit.addEventListener('click', popupOpen.bind(null, '#popup-profile'));
 buttonAdd.addEventListener('click', popupOpen.bind(null, '#popup-add'));
 buttonsClose.forEach(button => button.addEventListener('click', popupClose));
 
+
+
 function popupOpen(popupSelector) {
   document.querySelector(popupSelector).classList.add('popup_opened');
 
-  // Фиксируем страницу убирая scroll
+  // Фиксируем body убирая scroll
   document.body.style.top = `-${window.scrollY}px`;
-  document.body.style.position = 'fixed';
+  document.body.classList.add('page_fixed');
 
-  // корректируем положение контента на фоне в зависимости от ширины экрана
-  if(window.screen.width > 918){
-    document.body.style.left = '50%';
-    document.body.style.marginLeft = '-459px';
-  } else {
-    document.body.style.width = window.screen.width + 'px';
-  }
 }
 
 function popupClose(evt) {
   evt.target.closest('.popup').classList.remove('popup_opened');
 
-  // возвращаем пользователя на прежнее место
+  // Открепляем body возвращая scroll сохранив позицию прокрутки
+  document.body.classList.remove('page_fixed');
   const scrollY = document.body.style.top;
-  document.body.style.position = '';
-  document.body.style.top = '';
-  document.body.style.left = '';
-  document.body.style.marginLeft = '';
-  document.body.style.width  = '';
   window.scrollTo(0, parseInt(scrollY || '0') * -1);
+  document.body.removeAttribute('style');
 }
 
 // ###################

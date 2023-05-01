@@ -1,0 +1,12 @@
+.page_fixed {
+  position: fixed;
+  left: 50%;
+  margin-left: -459px;
+}
+
+@media screen and (max-width: 917px) {
+  .page_fixed {
+    left: 0;
+    margin-left: 0;
+  }
+}
