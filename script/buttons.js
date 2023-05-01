@@ -2,7 +2,7 @@
 // Button Like Function
 // ######################
 
-export function imageLike(evt) {
+export function likeCard(evt) {
   evt.target.classList.toggle('element__button-like_active');
 }
 
@@ -10,7 +10,7 @@ export function imageLike(evt) {
 // Button Del Function
 // ######################
 
-export function imageDel(evt) {
+export function delCard(evt) {
   if (evt.target.closest('.element__wrapper').querySelector('.element__button-like_active')) {
     if (confirm('Вы удаляете любимую фотографию?')){
       evt.target.closest('.element__wrapper').remove();
