@@ -1,4 +1,4 @@
-import { checkSpace } from "./check.js";
+import { checkSpace, sliceExt } from "./utilities.js";
 
 // ######################
 // POP-UP Toggle Function
@@ -39,8 +39,8 @@ export function editFormHandler(evt, profile, input) {
 
   // проверка на поле состоящее из пробелов?
   profile.name.textContent = checkSpace(input.name.value);
-
   profile.subtitle.textContent = input.subtitle.value;
+
   closePopup(evt);
 }
 
@@ -67,33 +67,35 @@ export function addFormHandler(evt, input) {
 // POP-UP Open Image
 // #################
 
-export function openPopupImage(cardObject) {
+export function openPopupImage(cardObject, templatePopup) {
 
   //обнуляю данные, чтобы избавиться от паразитных данных прошлой итерации
-  popupImage.sizes ='';
-  popupImage.srcset ='';
-  popupImage.src = '';
+  templatePopup.image.sizes ='';
+  templatePopup.image.srcset ='';
+  templatePopup.image.src = '';
 
-  popupCaption.textContent = imageObject.title;
+  templatePopup.caption.textContent = cardObject.title;
 
-  if(imageObject.initial) {
+  if(cardObject.initial) {
 
-    const imageName = imageObject.image.slice(0, imageObject.image.indexOf('.',-1));
+    const imageName = sliceExt(cardObject.image);
 
-    popupImage.sizes = `(max-width: 2000px) 100vw, 2000px`;
+    // Обозначение свойства <img sizes="">
+    // для правильной работы адаптивности <img scrset="">
+    templatePopup.image.sizes = `(max-width: 2000px) 100vw, 2000px`;
 
-    popupImage.srcset = imageObject.imageSet.map(width =>
+    templatePopup.image.srcset = cardObject.imageSet.map(width =>
       `./images/places/${imageName}_${width}.jpeg ${width},`);
 
-    popupImage.src = './images/places/'+imageObject.image;
+    templatePopup.image.src = './images/places/'+cardObject.image;
 
   } else {
 
-    popupImage.src = imageObject.image;
+    templatePopup.image.src = cardObject.image;
 
   }
 
-  popupImage.alt = imageObject.imageAlt || imageObject.title;
+  templatePopup.image.alt = cardObject.imageAlt || cardObject.title;
 
-  openPopup('#popup-image');
+  openPopup(templatePopup.container);
 }
