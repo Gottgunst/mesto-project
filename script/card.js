@@ -1,43 +1,45 @@
-// ##################
-// Image add function
-// ##################
-
-import { initialCards } from './data.js';
 import { openPopupImage } from './popup.js';
 import { delCard, likeCard } from './buttons.js';
+import { checkSpace } from './check.js';
 
-const cardContainer = document.querySelector('.elements__grid');
-const templateCard = document.querySelector('#templateCard').content;
+// #########################
+// Image Card Crate Function
+// #########################
 
-export function addCard(imageObject) {
+export function gatherCard(cardObject, templateCard) {
 
-  const cardElement = templateCard.querySelector('li').cloneNode(true);
-
-  //проверяем название карточки, не состоит ли оно только из пробелов
-  cardElement.querySelector('.element__caption').textContent =
-    imageObject.title.replace(/\s/g, '').length ? imageObject.title : imageObject.title = 'Безымянный';
+  const cardElement = templateCard.querySelector('.element__wrapper').cloneNode(true);
+  const image = cardElement.querySelector('.element__image');
+  const caption = cardElement.querySelector('.element__caption');
 
   cardElement.querySelector('.element__button-del').addEventListener('click', delCard);
   cardElement.querySelector('.element__button-like').addEventListener('click', likeCard);
-  const image = cardElement.querySelector('.element__image');
+
+  //проверяем название карточки, не состоит ли оно только из пробелов
+  caption.textContent = checkSpace(cardObject.title);
 
   // проверяем данные изображения — оно из базы данных или загружено пользователем
-  if (imageObject.initial) {
+  if (cardObject.initial) {
 
-    const imageName = imageObject.image.slice(0, imageObject.image.indexOf('.',-1));
+    const imageName = cardObject.image.slice(0, cardObject.image.indexOf('.',-1));
     image.src = `./images/places/${imageName}_thumb.jpeg`;
 
   } else {
 
-    image.src = imageObject.image;
+    image.src = cardObject.image;
 
   }
 
-  image.alt = imageObject.imageAlt || imageObject.title;
-  image.addEventListener('click', openPopupImage.bind(null, imageObject));
+  image.alt = cardObject.imageAlt || cardObject.title;
+  image.addEventListener('click', openPopupImage.bind(null, cardObject));
 
-  cardContainer.append(cardElement);
-
+  return cardElement;
 }
 
-initialCards.forEach(obj => addCard(obj));
+// ##########################
+// Image Card Render Function
+// ##########################
+
+export function renderCard(cardElement, cardContainer) {
+  cardContainer.append(cardElement);
+}
