@@ -1,12 +1,12 @@
 import { openPopupImage } from './popup.js';
 import { delCard, likeCard } from './buttons.js';
-import { checkSpace } from './check.js';
+import { checkSpace, sliceExt } from './utilities.js';
 
 // #########################
 // Image Card Crate Function
 // #########################
 
-export function gatherCard(cardObject, templateCard) {
+export function gatherCard(cardObject, templateCard, templatePopup) {
 
   const cardElement = templateCard.querySelector('.element__wrapper').cloneNode(true);
   const image = cardElement.querySelector('.element__image');
@@ -21,7 +21,7 @@ export function gatherCard(cardObject, templateCard) {
   // проверяем данные изображения — оно из базы данных или загружено пользователем
   if (cardObject.initial) {
 
-    const imageName = cardObject.image.slice(0, cardObject.image.indexOf('.',-1));
+    const imageName = sliceExt(cardObject.image);
     image.src = `./images/places/${imageName}_thumb.jpeg`;
 
   } else {
@@ -31,7 +31,7 @@ export function gatherCard(cardObject, templateCard) {
   }
 
   image.alt = cardObject.imageAlt || cardObject.title;
-  image.addEventListener('click', openPopupImage.bind(null, cardObject));
+  image.addEventListener('click', () => {openPopupImage(cardObject, templatePopup)});
 
   return cardElement;
 }
