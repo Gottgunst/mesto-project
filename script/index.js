@@ -59,7 +59,12 @@ initialElements.forEach(el => renderCard(el, cardContainer));
 window.onload = popupArray.forEach(el => el.classList.add('popup_flexed'));
 
 // Связываем кнопки и модальные окна
-buttonEdit.addEventListener('click', openPopup.bind(null, popupEditProfile, profile, inputProfile));
+buttonEdit.addEventListener('click', () => {
+  // Устанавливаем данные пользователя в поля ввода
+  inputProfile.name.value = profile.name.textContent;
+  inputProfile.subtitle.value = profile.subtitle.textContent;
+
+  openPopup(popupEditProfile)});
 buttonAdd.addEventListener('click', openPopup.bind(null, popupAddImage));
 buttonsClose.forEach(button => button.addEventListener('click', closePopup));
 
