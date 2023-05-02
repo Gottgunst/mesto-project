@@ -4,15 +4,9 @@ import { checkSpace, sliceExt } from "./utilities.js";
 // POP-UP Toggle Function
 // ######################
 
-export function openPopup(popupElement, profile = false, inputProfile = false) {
+export function openPopup(popupElement) {
 
   popupElement.classList.add('popup_opened');
-
-  // Если работаем с формой профиля, устанавливаем данные полей
-  if(profile && inputProfile){
-    inputProfile.name.value = profile.name.textContent;
-    inputProfile.subtitle.value = profile.subtitle.textContent;
-  }
 
   // Фиксируем body убирая scroll
   document.body.style.top = `-${window.scrollY}px`;
