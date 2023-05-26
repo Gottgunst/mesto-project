@@ -1,6 +1,6 @@
 import { openPopupImage } from './popup.js';
 import { delCard, likeCard } from './buttons.js';
-import { checkSpace, sliceExt } from './utilities.js';
+import { checkSpace } from './utilities.js';
 
 // #########################
 // Image Card Crate Function

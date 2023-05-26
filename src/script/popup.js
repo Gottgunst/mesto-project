@@ -86,8 +86,6 @@ export function openPopupImage(cardObject, templatePopup) {
   // если карточка из заготовленных используем расширенный функционал
   if(cardObject.initial) {
 
-    // const imageName = sliceExt(cardObject.image);
-
     // Обозначение свойства <img sizes="">
     // для правильной работы адаптивности <img scrset="">
     templatePopup.image.sizes = `(max-width: 2000px) 100vw, 2000px`;
