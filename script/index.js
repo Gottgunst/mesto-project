@@ -64,9 +64,14 @@ buttonEdit.addEventListener('click', () => {
   // Устанавливаем данные пользователя в поля ввода
   inputProfile.name.value = profile.name.textContent;
   inputProfile.subtitle.value = profile.subtitle.textContent;
-
-  openPopup(popupEditProfile)});
-buttonAdd.addEventListener('click', openPopup.bind(null, popupAddImage));
+  openPopup(popupEditProfile);
+});
+buttonAdd.addEventListener('click', () => {
+  // Очищаем поля ввода
+  inputImage.title.value = "";
+  inputImage.url.value = "";
+  openPopup(popupAddImage);
+});
 buttonsClose.forEach(button => button.addEventListener('click', closePopup));
 popupBg.forEach(bg => bg.addEventListener('click', closePopup));
 

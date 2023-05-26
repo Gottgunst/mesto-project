@@ -4,24 +4,37 @@ import { checkSpace, sliceExt } from "./utilities.js";
 // POP-UP Toggle Function
 // ######################
 
+function fixPopup() {
+  if(document.body.classList.contains('page_fixed')){
+    // Открепляем body возвращая scroll сохранив позицию прокрутки
+    document.body.classList.remove('page_fixed');
+    const scrollY = document.body.style.top;
+    window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    document.body.removeAttribute('style');
+  } else {
+    // Фиксируем body убирая scroll
+    document.body.style.top = `-${window.scrollY}px`;
+    document.body.classList.add('page_fixed');
+  }
+}
+
+function escPopup(popupElement, evt) {
+  if(evt.key === 'Escape'){
+    closePopup(popupElement);
+  }
+}
+
 export function openPopup(popupElement) {
-
   popupElement.classList.add('popup_opened');
-
-  // Фиксируем body убирая scroll
-  document.body.style.top = `-${window.scrollY}px`;
-  document.body.classList.add('page_fixed');
-
+  fixPopup();
+  document.addEventListener('keydown', escPopup.bind(null, popupElement))
 }
 
 export function closePopup(evt) {
-  evt.target.closest('.popup').classList.remove('popup_opened');
-
-  // Открепляем body возвращая scroll сохранив позицию прокрутки
-  document.body.classList.remove('page_fixed');
-  const scrollY = document.body.style.top;
-  window.scrollTo(0, parseInt(scrollY || '0') * -1);
-  document.body.removeAttribute('style');
+  const popup = evt.target ? evt.target : evt;
+  popup.closest('.popup').classList.remove('popup_opened');
+  fixPopup();
+  document.removeEventListener('keydown', escPopup);
 }
 
 // ########################
