@@ -38,6 +38,7 @@
 @import url("../blocks/footer/__copyright/footer__copyright.css");
 
 @import url("../blocks/popup/popup.css");
+@import url("../blocks/popup/__bg/popup__bg.css");
 @import url("../blocks/popup/_type/popup_type_image.css");
 @import url("../blocks/popup/_flexed/popup_flexed.css");
 @import url("../blocks/popup/_opened/popup_opened.css");
