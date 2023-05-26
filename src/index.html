@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mesto ᴿᵘˢˢᶦᵃ</title>
-  <link rel="stylesheet" href="page/index.css">
+  <!-- <link rel="stylesheet" href="page/index.css"> -->
   <link rel="icon" href="favicon.ico"><!-- 32×32 -->
 </head>
 <body class="page">
@@ -18,11 +18,7 @@
 
     <section class="profile">
       <img class='profile__avatar'
-        sizes='120px'
-        srcset='
-          ./images/avatar/avatar_120w.jpeg 120w,
-          ./images/avatar/avatar_240w.jpeg 240w'
-        src='./images/avatar/avatar_282w.jpeg'
+        src="<%=require('../src/images/avatar/avatar_240w.jpeg')%>"
         alt='Фотопортрет Кусто'>
       <div class="profile__info">
         <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -37,7 +33,7 @@
         <template id="templateCard"><li class="element__wrapper">
             <article class="element">
               <button class="button element__button-del" title="Удалить" type="button" aria-label="Удалить фотокарточку"></button>
-              <img class='element__image' src="./images/places/filler.png" alt="Заглушка">
+              <img class='element__image' src="<%=require('../src/images/filler.png')%>" alt="Заглушка">
               <h2 class="element__caption">Заглушка</h2>
               <button class="button element__button-like" title="Нравится" type="button" aria-label="Нравится фотография"></button>
             </article>
@@ -81,14 +77,14 @@
     <div class="popup__bg"></div>
     <div class="popup__container popup__container_type_image">
       <figure class="popup__figure" >
-        <img class="popup__image" src="./images/places/filler.png" alt="Filler">
+        <img class="popup__image" src="<%=require('../src/images/filler.png')%>" alt="Filler">
         <figcaption class="popup__caption">Заглушка</figcaption>
       </figure>
       <button type="button" class="popup__close" title="Закрыть" aria-label="Закрыть фотографию"></button>
     </div>
   </div>
 
-  <script src="./script/index.js" type="module"></script>
+  <!-- <script src="./script/index.js" type="module"></script> -->
 </body>
 </html>
 
