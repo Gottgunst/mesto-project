@@ -37,6 +37,7 @@ const formAdd = document.querySelector('[name="add-image"]');
 const popupArray = document.querySelectorAll('.popup');
 const popupEditProfile = document.querySelector('#popup-profile');
 const popupAddImage = document.querySelector('#popup-add');
+const popupBg = document.querySelectorAll('.popup__bg');
 
 // Модальное окно с полноформатным изображением с подписью
 const templatePopup = { container:{}, image:{}, caption: {} };
@@ -67,6 +68,7 @@ buttonEdit.addEventListener('click', () => {
   openPopup(popupEditProfile)});
 buttonAdd.addEventListener('click', openPopup.bind(null, popupAddImage));
 buttonsClose.forEach(button => button.addEventListener('click', closePopup));
+popupBg.forEach(bg => bg.addEventListener('click', closePopup));
 
 // Связываем кнопки и обработчик данных
 formEdit.addEventListener('submit', (evt) => {editFormHandler(evt, profile, inputProfile)});
