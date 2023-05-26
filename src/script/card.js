@@ -21,8 +21,7 @@ export function gatherCard(cardObject, templateCard, templatePopup) {
   // проверяем данные изображения — оно из базы данных или загружено пользователем
   if (cardObject.initial) {
 
-    const imageName = sliceExt(cardObject.image);
-    image.src = `./images/places/${imageName}_thumb.jpeg`;
+    image.src = cardObject.images[0];
 
   } else {
 

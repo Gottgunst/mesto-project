@@ -86,15 +86,17 @@ export function openPopupImage(cardObject, templatePopup) {
   // если карточка из заготовленных используем расширенный функционал
   if(cardObject.initial) {
 
-    const imageName = sliceExt(cardObject.image);
+    // const imageName = sliceExt(cardObject.image);
 
     // Обозначение свойства <img sizes="">
     // для правильной работы адаптивности <img scrset="">
     templatePopup.image.sizes = `(max-width: 2000px) 100vw, 2000px`;
-    templatePopup.image.srcset = cardObject.imageSet.map(width =>
-      `./images/places/${imageName}_${width}.jpeg ${width},`);
+    templatePopup.image.srcset = cardObject.images.map((img, index) =>
+      index===0 ? '':
+      `${img} ${sliceExt(img)},`
+    );
 
-    templatePopup.image.src = './images/places/'+cardObject.image;
+    templatePopup.image.src = cardObject.image;
 
   } else {
 

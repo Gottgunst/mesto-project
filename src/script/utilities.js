@@ -8,9 +8,11 @@ export function checkSpace(input) {
 
 
 // ########################
-// Убрать расширение файла расширение файла
+// Получить ширину изображения
 // ########################
 
 export function sliceExt(input) {
-  return input.slice(0, input.indexOf('.',-1));
+  let ext = input.pathname;
+  ext = ext.slice(ext.indexOf('_', 0),-1);
+  return ext.slice(1, ext.indexOf('-',-1));
 }

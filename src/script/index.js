@@ -2,6 +2,8 @@ import { initialCards } from './data.js';
 import { gatherCard, renderCard } from './card.js';
 import { openPopup, closePopup, editFormHandler, addFormHandler } from './popup.js';
 
+import '../page/index.css';
+
 // ######################
 // Конфигурация элементов
 // ######################
