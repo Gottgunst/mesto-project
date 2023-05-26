@@ -1,4 +1,4 @@
-import { checkSpace, sliceExt } from "./utilities.js";
+import { checkSpace, sliceExt } from "./utils.js";
 
 // ######################
 // POP-UP Toggle Function
