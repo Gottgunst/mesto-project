@@ -12,28 +12,30 @@ import '../page/index.css';
 const cardContainer = document.querySelector('.elements__grid');
 const templateCard = document.querySelector('#templateCard').content;
 
-// Кнопки
-const buttonEdit = document.querySelector('.profile__button_type_edit');
-const buttonAdd = document.querySelector('.profile__button_type_add');
-const buttonsClose = document.querySelectorAll('.popup__close');
-
 // Данные пользователя
 const profile = { name:{}, subtitle:{} };
 profile.name = document.querySelector('.profile__name');
 profile.subtitle = document.querySelector('.profile__subtitle');
 
-// Поля ввода данных
-const inputProfile = { name:{}, subtitle:{} };
-inputProfile.name = document.querySelector('#name');
-inputProfile.subtitle = document.querySelector('#subtitle');
-
-const inputImage = { title:{}, url:{} };
-inputImage.title = document.querySelector('#imageName');
-inputImage.url = document.querySelector('#imageLink');
-
 // Формы
-const formEdit = document.querySelector('[name="edit-info"]');
-const formAdd = document.querySelector('[name="add-image"]');
+const formEdit = document.forms.editInfo;
+const formAdd = document.forms.addImage;
+
+// Блоки формы
+const inputProfile = { name:{}, subtitle:{}, button:{} };
+inputProfile.name = formEdit.elements.name;
+inputProfile.subtitle = formEdit.elements.subtitle;
+inputProfile.button = formEdit.elements.button;
+
+const inputImage = { title:{}, url:{}, button:{} };
+inputImage.title = formAdd.elements.title;
+inputImage.url = formAdd.elements.url;
+inputImage.button = formAdd.elements.button;
+
+// Кнопки
+const buttonEdit = document.querySelector('.profile__button_type_edit');
+const buttonAdd = document.querySelector('.profile__button_type_add');
+const buttonsClose = document.querySelectorAll('.popup__close');
 
 // Модальные окна
 const popupArray = document.querySelectorAll('.popup');
