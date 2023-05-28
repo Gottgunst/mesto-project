@@ -21,7 +21,7 @@ profile.subtitle = document.querySelector('.profile__subtitle');
 const formEdit = document.forms.editInfo;
 const formAdd = document.forms.addImage;
 
-// Блоки формы
+// Содержимое форм
 const inputProfile = { name:{}, subtitle:{}, button:{} };
 inputProfile.name = formEdit.elements.name;
 inputProfile.subtitle = formEdit.elements.subtitle;
@@ -32,7 +32,7 @@ inputImage.title = formAdd.elements.title;
 inputImage.url = formAdd.elements.url;
 inputImage.button = formAdd.elements.button;
 
-// Кнопки
+// Кнопки вне форм
 const buttonEdit = document.querySelector('.profile__button_type_edit');
 const buttonAdd = document.querySelector('.profile__button_type_add');
 const buttonsClose = document.querySelectorAll('.popup__close');
@@ -68,13 +68,12 @@ buttonEdit.addEventListener('click', () => {
   // Устанавливаем данные пользователя в поля ввода
   inputProfile.name.value = profile.name.textContent;
   inputProfile.subtitle.value = profile.subtitle.textContent;
-  openPopup(popupEditProfile);
+  openPopup(popupEditProfile, inputProfile);
 });
 buttonAdd.addEventListener('click', () => {
   // Очищаем поля ввода
-  inputImage.title.value = "";
-  inputImage.url.value = "";
-  openPopup(popupAddImage);
+  formAdd.reset();
+  openPopup(popupAddImage, inputImage);
 });
 buttonsClose.forEach(button => button.addEventListener('click', closePopup));
 popupBg.forEach(bg => bg.addEventListener('click', closePopup));

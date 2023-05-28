@@ -1,6 +1,5 @@
 import { openPopupImage } from './modal.js';
 import { delCard, likeCard } from './buttons.js';
-import { checkSpace } from './utils.js';
 
 // #########################
 // Image Card Crate Function
@@ -14,9 +13,6 @@ export function gatherCard(cardObject, templateCard, templatePopup) {
 
   cardElement.querySelector('.element__button-del').addEventListener('click', delCard);
   cardElement.querySelector('.element__button-like').addEventListener('click', likeCard);
-
-  //проверяем название карточки, не состоит ли оно только из пробелов
-  caption.textContent = checkSpace(cardObject.title);
 
   // проверяем данные изображения — оно из базы данных или загружено пользователем
   if (cardObject.initial) {

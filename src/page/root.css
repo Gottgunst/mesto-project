@@ -1,13 +1,14 @@
 :root {
-/********* Цвета *********/
+  /********* Цвета *********/
 
   --color__black: rgba(0, 0, 0, 1);
   --color__black_2: rgba(0, 0, 0, .2);
   --color__white: #fff;
   --color__grey: rgba(84, 84, 84, 1);
   --color__grey_7: rgba(84, 84, 84, .7);
+  --color__red: #FF0000;
 
-/********* Шрифты *********/
+  /********* Шрифты *********/
 
   --font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
 
@@ -25,19 +26,19 @@
   --font-weight_medium: 500;
   --font-weight_black: 900;
 
-/********* Анимации *********/
+  /********* Анимации *********/
 
   --transition__link: opacity .3s ease-out;
   --transition__popup: visibility .4s, opacity .4s linear;
 }
 
 
-@media screen and (max-width: 879px ) {
+@media screen and (max-width: 879px) {
   :root {
-  --font-size__h1: clamp(27px, 5vw, 42px);
-  --font-size__label: clamp(18px, 4vw, 24px);
-  --font-size__text: clamp(14px, 2.2vw, 18px);
+    --font-size__h1: clamp(27px, 5vw, 42px);
+    --font-size__label: clamp(18px, 4vw, 24px);
+    --font-size__text: clamp(14px, 2.2vw, 18px);
 
-  --line-height__h1: normal;
+    --line-height__h1: normal;
   }
 }
