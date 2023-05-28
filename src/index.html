@@ -51,10 +51,12 @@
     <div class="popup__bg"></div>
     <div class="popup__container">
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form class="popup__form" name="edit-info" method="POST" >
-        <input type="text" name="name" id="name" class="popup__field" placeholder="Имя" required>
-        <input type="text" name="subtitle" id="subtitle" class="popup__field" placeholder="О себе">
-        <button type="submit" class="popup__submit" aria-label="Сохранить изменения">Сохранить</button>
+      <form class="popup__form" name="editInfo" method="POST" novalidate >
+        <input type="text" name="name" class="popup__field" placeholder="Имя" required minlength="2" maxlength="42">
+        <span class="popup__field-error" name="err-name"></span>
+        <input type="text" name="subtitle" class="popup__field" placeholder="О себе" required minlength="2" maxlength="42">
+        <span class="popup__field-error" name="err-subtitle"></span>
+        <button type="submit" name="button" class="popup__submit" aria-label="Сохранить изменения">Сохранить</button>
       </form>
       <button type="button" class="popup__close" title="Закрыть" aria-label="Закрыть форму редактирования профиля"></button>
     </div>
@@ -64,10 +66,12 @@
     <div class="popup__bg"></div>
     <div class="popup__container">
       <h2 class="popup__title">Новое место</h2>
-      <form class="popup__form" name="add-image" method="POST" >
-        <input type="text" name="imageName" id="imageName" class="popup__field" placeholder="Название" required>
-        <input type="url" name="imageLink" id="imageLink" class="popup__field" placeholder="Ссылка на фотографию">
-        <button type="submit" class="popup__submit" aria-label="Новая фотокарточка">Создать</button>
+      <form class="popup__form" name="addImage" method="POST" novalidate >
+        <input type="text" name="title" class="popup__field" placeholder="Название" required minlength="2" maxlength="42">
+        <span class="popup__field-error" name="err-title"></span>
+        <input type="url" name="url" class="popup__field" placeholder="Ссылка на фотографию" required minlength="10">
+        <span class="popup__field-error" name="err-url"></span>
+        <button type="submit" name="button" class="popup__submit popup__submit_disabled" aria-label="Новая фотокарточка" disabled>Создать</button>
       </form>
       <button type="button" class="popup__close" title="Закрыть" aria-label="Закрыть форму добавления фотографии"></button>
     </div>

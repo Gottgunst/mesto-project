@@ -1,4 +1,5 @@
-import { checkSpace, sliceExt } from "./utilities.js";
+import { sliceExt } from "./utils.js";
+import validate from './validate.js';
 
 // ######################
 // POP-UP Toggle Function
@@ -24,10 +25,15 @@ function escPopup(popupElement, evt) {
   }
 }
 
-export function openPopup(popupElement) {
+export function openPopup(popupElement, formObjects=undefined) {
+  // если открываем модальное окно с формой, запускаем валидацию форм
+  if(formObjects){
+    validate(formObjects);
+  }
+
   popupElement.classList.add('popup_opened');
   fixPopup();
-  document.addEventListener('keydown', escPopup.bind(null, popupElement))
+  document.addEventListener('keydown', escPopup.bind(null, popupElement));
 }
 
 export function closePopup(evt) {
@@ -44,8 +50,7 @@ export function closePopup(evt) {
 export function editFormHandler(evt, profile, input) {
   evt.preventDefault();
 
-  // проверка на поле состоящее из пробелов?
-  profile.name.textContent = checkSpace(input.name.value);
+  profile.name.textContent = input.name.value;
   profile.subtitle.textContent = input.subtitle.value;
 
   closePopup(evt);
