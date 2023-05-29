@@ -14,3 +14,7 @@
 .popup__field:hover {
   border-bottom-color: var(--color__black);
 }
+
+.popup__field:invalid {
+  border-bottom-color: var(--color__red);
+}

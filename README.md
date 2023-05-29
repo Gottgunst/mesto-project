@@ -20,11 +20,20 @@
 Освоение принципов защиты от XSS угроз.
 Освоение принципов осмысленной работы с ветвями GIT.
 
+##### Третий этап
+Освоение валидации средствами JavaScript и настройка webPack.
+- разработка валидации всех форм;
+- улучшите UX при работе с модульными окнами;
+- - события по нажатию кнопки
+- - события при клике на фон
+- создать инфраструктурное окружение с помощью Webpack.
+
 **Технологии**
-HTML / CSS / JS / БЭМ / GIT / FIGMA
+HTML / CSS / JS / WEBPACK / БЭМ / GIT / FIGMA
 
 ### Ссылки
 
 * [Проект на GitHub Pages](https://gottgunst.github.io/mesto-project/)
 * [Ссылка на макет в Figma. Первый этап](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)
 * [Ссылка на макет в Figma. Второй этап](https://www.figma.com/file/bjyvbKKJN2naO0ucURl2Z0/JavaScript.-Sprint-5?node-id=0%3A1)
+* [Ссылка на макет в Figma. Третий этап](https://www.figma.com/file/kRVLKwYG3d1HGLvh7JFWRT/JavaScript.-Sprint-6?node-id=0%3A1)

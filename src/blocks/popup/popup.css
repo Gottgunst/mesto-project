@@ -14,13 +14,3 @@
   opacity: 0;
   transition: var(--transition__popup);
 }
-
-.popup::before {
-  content: '';
-  width: 100%;
-  min-width: 320px;
-  height: 100%;
-  position: fixed;
-  background-color: var(--color__black);
-  opacity: .5;
-}

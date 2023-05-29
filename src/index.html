@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mesto ᴿᵘˢˢᶦᵃ</title>
-  <link rel="stylesheet" href="page/index.css">
+  <!-- <link rel="stylesheet" href="page/index.css"> -->
   <link rel="icon" href="favicon.ico"><!-- 32×32 -->
 </head>
 <body class="page">
@@ -18,11 +18,7 @@
 
     <section class="profile">
       <img class='profile__avatar'
-        sizes='120px'
-        srcset='
-          ./images/avatar/avatar_120w.jpeg 120w,
-          ./images/avatar/avatar_240w.jpeg 240w'
-        src='./images/avatar/avatar_282w.jpeg'
+        src="<%=require('../src/images/avatar/avatar_240w.jpeg')%>"
         alt='Фотопортрет Кусто'>
       <div class="profile__info">
         <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -37,7 +33,7 @@
         <template id="templateCard"><li class="element__wrapper">
             <article class="element">
               <button class="button element__button-del" title="Удалить" type="button" aria-label="Удалить фотокарточку"></button>
-              <img class='element__image' src="./images/places/filler.png" alt="Заглушка">
+              <img class='element__image' src="<%=require('../src/images/filler.png')%>" alt="Заглушка">
               <h2 class="element__caption">Заглушка</h2>
               <button class="button element__button-like" title="Нравится" type="button" aria-label="Нравится фотография"></button>
             </article>
@@ -52,40 +48,47 @@
   </footer>
 
   <div class="popup" id="popup-profile">
+    <div class="popup__bg"></div>
     <div class="popup__container">
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form class="popup__form" name="edit-info" method="POST" >
-        <input type="text" name="name" id="name" class="popup__field" placeholder="Имя" required>
-        <input type="text" name="subtitle" id="subtitle" class="popup__field" placeholder="О себе">
-        <button type="submit" class="popup__submit" aria-label="Сохранить изменения">Сохранить</button>
+      <form class="popup__form" name="editInfo" method="POST" novalidate >
+        <input type="text" name="name" class="popup__field" placeholder="Имя" required minlength="2" maxlength="42" pattern="[A-zА-яЁё\-\s]+" data-error-message="Можно латинские, кириллические буквы, дефис и пробел">
+        <span class="popup__field-error" name="err-name"></span>
+        <input type="text" name="subtitle" class="popup__field" placeholder="О себе" required minlength="2" maxlength="42" pattern="[A-zА-яЁё\-\s]+" data-error-message="Можно латинские, кириллические буквы, дефис и пробел">
+        <span class="popup__field-error" name="err-subtitle"></span>
+        <button type="submit" name="button" class="popup__submit" aria-label="Сохранить изменения">Сохранить</button>
       </form>
       <button type="button" class="popup__close" title="Закрыть" aria-label="Закрыть форму редактирования профиля"></button>
     </div>
   </div>
 
   <div class="popup" id="popup-add">
+    <div class="popup__bg"></div>
     <div class="popup__container">
       <h2 class="popup__title">Новое место</h2>
-      <form class="popup__form" name="add-image" method="POST" >
-        <input type="text" name="imageName" id="imageName" class="popup__field" placeholder="Название" required>
-        <input type="url" name="imageLink" id="imageLink" class="popup__field" placeholder="Ссылка на фотографию">
-        <button type="submit" class="popup__submit" aria-label="Новая фотокарточка">Создать</button>
+      <form class="popup__form" name="addImage" method="POST" novalidate >
+        <input type="text" name="title" class="popup__field" placeholder="Название" required minlength="2" maxlength="42" pattern="[A-zА-яЁё\-\s]+" data-error-message="Можно латинские, кириллические буквы, дефис и пробел">
+        <span class="popup__field-error" name="err-title"></span>
+        <input type="url" name="url" class="popup__field" placeholder="Ссылка на фотографию" required minlength="10" >
+        <span class="popup__field-error" name="err-url"></span>
+        <button type="submit" name="button" class="popup__submit popup__submit_disabled" aria-label="Новая фотокарточка" disabled>Создать</button>
       </form>
       <button type="button" class="popup__close" title="Закрыть" aria-label="Закрыть форму добавления фотографии"></button>
     </div>
   </div>
 
   <div class="popup popup_type_image" id="popup-image">
+    <div class="popup__bg"></div>
     <div class="popup__container popup__container_type_image">
       <figure class="popup__figure" >
-        <img class="popup__image" src="./images/places/filler.png" alt="Filler">
+        <img class="popup__image" src="<%=require('../src/images/filler.png')%>" alt="Filler">
         <figcaption class="popup__caption">Заглушка</figcaption>
       </figure>
       <button type="button" class="popup__close" title="Закрыть" aria-label="Закрыть фотографию"></button>
     </div>
   </div>
 
-  <script src="./script/index.js" type="module"></script>
+  <!-- <script src="./script/index.js" type="module"></script> -->
 </body>
 </html>
 
