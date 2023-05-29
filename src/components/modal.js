@@ -1,47 +1,51 @@
 import { newCards } from './data.js';
 import { genId, sliceExt } from "./utils.js";
-import validate from './validate.js';
+import { enableValidation, disableValidation } from './validate.js';
 
 // ######################
 // POP-UP Toggle Function
 // ######################
 
-function fixPopup() {
-  if(document.body.classList.contains('page_fixed')){
-    // Открепляем body возвращая scroll сохранив позицию прокрутки
-    document.body.classList.remove('page_fixed');
-    const scrollY = document.body.style.top;
-    window.scrollTo(0, parseInt(scrollY || '0') * -1);
-    document.body.removeAttribute('style');
-  } else {
-    // Фиксируем body убирая scroll
-    document.body.style.top = `-${window.scrollY}px`;
-    document.body.classList.add('page_fixed');
+export function openPopup(popupElement, formObjects=undefined) {
+  // если открываем модальное окно с формой, запускаем валидацию форм
+  fixPopup(true);
+  if(formObjects){
+    enableValidation(formObjects);
   }
+  popupElement.classList.add('popup_opened');
+
+  const clickHandlerBind = clickHandler.bind(null, formObjects, popupElement, escPopupBind, clickHandlerBind);
+  const escPopupBind = escPopup.bind(null, popupElement);
+
+  document.addEventListener('keydown', escPopupBind);
+  popupElement.addEventListener('click', clickHandlerBind);
+}
+
+function clickHandler(formObjects=undefined, popupElement, escPopupBind, clickHandlerBind, evt){
+  switch (evt.target.className) {
+      case 'popup__close':
+      case 'popup__bg':
+        closePopup(evt);
+        document.removeEventListener('keydown', escPopupBind);
+        if(formObjects){
+            disableValidation(formObjects);
+            popupElement.removeEventListener('click', clickHandlerBind);
+        }
+        break;
+  }
+}
+
+function closePopup(evt) {
+  const popup = evt.target;
+  popup.closest('.popup').classList.remove('popup_opened');
+  fixPopup(false);
 }
 
 function escPopup(popupElement, evt) {
+  console.dir(popupElement);
   if(evt.key === 'Escape'){
-    closePopup(popupElement);
+    popupElement.querySelector('.popup__bg').click();
   }
-}
-
-export function openPopup(popupElement, formObjects=undefined) {
-  // если открываем модальное окно с формой, запускаем валидацию форм
-  fixPopup();
-  if(formObjects){
-    validate(formObjects);
-  }
-
-  popupElement.classList.add('popup_opened');
-  document.addEventListener('keydown', escPopup.bind(null, popupElement));
-}
-
-export function closePopup(evt) {
-  const popup = evt.target ? evt.target : evt;
-  popup.closest('.popup').classList.remove('popup_opened');
-  fixPopup();
-  document.removeEventListener('keydown', escPopup);
 }
 
 // ########################
@@ -115,3 +119,20 @@ export function openPopupImage(cardObject, templatePopup) {
 
   openPopup(templatePopup.container);
 }
+
+
+
+function fixPopup(fix) {
+  if (fix) {
+      // Фиксируем body убирая scroll
+      document.body.style.top = `-${window.scrollY}px`;
+      document.body.classList.add('page_fixed');
+  } else {
+    // Открепляем body возвращая scroll сохранив позицию прокрутки
+    document.body.classList.remove('page_fixed');
+    const scrollY = document.body.style.top;
+    window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    document.body.removeAttribute('style');
+  }
+}
+

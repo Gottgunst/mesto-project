@@ -1,6 +1,6 @@
 import { initialCards, newCards } from './data.js';
 import { gatherCard, renderCard } from './card.js';
-import { openPopup, closePopup, editFormHandler, addFormHandler, openPopupImage } from './modal.js';
+import { openPopup, editFormHandler, addFormHandler, openPopupImage } from './modal.js';
 import { delCard, likeCard } from './buttons.js';
 
 import '../page/index.css';
@@ -36,13 +36,11 @@ inputImage.button = formAdd.elements.button;
 // Кнопки вне форм
 const buttonEdit = document.querySelector('.profile__button_type_edit');
 const buttonAdd = document.querySelector('.profile__button_type_add');
-const buttonsClose = document.querySelectorAll('.popup__close');
 
 // Модальные окна
 const popupArray = document.querySelectorAll('.popup');
 const popupEditProfile = document.querySelector('#popup-profile');
 const popupAddImage = document.querySelector('#popup-add');
-const popupBg = document.querySelectorAll('.popup__bg');
 
 // Модальное окно с полноформатным изображением с подписью
 const templatePopup = { container:{}, image:{}, caption: {} };
@@ -60,7 +58,6 @@ const initialElements = initialCards.map(cardObject => gatherCard(cardObject, te
 // Рендерим массив заготовленных элементов
 initialElements.forEach(el => renderCard(el, cardContainer));
 
-
 // Всплытие событий на блоке карточек
 cardContainer.addEventListener('click', (evt) => {
   switch (evt.target.className) {
@@ -77,9 +74,7 @@ cardContainer.addEventListener('click', (evt) => {
       openPopupImage(targetCard[0], templatePopup);
       break;
   }
-
 });
-
 
 // После загрузки страницы сменяем display с "none" на "flex",
 // чтобы при первичной загрузке не было паразитной анимации
@@ -92,13 +87,12 @@ buttonEdit.addEventListener('click', () => {
   inputProfile.subtitle.value = profile.subtitle.textContent;
   openPopup(popupEditProfile, inputProfile);
 });
+
 buttonAdd.addEventListener('click', () => {
   // Очищаем поля ввода
   formAdd.reset();
   openPopup(popupAddImage, inputImage);
 });
-buttonsClose.forEach(button => button.addEventListener('click', closePopup));
-popupBg.forEach(bg => bg.addEventListener('click', closePopup));
 
 // Связываем кнопки и обработчик данных
 formEdit.addEventListener('submit', (evt) => {editFormHandler(evt, profile, inputProfile)});
