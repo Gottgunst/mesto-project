@@ -14,14 +14,15 @@ export function openPopup(popupElement, formObjects=undefined) {
   }
   popupElement.classList.add('popup_opened');
 
-  const clickHandlerBind = clickHandler.bind(null, formObjects, popupElement, escPopupBind, clickHandlerBind);
   const escPopupBind = escPopup.bind(null, popupElement);
+  const clickHandlerBind = clickHandler.bind(null, formObjects, popupElement, escPopupBind, clickHandlerBind);
 
   document.addEventListener('keydown', escPopupBind);
   popupElement.addEventListener('click', clickHandlerBind);
 }
 
 function clickHandler(formObjects=undefined, popupElement, escPopupBind, clickHandlerBind, evt){
+
   switch (evt.target.className) {
       case 'popup__close':
       case 'popup__bg':
@@ -42,7 +43,6 @@ function closePopup(evt) {
 }
 
 function escPopup(popupElement, evt) {
-  console.dir(popupElement);
   if(evt.key === 'Escape'){
     popupElement.querySelector('.popup__bg').click();
   }
