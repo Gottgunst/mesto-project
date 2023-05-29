@@ -1,6 +1,7 @@
-import { initialCards } from './data.js';
+import { initialCards, newCards } from './data.js';
 import { gatherCard, renderCard } from './card.js';
-import { openPopup, closePopup, editFormHandler, addFormHandler } from './modal.js';
+import { openPopup, closePopup, editFormHandler, addFormHandler, openPopupImage } from './modal.js';
+import { delCard, likeCard } from './buttons.js';
 
 import '../page/index.css';
 
@@ -54,10 +55,31 @@ templatePopup.caption = templatePopup.container.querySelector('.popup__caption')
 // #####################
 
 // Получаем массив заготовленных элементов
-const initialElements = initialCards.map(cardObject => gatherCard(cardObject, templateCard, templatePopup));
+const initialElements = initialCards.map(cardObject => gatherCard(cardObject, templateCard));
 
 // Рендерим массив заготовленных элементов
 initialElements.forEach(el => renderCard(el, cardContainer));
+
+
+// Всплытие событий на блоке карточек
+cardContainer.addEventListener('click', (evt) => {
+  switch (evt.target.className) {
+    case 'button element__button-del':
+      delCard(evt);
+      break;
+    case 'button element__button-like':
+      likeCard(evt);
+      break;
+    case 'element__image':
+      const targetId = evt.target.closest('.element__wrapper').id;
+      const allCards = initialCards.concat(newCards);
+      const targetCard = allCards.filter(card => card._id === targetId);
+      openPopupImage(targetCard[0], templatePopup);
+      break;
+  }
+
+});
+
 
 // После загрузки страницы сменяем display с "none" на "flex",
 // чтобы при первичной загрузке не было паразитной анимации
@@ -81,7 +103,7 @@ popupBg.forEach(bg => bg.addEventListener('click', closePopup));
 // Связываем кнопки и обработчик данных
 formEdit.addEventListener('submit', (evt) => {editFormHandler(evt, profile, inputProfile)});
 formAdd.addEventListener('submit', (evt) => {
-  renderCard( gatherCard( addFormHandler(evt, inputImage), templateCard, templatePopup), cardContainer)});
+  renderCard( gatherCard( addFormHandler(evt, inputImage), templateCard), cardContainer)});
 
 
 

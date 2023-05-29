@@ -1,4 +1,5 @@
-import { sliceExt } from "./utils.js";
+import { newCards } from './data.js';
+import { genId, sliceExt } from "./utils.js";
 import validate from './validate.js';
 
 // ######################
@@ -27,12 +28,12 @@ function escPopup(popupElement, evt) {
 
 export function openPopup(popupElement, formObjects=undefined) {
   // если открываем модальное окно с формой, запускаем валидацию форм
+  fixPopup();
   if(formObjects){
     validate(formObjects);
   }
 
   popupElement.classList.add('popup_opened');
-  fixPopup();
   document.addEventListener('keydown', escPopup.bind(null, popupElement));
 }
 
@@ -64,10 +65,13 @@ export function addFormHandler(evt, input) {
   evt.preventDefault();
 
   const newCard = {
+    _id: genId(),
     title: input.title.value,
     image: input.url.value,
     initial: false,
   };
+
+  newCards.push(newCard);
 
   closePopup(evt);
   evt.target.reset();

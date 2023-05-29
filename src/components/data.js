@@ -1,5 +1,8 @@
+export const newCards = [];
+
 export const initialCards = [
   {
+    _id: '11i38',
     title: 'Нерпа',
     image: new URL('../images/places/nerpa-shine.jpeg', import.meta.url),
     images: [
@@ -13,6 +16,7 @@ export const initialCards = [
     initial: true,
   },
   {
+    _id: '11i23',
     title: 'Кораллы',
     image: new URL('../images/places/green-coral.jpeg', import.meta.url),
     images: [
@@ -26,6 +30,7 @@ export const initialCards = [
     initial: true,
   },
   {
+    _id: '11i11',
     title: 'Сады Байкала',
     image: new URL('../images/places/baikal-garden.jpeg', import.meta.url),
     images: [
@@ -39,6 +44,7 @@ export const initialCards = [
     initial: true,
   },
   {
+    _id: '11i65',
     title: 'Чистый лёд',
     image: new URL('../images/places/baikal-ice.jpeg', import.meta.url),
     images: [
@@ -52,6 +58,7 @@ export const initialCards = [
     initial: true,
   },
   {
+    _id: '11i97',
     title: 'Коралловые рифы',
     image: new URL('../images/places/coral-riff.jpeg', import.meta.url),
     images: [
@@ -66,6 +73,7 @@ export const initialCards = [
     initial: true,
   },
   {
+    _id: '11i43',
     title: 'Подводные леса',
     image: new URL('../images/places/nerpa-in-forest.jpeg', import.meta.url),
     images: [
