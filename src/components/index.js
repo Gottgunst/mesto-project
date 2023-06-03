@@ -60,20 +60,20 @@ initialElements.forEach(el => renderCard(el, cardContainer));
 
 // Всплытие событий на блоке карточек
 cardContainer.addEventListener('click', (evt) => {
-  switch (evt.target.className) {
-    case 'button element__button-del':
-      delCard(evt);
-      break;
-    case 'button element__button-like':
-      likeCard(evt);
-      break;
-    case 'element__image':
-      const targetId = evt.target.closest('.element__wrapper').id;
-      const allCards = initialCards.concat(newCards);
-      const targetCard = allCards.filter(card => card._id === targetId);
-      openPopupImage(targetCard[0], templatePopup);
-      break;
+
+  if(evt.target.classList.contains('element__button-like'))
+    likeCard(evt);
+
+  if(evt.target.classList.contains('element__button-del'))
+    delCard(evt);
+
+  if(evt.target.classList.contains('element__image')){
+    const targetId = evt.target.closest('.element__wrapper').id;
+    const allCards = initialCards.concat(newCards);
+    const targetCard = allCards.filter(card => card._id === targetId);
+    openPopupImage(targetCard[0], templatePopup);
   }
+
 });
 
 // После загрузки страницы сменяем display с "none" на "flex",
