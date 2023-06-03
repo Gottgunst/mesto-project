@@ -28,5 +28,5 @@ export function gatherCard(cardObject, templateCard) {
 // ##########################
 
 export function renderCard(cardElement, cardContainer) {
-  cardContainer.append(cardElement);
+  cardContainer.prepend(cardElement);
 }
