@@ -43,10 +43,10 @@ const popupEditProfile = document.querySelector('#popup-profile');
 const popupAddImage = document.querySelector('#popup-add');
 
 // Модальное окно с полноформатным изображением с подписью
-const templatePopup = { container:{}, image:{}, caption: {} };
-templatePopup.container = document.querySelector('#popup-image');
-templatePopup.image = templatePopup.container.querySelector('.popup__image');
-templatePopup.caption = templatePopup.container.querySelector('.popup__caption');
+const imagePopup = { container:{}, image:{}, caption: {} };
+imagePopup.container = document.querySelector('#popup-image');
+imagePopup.image = imagePopup.container.querySelector('.popup__image');
+imagePopup.caption = imagePopup.container.querySelector('.popup__caption');
 
 // #####################
 // Инициализация функций
@@ -71,7 +71,7 @@ cardContainer.addEventListener('click', (evt) => {
     const targetId = evt.target.closest('.element__wrapper').id;
     const allCards = initialCards.concat(newCards);
     const targetCard = allCards.filter(card => card._id === targetId);
-    openPopupImage(targetCard[0], templatePopup);
+    openPopupImage(targetCard[0], imagePopup);
   }
 
 });
@@ -89,8 +89,6 @@ buttonEdit.addEventListener('click', () => {
 });
 
 buttonAdd.addEventListener('click', () => {
-  // Очищаем поля ввода
-  formAdd.reset();
   openPopup(popupAddImage, inputImage);
 });
 

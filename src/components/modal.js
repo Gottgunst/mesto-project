@@ -124,9 +124,9 @@ export function openPopupImage(cardObject, templatePopup) {
 
 function fixPopup(fix) {
   if (fix) {
-      // Фиксируем body убирая scroll
-      document.body.style.top = `-${window.scrollY}px`;
-      document.body.classList.add('page_fixed');
+    // Фиксируем body убирая scroll
+    document.body.style.top = `-${window.scrollY}px`;
+    document.body.classList.add('page_fixed');
   } else {
     // Открепляем body возвращая scroll сохранив позицию прокрутки
     document.body.classList.remove('page_fixed');
