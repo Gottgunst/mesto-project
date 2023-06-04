@@ -1,6 +1,6 @@
-import { newCards } from './data.js';
+// import { newCards } from './data.js';
 import { genId, sliceExt } from "./utils.js";
-import { enableValidation, disableValidation } from './validate.js';
+import { disableValidation } from './validate.js';
 
 // ######################
 // POP-UP Toggle Function
@@ -9,7 +9,6 @@ import { enableValidation, disableValidation } from './validate.js';
 let currPopup = {}; // ссылка на открытый popup
 
 export function openPopup(popupElement) {
-
   fixPopup(true);
   currPopup = popupElement;
   popupElement.classList.add('popup_opened');
@@ -27,6 +26,7 @@ export function closePopup() {
 function escPopup(evt) {
   if(evt.key === 'Escape'){
     closePopup();
+    disableValidation();
   }
 }
 
@@ -34,28 +34,24 @@ function escPopup(evt) {
 // POP-UP Profile Form Data
 // ########################
 
-export function editFormHandler(profile, input) {
-
-  profile.name.textContent = input.name.value;
-  profile.subtitle.textContent = input.subtitle.value;
-
+export function editFormHandler(profile, {form}) {
+  profile.name.textContent = form.name.value;
+  profile.subtitle.textContent = form.subtitle.value;
 }
 
 // ########################
 // POP-UP Image Form Data
 // ########################
 
-export function addFormHandler(input) {
-
+export function addFormHandler({form}) {
   const newCard = {
     _id: genId(),
-    title: input.title.value,
-    image: input.url.value,
+    title: form.title.value,
+    image: form.url.value,
     initial: false,
   };
 
-  newCards.push(newCard);
-
+  // newCards.push(newCard);
   return newCard;
 }
 
@@ -71,9 +67,9 @@ export function openPopupImage(cardObject, imagePopup) {
 
   imagePopup.caption.textContent = cardObject.title;
 
+  console.log(cardObject);
   // если карточка из заготовленных используем расширенный функционал
   if(cardObject.initial) {
-
     // Обозначение свойства <img sizes="">
     // для правильной работы адаптивности <img scrset="">
     imagePopup.image.sizes = `(max-width: 2000px) 100vw, 2000px`;

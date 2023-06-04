@@ -13,8 +13,10 @@ export function gatherCard(cardObject, templateCard) {
   // проверяем данные карточки — она из базы данных или загружена пользователем
   if (cardObject.initial) {
     image.src = cardObject.images[0];
+    image.setAttribute('data-init',true);
   } else {
     image.src = cardObject.image;
+    image.setAttribute('data-init',false);
   }
 
   image.alt = cardObject.imageAlt || cardObject.title;

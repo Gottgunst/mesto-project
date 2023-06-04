@@ -53,9 +53,9 @@
       <h2 class="popup__title">Редактировать профиль</h2>
       <form class="popup__form" name="editInfo" method="POST" novalidate >
         <input type="text" name="name" class="popup__field" placeholder="Имя" required minlength="2" maxlength="42" pattern="[A-zА-яЁё\-\s]+" data-error-message="Можно латинские, кириллические буквы, дефис и пробел">
-        <span class="popup__field-error" name="err-name"></span>
+        <span class="popup__error" name="err-name"></span>
         <input type="text" name="subtitle" class="popup__field" placeholder="О себе" required minlength="2" maxlength="42" pattern="[A-zА-яЁё\-\s]+" data-error-message="Можно латинские, кириллические буквы, дефис и пробел">
-        <span class="popup__field-error" name="err-subtitle"></span>
+        <span class="popup__error" name="err-subtitle"></span>
         <button type="submit" name="button" class="popup__submit" aria-label="Сохранить изменения">Сохранить</button>
       </form>
       <button type="button" class="popup__cross popup__close" title="Закрыть" aria-label="Закрыть форму редактирования профиля"></button>
@@ -68,9 +68,9 @@
       <h2 class="popup__title">Новое место</h2>
       <form class="popup__form" name="addImage" method="POST" novalidate >
         <input type="text" name="title" class="popup__field" placeholder="Название" required minlength="2" maxlength="42" pattern="[A-zА-яЁё\-\s]+" data-error-message="Можно латинские, кириллические буквы, дефис и пробел">
-        <span class="popup__field-error" name="err-title"></span>
+        <span class="popup__error" name="err-title"></span>
         <input type="url" name="url" class="popup__field" placeholder="Ссылка на фотографию" required minlength="10" >
-        <span class="popup__field-error" name="err-url"></span>
+        <span class="popup__error" name="err-url"></span>
         <button type="submit" name="button" class="popup__submit popup__submit_disabled" aria-label="Новая фотокарточка" disabled>Создать</button>
       </form>
       <button type="button" class="popup__cross popup__close" title="Закрыть" aria-label="Закрыть форму добавления фотографии"></button>

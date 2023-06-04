@@ -2,20 +2,20 @@
 // Установка слушателей
 // ########################
 
-export function enableValidation(formObjects){
+let currForm = {}; // ссылка на объект открытой формы
 
-  Object.keys(formObjects).forEach((key) => {
-    switch (formObjects[key].type) {
+export function enableValidation(formObjects){
+  currForm = formObjects;
+
+  toggleButton();
+  Array.from(currForm.form).forEach((item)=>{
+    switch (item.type) {
       case 'text':
-        formObjects[key].addEventListener('input', isValid.bind(null, formObjects));
-        formObjects[key].addEventListener('keydown', isKeyValid);
-        formObjects[key].addEventListener('change', isFieldValid.bind(null, formObjects));
+        item.addEventListener('input', isValid);
+        item.addEventListener('keydown', isKeyValid);
         break;
       case 'url':
-        formObjects[key].addEventListener('input', isValid.bind(null, formObjects));
-        break;
-      case 'submit':
-        // formObjects[key].addEventListener('submit', disableValidation.bind(null, formObjects));
+        item.addEventListener('input', isValid);
         break;
     }
   });
@@ -25,79 +25,40 @@ export function enableValidation(formObjects){
 // Валидация во время ввода
 // ########################
 
-function isValid (formObjects, evt){
-  const inputsValid=[];
-  let submitButton = {};
-
+function isValid (evt){
   // находим поле для вывода ошибки
-  const errField =
-    evt.target.nextElementSibling.hasAttribute(`[name="err-${evt.target.name}"]`) ?
-    evt.target.nextElementSibling :
-    evt.target.parentElement.querySelector(`[name="err-${evt.target.name}"]`);
+  const errField = document.querySelector(`[name="err-${evt.target.name}"]`);
+  const printed = new RegExp(evt.target.pattern, 'g');
 
   // проверка текущего поля
-  evt.target.validity.patternMismatch ? errField.textContent = evt.target.dataset.errorMessage:
-    !evt.target.validity.valid ? errField.textContent = evt.target.validationMessage :
+  evt.target.validity.patternMismatch ?
+  errField.textContent = evt.target.dataset.errorMessage :
+    !evt.target.validity.valid ?
+      errField.textContent = evt.target.validationMessage :
       errField.textContent = '';
 
-  // проверка всех полей формы и обнаружение кнопки
-  Object.keys(formObjects).forEach((key) => {
-    if(formObjects[key].type !== 'submit'){
-      inputsValid.push(formObjects[key].validity.valid);
-    } else {
-      submitButton=formObjects[key];
-    }
-  });
-
-  // запускаем переключатель для submit
-  toggleButton(submitButton, !inputsValid.some(valid => valid === false));
-}
-
-// ########################
-// Валидация после ввода
-// ########################
-
-function isFieldValid (formObjects, evt){
-  const inputsValid=[];
-  let submitButton = {};
-  const printed = new RegExp(evt.target.pattern, 'g'); ///[a-zа-яё\-\s]/gi;
-
-  // находим поле для вывода ошибки
-  const errField =
-    evt.target.nextElementSibling.hasAttribute(`[name="err-${evt.target.name}"]`) ?
-    evt.target.nextElementSibling :
-    evt.target.parentElement.querySelector(`[name="err-${evt.target.name}"]`);
-
-  // проверка текущего поля
-  if (evt.target.value.replace(printed, "").length > 0){
-    evt.target.setCustomValidity(evt.target.dataset.errorMessage);
-    errField.textContent = evt.target.validationMessage;
-    evt.target.focus();
-  } else {
-    evt.target.setCustomValidity("");
-    errField.textContent = '';
-  }
+  // ########################
+  // Проверки буфера обмена
+  // ########################
+  // if (evt.target.value.replace(printed, "").length > 0){
+  //   evt.target.setCustomValidity(evt.target.dataset.errorMessage);
+  //   errField.textContent = evt.target.validationMessage;
+  // } else {
+  //   evt.target.setCustomValidity("");
+  //   errField.textContent = '';
+  // }
 
   // стираем лишние пробелы
-  if(evt.target.value.replace(/[\s]/g, '').length < 1){
-    evt.target.value="";
-    evt.target.setCustomValidity("Поле незаполнено");
-    errField.textContent = evt.target.validationMessage;
-  } else {
-    evt.target.value= evt.target.value.replace(/(\s)+/g, '$1');
-  }
-
-  // проверка всех полей формы и обнаружение кнопки
-  Object.keys(formObjects).forEach((key) => {
-    if(formObjects[key].type !== 'submit'){
-      inputsValid.push(formObjects[key].validity.valid);
-    } else {
-      submitButton=formObjects[key];
-    }
-  });
+  // if(evt.target.value.replace(/[\s]/g, '').length < 1){
+  //   evt.target.value="";
+  //   evt.target.setCustomValidity("Поле незаполнено");
+  //   errField.textContent = evt.target.validationMessage;
+  // } else {
+  //   evt.target.value= evt.target.value.replace(/(\s)+/g, '$1');
+  // }
 
   // запускаем переключатель для submit
-  toggleButton(submitButton, !inputsValid.some(valid => valid === false));
+  toggleButton();
 }
 
 // ########################
@@ -106,14 +67,14 @@ function isFieldValid (formObjects, evt){
 
 function isKeyValid(evt) {
   // находим поле для вывода ошибки
-  const errField = evt.target.nextElementSibling; //evt.target.parentElement.querySelector(`[name="err-${evt.target.name}"]`);
+  const errField = document.querySelector(`[name="err-${evt.target.name}"]`);
 
-  errField.textContent = doubleKey(evt, ' ') ? "Два пробела подряд" :
+  errField.textContent = doubleKey(evt, ' ') ?
+    "Два пробела подряд" :
     // doubleKey(evt, '.') ? "Две точки подряд":
     doubleKey(evt, '-') ? "Два дефиса подряд": "";
 
   const printed = new RegExp(evt.target.pattern, 'gi'); //[a-zа-яё\-\s]/gi;
-
 
   if (!printed.test(evt.key)){
     evt.preventDefault();
@@ -141,37 +102,45 @@ function doubleKey(evt, key){
 // Переключатель кнопки
 // ########################
 
-function toggleButton(buttonObject, allFieldsValid) {
-  if (allFieldsValid){
-    buttonObject.classList.remove('popup__submit_disabled');
-    buttonObject.removeAttribute('disabled');
+function toggleButton() {
+  const button = currForm.form.button;
+
+  if (hasInvalidInput()){
+    button.classList.add(currForm.inactiveButtonClass);
+    button.setAttribute('disabled','disabled');
   } else {
-    buttonObject.classList.add('popup__submit_disabled');
-    buttonObject.setAttribute('disabled','disabled');
+    button.classList.remove(currForm.inactiveButtonClass);
+    button.removeAttribute('disabled');
   }
 }
+
+// ########################
+// Проверка всех форм на невалидность
+// ########################
+
+function hasInvalidInput() {
+  return Array.from(currForm.form).some((el) => !el.validity.valid);
+};
+
 
 // ########################
 // Удаление слушателей
 // ########################
 
-export function disableValidation(formObjects){
-
-  Object.keys(formObjects).forEach((key) => {
-    switch (formObjects[key].type) {
-      case 'text':
-        formObjects[key].removeEventListener('input', isValid.bind(null, formObjects));
-        formObjects[key].removeEventListener('keydown', isKeyValid);
-        formObjects[key].removeEventListener('change', isFieldValid.bind(null, formObjects));
-        break;
-      case 'url':
-        formObjects[key].removeEventListener('input', isValid.bind(null, formObjects));
-        break;
-      case 'submit':
-        // formObjects[key].removeEventListener('submit', disableValidation.bind(null, formObjects));
-        break;
-    }
-  });
+export function disableValidation(){
+  if(currForm.form){
+    toggleButton();
+    Array.from(currForm.form).forEach((item)=>{
+      switch (item.type) {
+        case 'text':
+          item.removeEventListener('input', isValid);
+          item.removeEventListener('keydown', isKeyValid);
+          break;
+        case 'url':
+          item.removeEventListener('input', isValid);
+          break;
+      }
+    });
+  }
+  currForm = {};
 }
-
-

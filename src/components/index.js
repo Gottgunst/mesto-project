@@ -1,9 +1,11 @@
-import { initialCards, newCards } from './data.js';
-import { gatherCard, renderCard } from './card.js';
-import { openPopup, closePopup, editFormHandler, addFormHandler, openPopupImage } from './modal.js';
 import { delCard, likeCard } from './buttons.js';
+import { gatherCard, renderCard } from './card.js';
+import { initialCards, newCards } from './data.js';
+import { addFormHandler, closePopup, editFormHandler, openPopup, openPopupImage } from './modal.js';
+import { enableValidation, disableValidation } from './validate.js';
 
 import '../page/index.css';
+
 
 // ######################
 // Конфигурация элементов
@@ -22,26 +24,24 @@ const profile = {
 // Формы
 const inputProfile = {
   form: document.forms.editInfo,
-  name: document.forms.editInfo.elements.name,
-  errName: document.querySelector('[name="err-name"]'),
-  subtitle: document.forms.editInfo.elements.subtitle,
-  errSubtitle: document.querySelector('[name="err-subtitle"]'),
   button: document.forms.editInfo.elements.button,
+  inactiveButtonClass: 'popup__submit_disabled',
+  // inputErrorClass: 'popup__field-error',
+  // errorClass: 'popup__error',
 };
 
 const inputImage = {
   form: document.forms.addImage,
-  title: document.forms.addImage.elements.title,
-  errTitle: document.querySelector('[name="err-title"]'),
-  url: document.forms.addImage.elements.url,
-  errUrl: document.querySelector('[name="err-url"]'),
   button: document.forms.addImage.elements.button,
+  inactiveButtonClass: 'popup__submit_disabled',
+  // inputErrorClass: 'popup__field-error',
+  // errorClass: 'popup__error',
 };
-
 
 // Кнопки вне форм
 const buttonEdit = document.querySelector('.profile__button_type_edit');
 const buttonAdd = document.querySelector('.profile__button_type_add');
+const buttonsClose = document.querySelectorAll('.popup__close');
 
 // Модальные окна
 const popupArray = document.querySelectorAll('.popup');
@@ -75,17 +75,28 @@ window.addEventListener('mousedown', (evt) => {
     delCard(evt);
 
   if(evt.target.classList.contains('element__image')){
-    const targetId = evt.target.closest('.element__wrapper').id;
-    const allCards = initialCards.concat(newCards);
-    const targetCard = allCards.filter(card => card._id === targetId);
-    openPopupImage(targetCard[0], imagePopup);
+    if(evt.target.getAttribute('data-init')==='true'){
+      const targetId = evt.target.closest('.element__wrapper').id;
+      // const allCards = initialCards.concat(newCards);
+      const targetCard = initialCards.filter(card => card._id === targetId);
+      openPopupImage(targetCard[0], imagePopup);
+    } else {
+      const card = {
+        title: evt.target.alt,
+        image: evt.target.src,
+        initial: false,
+      };
+      openPopupImage( card, imagePopup);
+    }
+
   }
 
   if(evt.target.classList.contains('popup__close')){
     closePopup();
-    // disableValidation(evt);
+    disableValidation();
   }
 });
+
 
 // После загрузки страницы сменяем display с "none" на "flex",
 // чтобы при первичной загрузке не было паразитной анимации
@@ -94,37 +105,35 @@ window.onload = popupArray.forEach(el => el.classList.add('popup_flexed'));
 // Связываем кнопки и модальные окна
 buttonEdit.addEventListener('click', () => {
   // Устанавливаем данные пользователя в поля ввода
-  inputProfile.name.value = profile.name.textContent;
-  inputProfile.subtitle.value = profile.subtitle.textContent;
+  inputProfile.form.name.value = profile.name.textContent;
+  inputProfile.form.subtitle.value = profile.subtitle.textContent;
   openPopup(popupEditProfile, inputProfile);
-  // enableValidation();
+  enableValidation(inputProfile);
 });
 
 buttonAdd.addEventListener('click', () => {
   openPopup(popupAddImage, inputImage);
-  // enableValidation();
+  enableValidation(inputImage);
 });
 
 // Связываем кнопки и обработчик данных
 inputProfile.form.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
-  editFormHandler(evt, profile, inputProfile);
+  editFormHandler(profile, inputProfile);
   closePopup();
-  // disableValidation();
+  disableValidation();
 });
 
 inputImage.form.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   //Получение → Сборка → Отображение данных карточки
-  renderCard( gatherCard( addFormHandler(evt, inputImage), templateCard), cardContainer);
+  renderCard( gatherCard( addFormHandler(inputImage), templateCard), cardContainer);
 
   closePopup();
   evt.target.reset();
-  // disableValidation();
-
-  //ТУТ блокировка кнопки сабмит
+  disableValidation();
 });
 
 

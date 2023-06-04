@@ -1,0 +1,10 @@
+.popup__error {
+  min-height: 12px;
+  padding-bottom: 8px;
+  color: var(--color__red);
+  font-size: var(--font-size__caption);
+  line-height: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
