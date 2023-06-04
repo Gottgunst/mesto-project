@@ -1,6 +1,6 @@
 import { initialCards, newCards } from './data.js';
 import { gatherCard, renderCard } from './card.js';
-import { openPopup, editFormHandler, addFormHandler, openPopupImage } from './modal.js';
+import { openPopup, editFormHandler, addFormHandler, openPopupImage, closePopup } from './modal.js';
 import { delCard, likeCard } from './buttons.js';
 
 import '../page/index.css';
@@ -23,7 +23,8 @@ const formEdit = document.forms.editInfo;
 const formAdd = document.forms.addImage;
 
 // Содержимое форм
-const inputProfile = { name:{}, subtitle:{}, button:{} };
+const inputProfile =
+  { name:{}, subtitle:{}, button:{} };
 inputProfile.name = formEdit.elements.name;
 inputProfile.subtitle = formEdit.elements.subtitle;
 inputProfile.button = formEdit.elements.button;
@@ -43,10 +44,11 @@ const popupEditProfile = document.querySelector('#popup-profile');
 const popupAddImage = document.querySelector('#popup-add');
 
 // Модальное окно с полноформатным изображением с подписью
-const imagePopup = { container:{}, image:{}, caption: {} };
-imagePopup.container = document.querySelector('#popup-image');
-imagePopup.image = imagePopup.container.querySelector('.popup__image');
-imagePopup.caption = imagePopup.container.querySelector('.popup__caption');
+const imagePopup = {
+  container: document.querySelector('#popup-image'),
+  image: document.querySelector('.popup__image'),
+  caption: document.querySelector('.popup__caption'),
+};
 
 // #####################
 // Инициализация функций
@@ -58,8 +60,8 @@ const initialElements = initialCards.map(cardObject => gatherCard(cardObject, te
 // Рендерим массив заготовленных элементов
 initialElements.forEach(el => renderCard(el, cardContainer));
 
-// Всплытие событий на блоке карточек
-cardContainer.addEventListener('click', (evt) => {
+// Всплытие событий клика мыши
+window.addEventListener('mousedown', (evt) => {
 
   if(evt.target.classList.contains('element__button-like'))
     likeCard(evt);
@@ -73,6 +75,9 @@ cardContainer.addEventListener('click', (evt) => {
     const targetCard = allCards.filter(card => card._id === targetId);
     openPopupImage(targetCard[0], imagePopup);
   }
+
+  if(evt.target.classList.contains('popup__close'))
+    closePopup(evt);
 
 });
 

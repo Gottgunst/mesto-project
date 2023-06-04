@@ -23,20 +23,20 @@ export function openPopup(popupElement, formObjects=undefined) {
 
 function clickHandler(formObjects=undefined, popupElement, escPopupBind, clickHandlerBind, evt){
 
-  switch (evt.target.className) {
-      case 'popup__close':
-      case 'popup__bg':
-        closePopup(evt);
-        document.removeEventListener('keydown', escPopupBind);
-        if(formObjects){
-            disableValidation(formObjects);
-            popupElement.removeEventListener('click', clickHandlerBind);
-        }
-        break;
-  }
+  // switch (evt.target.className) {
+  //     case 'popup__close':
+  //     case 'popup__bg':
+  //       closePopup(evt);
+  //       document.removeEventListener('keydown', escPopupBind);
+  //       if(formObjects){
+  //           disableValidation(formObjects);
+  //           popupElement.removeEventListener('click', clickHandlerBind);
+  //       }
+  //       break;
+  // }
 }
 
-function closePopup(evt) {
+export function closePopup(evt) {
   const popup = evt.target;
   popup.closest('.popup').classList.remove('popup_opened');
   fixPopup(false);
