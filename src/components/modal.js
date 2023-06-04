@@ -6,45 +6,27 @@ import { enableValidation, disableValidation } from './validate.js';
 // POP-UP Toggle Function
 // ######################
 
-export function openPopup(popupElement, formObjects=undefined) {
-  // если открываем модальное окно с формой, запускаем валидацию форм
+let currPopup = {}; // ссылка на открытый popup
+
+export function openPopup(popupElement) {
+
   fixPopup(true);
-  if(formObjects){
-    enableValidation(formObjects);
-  }
+  currPopup = popupElement;
   popupElement.classList.add('popup_opened');
+  document.addEventListener('keydown', escPopup);
 
-  const escPopupBind = escPopup.bind(null, popupElement);
-  const clickHandlerBind = clickHandler.bind(null, formObjects, popupElement, escPopupBind, clickHandlerBind);
-
-  document.addEventListener('keydown', escPopupBind);
-  popupElement.addEventListener('click', clickHandlerBind);
 }
 
-function clickHandler(formObjects=undefined, popupElement, escPopupBind, clickHandlerBind, evt){
-
-  // switch (evt.target.className) {
-  //     case 'popup__close':
-  //     case 'popup__bg':
-  //       closePopup(evt);
-  //       document.removeEventListener('keydown', escPopupBind);
-  //       if(formObjects){
-  //           disableValidation(formObjects);
-  //           popupElement.removeEventListener('click', clickHandlerBind);
-  //       }
-  //       break;
-  // }
-}
-
-export function closePopup(evt) {
-  const popup = evt.target;
-  popup.closest('.popup').classList.remove('popup_opened');
+export function closePopup() {
+  currPopup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', escPopup);
   fixPopup(false);
+  currPopup = {};
 }
 
-function escPopup(popupElement, evt) {
+function escPopup(evt) {
   if(evt.key === 'Escape'){
-    popupElement.querySelector('.popup__bg').click();
+    closePopup();
   }
 }
 
@@ -52,21 +34,18 @@ function escPopup(popupElement, evt) {
 // POP-UP Profile Form Data
 // ########################
 
-export function editFormHandler(evt, profile, input) {
-  evt.preventDefault();
+export function editFormHandler(profile, input) {
 
   profile.name.textContent = input.name.value;
   profile.subtitle.textContent = input.subtitle.value;
 
-  closePopup(evt);
 }
 
 // ########################
 // POP-UP Image Form Data
 // ########################
 
-export function addFormHandler(evt, input) {
-  evt.preventDefault();
+export function addFormHandler(input) {
 
   const newCard = {
     _id: genId(),
@@ -77,9 +56,6 @@ export function addFormHandler(evt, input) {
 
   newCards.push(newCard);
 
-  closePopup(evt);
-  evt.target.reset();
-
   return newCard;
 }
 
@@ -87,40 +63,41 @@ export function addFormHandler(evt, input) {
 // POP-UP Open Image
 // #################
 
-export function openPopupImage(cardObject, templatePopup) {
-
+export function openPopupImage(cardObject, imagePopup) {
   //обнуляю данные, чтобы избавиться от паразитных данных прошлой итерации
-  templatePopup.image.sizes ='';
-  templatePopup.image.srcset ='';
-  templatePopup.image.src = '';
+  imagePopup.image.sizes ='';
+  imagePopup.image.srcset ='';
+  imagePopup.image.src = '';
 
-  templatePopup.caption.textContent = cardObject.title;
+  imagePopup.caption.textContent = cardObject.title;
 
   // если карточка из заготовленных используем расширенный функционал
   if(cardObject.initial) {
 
     // Обозначение свойства <img sizes="">
     // для правильной работы адаптивности <img scrset="">
-    templatePopup.image.sizes = `(max-width: 2000px) 100vw, 2000px`;
-    templatePopup.image.srcset = cardObject.images.map((img, index) =>
+    imagePopup.image.sizes = `(max-width: 2000px) 100vw, 2000px`;
+    imagePopup.image.srcset = cardObject.images.map((img, index) =>
       index===0 ? '':
       `${img} ${sliceExt(img)},`
     );
 
-    templatePopup.image.src = cardObject.image;
+    imagePopup.image.src = cardObject.image;
 
   } else {
 
-    templatePopup.image.src = cardObject.image;
+    imagePopup.image.src = cardObject.image;
 
   }
 
-  templatePopup.image.alt = cardObject.imageAlt || cardObject.title;
+  imagePopup.image.alt = cardObject.imageAlt || cardObject.title;
 
-  openPopup(templatePopup.container);
+  openPopup(imagePopup.container);
 }
 
-
+// #################
+// фиксации модального окна относительно положения прокрутки страницы
+// #################
 
 function fixPopup(fix) {
   if (fix) {
@@ -129,8 +106,8 @@ function fixPopup(fix) {
     document.body.classList.add('page_fixed');
   } else {
     // Открепляем body возвращая scroll сохранив позицию прокрутки
-    document.body.classList.remove('page_fixed');
     const scrollY = document.body.style.top;
+    document.body.classList.remove('page_fixed');
     window.scrollTo(0, parseInt(scrollY || '0') * -1);
     document.body.removeAttribute('style');
   }

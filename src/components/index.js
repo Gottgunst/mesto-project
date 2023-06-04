@@ -1,6 +1,6 @@
 import { initialCards, newCards } from './data.js';
 import { gatherCard, renderCard } from './card.js';
-import { openPopup, editFormHandler, addFormHandler, openPopupImage, closePopup } from './modal.js';
+import { openPopup, closePopup, editFormHandler, addFormHandler, openPopupImage } from './modal.js';
 import { delCard, likeCard } from './buttons.js';
 
 import '../page/index.css';
@@ -14,25 +14,30 @@ const cardContainer = document.querySelector('.elements__grid');
 const templateCard = document.querySelector('#templateCard').content;
 
 // Данные пользователя
-const profile = { name:{}, subtitle:{} };
-profile.name = document.querySelector('.profile__name');
-profile.subtitle = document.querySelector('.profile__subtitle');
+const profile = {
+  name: document.querySelector('.profile__name'),
+  subtitle: document.querySelector('.profile__subtitle')
+};
 
 // Формы
-const formEdit = document.forms.editInfo;
-const formAdd = document.forms.addImage;
+const inputProfile = {
+  form: document.forms.editInfo,
+  name: document.forms.editInfo.elements.name,
+  errName: document.querySelector('[name="err-name"]'),
+  subtitle: document.forms.editInfo.elements.subtitle,
+  errSubtitle: document.querySelector('[name="err-subtitle"]'),
+  button: document.forms.editInfo.elements.button,
+};
 
-// Содержимое форм
-const inputProfile =
-  { name:{}, subtitle:{}, button:{} };
-inputProfile.name = formEdit.elements.name;
-inputProfile.subtitle = formEdit.elements.subtitle;
-inputProfile.button = formEdit.elements.button;
+const inputImage = {
+  form: document.forms.addImage,
+  title: document.forms.addImage.elements.title,
+  errTitle: document.querySelector('[name="err-title"]'),
+  url: document.forms.addImage.elements.url,
+  errUrl: document.querySelector('[name="err-url"]'),
+  button: document.forms.addImage.elements.button,
+};
 
-const inputImage = { title:{}, url:{}, button:{} };
-inputImage.title = formAdd.elements.title;
-inputImage.url = formAdd.elements.url;
-inputImage.button = formAdd.elements.button;
 
 // Кнопки вне форм
 const buttonEdit = document.querySelector('.profile__button_type_edit');
@@ -76,9 +81,10 @@ window.addEventListener('mousedown', (evt) => {
     openPopupImage(targetCard[0], imagePopup);
   }
 
-  if(evt.target.classList.contains('popup__close'))
-    closePopup(evt);
-
+  if(evt.target.classList.contains('popup__close')){
+    closePopup();
+    // disableValidation(evt);
+  }
 });
 
 // После загрузки страницы сменяем display с "none" на "flex",
@@ -91,16 +97,36 @@ buttonEdit.addEventListener('click', () => {
   inputProfile.name.value = profile.name.textContent;
   inputProfile.subtitle.value = profile.subtitle.textContent;
   openPopup(popupEditProfile, inputProfile);
+  // enableValidation();
 });
 
 buttonAdd.addEventListener('click', () => {
   openPopup(popupAddImage, inputImage);
+  // enableValidation();
 });
 
 // Связываем кнопки и обработчик данных
-formEdit.addEventListener('submit', (evt) => {editFormHandler(evt, profile, inputProfile)});
-formAdd.addEventListener('submit', (evt) => {
-  renderCard( gatherCard( addFormHandler(evt, inputImage), templateCard), cardContainer)});
+inputProfile.form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+
+  editFormHandler(evt, profile, inputProfile);
+  closePopup();
+  // disableValidation();
+});
+
+inputImage.form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+
+  //Получение → Сборка → Отображение данных карточки
+  renderCard( gatherCard( addFormHandler(evt, inputImage), templateCard), cardContainer);
+
+  closePopup();
+  evt.target.reset();
+  // disableValidation();
+
+  //ТУТ блокировка кнопки сабмит
+});
+
 
 
 
