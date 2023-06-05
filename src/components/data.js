@@ -1,4 +1,4 @@
-export const newCards = [];
+// export const newCards = [];
 
 export const initialCards = [
   {

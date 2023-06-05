@@ -9,6 +9,7 @@ export function gatherCard(cardObject, templateCard) {
   const caption = cardElement.querySelector('.element__caption');
 
   cardElement.id = cardObject._id;
+  image.setAttribute('data-init', cardObject.initial);
 
   // проверяем данные карточки — она из базы данных или загружена пользователем
   if (cardObject.initial) {
@@ -28,5 +29,5 @@ export function gatherCard(cardObject, templateCard) {
 // ##########################
 
 export function renderCard(cardElement, cardContainer) {
-  cardContainer.append(cardElement);
+  cardContainer.prepend(cardElement);
 }
