@@ -2,13 +2,14 @@
 // Установка слушателей
 // ########################
 
-let currForm = {}; // ссылка на объект открытой формы
+window.currForm = {}; // ссылка на объект открытой формы
 
 export function enableValidation(formObjects){
-  currForm = formObjects;
+  window.currForm = formObjects;
 
   toggleButton();
-  Array.from(currForm.form).forEach((item)=>{
+
+  Array.from(window.currForm.form).forEach((item)=>{
     switch (item.type) {
       case 'text':
         item.addEventListener('input', isValid);
@@ -28,9 +29,8 @@ export function enableValidation(formObjects){
 function isValid (evt){
   // находим поле для вывода ошибки
   const errField = document.querySelector(`[name="err-${evt.target.name}"]`);
-  const printed = new RegExp(evt.target.pattern, 'g');
 
-  // проверка текущего поля
+  // проверка текущего поля согласно настройкам формы в HTML
   evt.target.validity.patternMismatch ?
   errField.textContent = evt.target.dataset.errorMessage :
     !evt.target.validity.valid ?
@@ -38,8 +38,10 @@ function isValid (evt){
       errField.textContent = '';
 
   // ########################
-  // Проверки буфера обмена
+  // ДОП. ОПЦИИ Проверки буфера обмена
   // ########################
+  // const printed = new RegExp(evt.target.pattern, 'g');
+
   // if (evt.target.value.replace(printed, "").length > 0){
   //   evt.target.setCustomValidity(evt.target.dataset.errorMessage);
   //   errField.textContent = evt.target.validationMessage;
@@ -62,17 +64,17 @@ function isValid (evt){
 }
 
 // ########################
-// Проверка ввода символов
+// ДОП. ОПЦИИ Проверка ввода символов
 // ########################
 
 function isKeyValid(evt) {
   // находим поле для вывода ошибки
   const errField = document.querySelector(`[name="err-${evt.target.name}"]`);
 
-  errField.textContent = doubleKey(evt, ' ') ?
+  errField.textContent = hasDoubleKey(evt, ' ') ?
     "Два пробела подряд" :
     // doubleKey(evt, '.') ? "Две точки подряд":
-    doubleKey(evt, '-') ? "Два дефиса подряд": "";
+    hasDoubleKey(evt, '-') ? "Два дефиса подряд": "";
 
   const printed = new RegExp(evt.target.pattern, 'gi'); //[a-zа-яё\-\s]/gi;
 
@@ -86,10 +88,10 @@ function isKeyValid(evt) {
 }
 
 // ########################
-// Проверка на двойные символы
+// ДОП. ОПЦИИ Проверка на двойные символы
 // ########################
 
-function doubleKey(evt, key){
+function hasDoubleKey(evt, key){
   if (evt.key === key && evt.key === evt.target.value[evt.target.value.length-1] ||
       evt.key === key && evt.key === evt.target.value[evt.target.value.length-2] ){
     evt.preventDefault();
@@ -103,13 +105,13 @@ function doubleKey(evt, key){
 // ########################
 
 function toggleButton() {
-  const button = currForm.form.button;
+  const button = window.currForm.button;
 
   if (hasInvalidInput()){
-    button.classList.add(currForm.inactiveButtonClass);
+    button.classList.add(window.currForm.inactiveButtonClass);
     button.setAttribute('disabled','disabled');
   } else {
-    button.classList.remove(currForm.inactiveButtonClass);
+    button.classList.remove(window.currForm.inactiveButtonClass);
     button.removeAttribute('disabled');
   }
 }
@@ -119,7 +121,7 @@ function toggleButton() {
 // ########################
 
 function hasInvalidInput() {
-  return Array.from(currForm.form).some((el) => !el.validity.valid);
+  return Array.from(window.currForm.form).some((el) => !el.validity.valid);
 };
 
 
@@ -128,19 +130,14 @@ function hasInvalidInput() {
 // ########################
 
 export function disableValidation(){
-  if(currForm.form){
+  if(window.currForm.form){
     toggleButton();
-    Array.from(currForm.form).forEach((item)=>{
-      switch (item.type) {
-        case 'text':
-          item.removeEventListener('input', isValid);
-          item.removeEventListener('keydown', isKeyValid);
-          break;
-        case 'url':
-          item.removeEventListener('input', isValid);
-          break;
-      }
+    Array.from(window.currForm.form).forEach((item)=>{
+      item.removeEventListener('input', isValid);
+      item.removeEventListener('keydown', isKeyValid);
     });
   }
-  currForm = {};
+
+  // очищаем с задержкой, на всякий случай
+  setTimeout(()=>window.currForm = {}, 50);
 }

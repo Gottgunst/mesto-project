@@ -1,11 +1,10 @@
 import { delCard, likeCard } from './buttons.js';
 import { gatherCard, renderCard } from './card.js';
 import { initialCards, newCards } from './data.js';
-import { addFormHandler, closePopup, editFormHandler, openPopup, openPopupImage } from './modal.js';
+import { handleImageFormSubmit, closePopup, handleProfileFormSubmit, openPopup, openPopupImage } from './modal.js';
 import { enableValidation, disableValidation } from './validate.js';
 
 import '../page/index.css';
-
 
 // ######################
 // Конфигурация элементов
@@ -38,10 +37,6 @@ const inputImage = {
   // errorClass: 'popup__error',
 };
 
-// Кнопки вне форм
-const buttonEdit = document.querySelector('.profile__button_type_edit');
-const buttonAdd = document.querySelector('.profile__button_type_add');
-const buttonsClose = document.querySelectorAll('.popup__close');
 
 // Модальные окна
 const popupArray = document.querySelectorAll('.popup');
@@ -68,12 +63,34 @@ initialElements.forEach(el => renderCard(el, cardContainer));
 // Всплытие событий клика мыши
 window.addEventListener('mousedown', (evt) => {
 
-  if(evt.target.classList.contains('element__button-like'))
+  // Кнопка редактирования профиля
+  if(evt.target.classList.contains('profile__button_type_edit')){
+    // Устанавливаем данные пользователя в поля ввода
+    inputProfile.form.name.value = profile.name.textContent;
+    inputProfile.form.subtitle.value = profile.subtitle.textContent;
+
+    openPopup(popupEditProfile, inputProfile);
+    enableValidation(inputProfile);
+  } else
+
+  // Кнопка добавления изображения
+  if(evt.target.classList.contains('profile__button_type_add')){
+    openPopup(popupAddImage, inputImage);
+    enableValidation(inputImage);
+  } else
+
+  // ловим лайк
+  if(evt.target.classList.contains('element__button-like')){
     likeCard(evt);
+  } else
 
-  if(evt.target.classList.contains('element__button-del'))
-    delCard(evt);
+  // ловим закрытие модального окна
+  if(evt.target.classList.contains('popup__close')){
+    closePopup();
+    disableValidation();
+  } else
 
+  // ловим открытие карточки
   if(evt.target.classList.contains('element__image')){
     if(evt.target.getAttribute('data-init')==='true'){
       const targetId = evt.target.closest('.element__wrapper').id;
@@ -81,20 +98,19 @@ window.addEventListener('mousedown', (evt) => {
       const targetCard = initialCards.filter(card => card._id === targetId);
       openPopupImage(targetCard[0], imagePopup);
     } else {
-      const card = {
+      openPopupImage({
         title: evt.target.alt,
         image: evt.target.src,
         initial: false,
-      };
-      openPopupImage( card, imagePopup);
+      }, imagePopup);
     }
+  } else
 
+  // ловим удаление карточки
+  if(evt.target.classList.contains('element__button-del')){
+    delCard(evt);
   }
 
-  if(evt.target.classList.contains('popup__close')){
-    closePopup();
-    disableValidation();
-  }
 });
 
 
@@ -102,25 +118,13 @@ window.addEventListener('mousedown', (evt) => {
 // чтобы при первичной загрузке не было паразитной анимации
 window.onload = popupArray.forEach(el => el.classList.add('popup_flexed'));
 
-// Связываем кнопки и модальные окна
-buttonEdit.addEventListener('click', () => {
-  // Устанавливаем данные пользователя в поля ввода
-  inputProfile.form.name.value = profile.name.textContent;
-  inputProfile.form.subtitle.value = profile.subtitle.textContent;
-  openPopup(popupEditProfile, inputProfile);
-  enableValidation(inputProfile);
-});
-
-buttonAdd.addEventListener('click', () => {
-  openPopup(popupAddImage, inputImage);
-  enableValidation(inputImage);
-});
 
 // Связываем кнопки и обработчик данных
 inputProfile.form.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
-  editFormHandler(profile, inputProfile);
+  handleProfileFormSubmit(profile, inputProfile);
+
   closePopup();
   disableValidation();
 });
@@ -129,7 +133,7 @@ inputImage.form.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   //Получение → Сборка → Отображение данных карточки
-  renderCard( gatherCard( addFormHandler(inputImage), templateCard), cardContainer);
+  renderCard( gatherCard( handleImageFormSubmit(inputImage), templateCard), cardContainer);
 
   closePopup();
   evt.target.reset();

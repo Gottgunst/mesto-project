@@ -6,24 +6,25 @@ import { disableValidation } from './validate.js';
 // POP-UP Toggle Function
 // ######################
 
-let currPopup = {}; // ссылка на открытый popup
+window.currPopup = {}; // ссылка на открытый popup
 
 export function openPopup(popupElement) {
   fixPopup(true);
-  currPopup = popupElement;
+  window.currPopup = popupElement;
   popupElement.classList.add('popup_opened');
-  document.addEventListener('keydown', escPopup);
-
+  document.addEventListener('keydown', handleEscape);
 }
 
 export function closePopup() {
-  currPopup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', escPopup);
+  window.currPopup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', handleEscape);
   fixPopup(false);
-  currPopup = {};
+
+  // очищаем текущий попап с задержкой, иначе classList не успевает
+  setTimeout(()=>window.currPopup = {}, 50);
 }
 
-function escPopup(evt) {
+function handleEscape(evt) {
   if(evt.key === 'Escape'){
     closePopup();
     disableValidation();
@@ -34,7 +35,7 @@ function escPopup(evt) {
 // POP-UP Profile Form Data
 // ########################
 
-export function editFormHandler(profile, {form}) {
+export function handleProfileFormSubmit(profile, {form}) {
   profile.name.textContent = form.name.value;
   profile.subtitle.textContent = form.subtitle.value;
 }
@@ -43,7 +44,7 @@ export function editFormHandler(profile, {form}) {
 // POP-UP Image Form Data
 // ########################
 
-export function addFormHandler({form}) {
+export function handleImageFormSubmit({form}) {
   const newCard = {
     _id: genId(),
     title: form.title.value,
@@ -67,7 +68,6 @@ export function openPopupImage(cardObject, imagePopup) {
 
   imagePopup.caption.textContent = cardObject.title;
 
-  console.log(cardObject);
   // если карточка из заготовленных используем расширенный функционал
   if(cardObject.initial) {
     // Обозначение свойства <img sizes="">
@@ -77,15 +77,9 @@ export function openPopupImage(cardObject, imagePopup) {
       index===0 ? '':
       `${img} ${sliceExt(img)},`
     );
-
-    imagePopup.image.src = cardObject.image;
-
-  } else {
-
-    imagePopup.image.src = cardObject.image;
-
   }
 
+  imagePopup.image.src = cardObject.image;
   imagePopup.image.alt = cardObject.imageAlt || cardObject.title;
 
   openPopup(imagePopup.container);

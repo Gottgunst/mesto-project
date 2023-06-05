@@ -9,14 +9,13 @@ export function gatherCard(cardObject, templateCard) {
   const caption = cardElement.querySelector('.element__caption');
 
   cardElement.id = cardObject._id;
+  image.setAttribute('data-init', cardObject.initial);
 
   // проверяем данные карточки — она из базы данных или загружена пользователем
   if (cardObject.initial) {
     image.src = cardObject.images[0];
-    image.setAttribute('data-init',true);
   } else {
     image.src = cardObject.image;
-    image.setAttribute('data-init',false);
   }
 
   image.alt = cardObject.imageAlt || cardObject.title;
