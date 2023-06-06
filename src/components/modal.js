@@ -1,6 +1,4 @@
-// import { newCards } from './data.js';
 import { genId, sliceExt } from "./utils.js";
-import { disableValidation } from './validate.js';
 
 // ######################
 // POP-UP Toggle Function
@@ -19,15 +17,11 @@ export function closePopup() {
   window.currPopup.classList.remove('popup_opened');
   document.removeEventListener('keydown', handleEscape);
   fixPopup(false);
-
-  // очищаем текущий попап с задержкой, иначе classList не успевает
-  setTimeout(()=>window.currPopup = {}, 50);
 }
 
 function handleEscape(evt) {
   if(evt.key === 'Escape'){
     closePopup();
-    disableValidation();
   }
 }
 
@@ -52,7 +46,6 @@ export function handleImageFormSubmit({form}) {
     initial: false,
   };
 
-  // newCards.push(newCard);
   return newCard;
 }
 
@@ -62,8 +55,8 @@ export function handleImageFormSubmit({form}) {
 
 export function openPopupImage(cardObject, imagePopup) {
   //обнуляю данные, чтобы избавиться от паразитных данных прошлой итерации
-  imagePopup.image.sizes ='';
-  imagePopup.image.srcset ='';
+  imagePopup.image.sizes = '';
+  imagePopup.image.srcset = '';
   imagePopup.image.src = '';
 
   imagePopup.caption.textContent = cardObject.title;
