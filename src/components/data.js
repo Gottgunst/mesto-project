@@ -1,5 +1,3 @@
-// export const newCards = [];
-
 export const initialCards = [
   {
     _id: '11i38',
@@ -62,7 +60,6 @@ export const initialCards = [
     title: 'Коралловые рифы',
     image: new URL('../images/places/coral-riff.jpeg', import.meta.url),
     images: [
-
       new URL('../images/places/coral-riff_thumb.jpeg', import.meta.url),
       new URL('../images/places/coral-riff_480w.jpeg', import.meta.url),
       new URL('../images/places/coral-riff_1143w.jpeg', import.meta.url),
