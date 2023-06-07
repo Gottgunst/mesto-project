@@ -2,22 +2,13 @@
 // Установка слушателей
 // ########################
 
-window.currForm = {}; // ссылка на объект открытой формы
+export function enableValidation(formsPrefs){
+  const inputFields = document.querySelectorAll(`.${formsPrefs.inputSelector}`);
 
-export function enableValidation(formObjects){
-  window.currForm = formObjects;
-
-  toggleButton();
-
-  Array.from(window.currForm.form).forEach((item)=>{
-    switch (item.type) {
-      case 'text':
-        item.addEventListener('input', isValid);
-        item.addEventListener('keydown', isKeyValid);
-        break;
-      case 'url':
-        item.addEventListener('input', isValid);
-        break;
+  Array.from(inputFields).forEach((field) => {
+    field.addEventListener('input', (evt) => isValid(evt, formsPrefs));
+    if(field.type === 'text'){
+      field.addEventListener('keydown', (evt) => isKeyValid(evt, formsPrefs));
     }
   });
 }
@@ -26,9 +17,9 @@ export function enableValidation(formObjects){
 // Валидация во время ввода
 // ########################
 
-function isValid (evt){
+function isValid (evt, formsPrefs){
   // находим поле для вывода ошибки
-  const errField = document.querySelector(`[name="err-${evt.target.name}"]`);
+  const errField = document.querySelector(`${formsPrefs.errorFieldSelector}${evt.target.name}"]`);
 
   // проверка текущего поля согласно настройкам формы в HTML
   evt.target.validity.patternMismatch ?
@@ -60,16 +51,16 @@ function isValid (evt){
   // }
 
   // запускаем переключатель для submit
-  toggleButton();
+  toggleButton(formsPrefs);
 }
 
 // ########################
 // ДОП. ОПЦИИ Проверка ввода символов
 // ########################
 
-function isKeyValid(evt) {
+function isKeyValid(evt, formsPrefs) {
   // находим поле для вывода ошибки
-  const errField = document.querySelector(`[name="err-${evt.target.name}"]`);
+  const errField = document.querySelector(`${formsPrefs.errorFieldSelector}${evt.target.name}"]`);
 
   errField.textContent = hasDoubleKey(evt, ' ') ?
     "Два пробела подряд" :
@@ -104,14 +95,14 @@ function hasDoubleKey(evt, key){
 // Переключатель кнопки
 // ########################
 
-function toggleButton() {
-  const button = window.currForm.button;
+export function toggleButton(formsPrefs) {
+  const button = window.currPopup.querySelector(`.${formsPrefs.submitButtonSelector}`);
 
-  if (hasInvalidInput()){
-    button.classList.add(window.currForm.inactiveButtonClass);
+  if (hasInvalidInput(formsPrefs)){
+    button.classList.add(formsPrefs.inactiveButtonClass);
     button.setAttribute('disabled','disabled');
   } else {
-    button.classList.remove(window.currForm.inactiveButtonClass);
+    button.classList.remove(formsPrefs.inactiveButtonClass);
     button.removeAttribute('disabled');
   }
 }
@@ -120,24 +111,6 @@ function toggleButton() {
 // Проверка всех форм на невалидность
 // ########################
 
-function hasInvalidInput() {
-  return Array.from(window.currForm.form).some((el) => !el.validity.valid);
-};
-
-
-// ########################
-// Удаление слушателей
-// ########################
-
-export function disableValidation(){
-  if(window.currForm.form){
-    toggleButton();
-    Array.from(window.currForm.form).forEach((item)=>{
-      item.removeEventListener('input', isValid);
-      item.removeEventListener('keydown', isKeyValid);
-    });
-  }
-
-  // очищаем с задержкой, на всякий случай
-  setTimeout(()=>window.currForm = {}, 50);
+function hasInvalidInput(formsPrefs) {
+  return Array.from(window.currPopup.querySelectorAll(`.${formsPrefs.inputSelector}`)).some((el) => !el.validity.valid);
 }

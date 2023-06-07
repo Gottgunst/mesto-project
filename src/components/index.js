@@ -19,24 +19,28 @@ const profile = {
   subtitle: document.querySelector('.profile__subtitle')
 };
 
-
 // Формы
-const inputProfile = {
-  form: '.popup__form[name="editInfo"]',
-  button: '.popup__submit',
+const formsPrefs = {
+  formSelector: 'popup__form',
+  inputSelector: 'popup__field',
+  submitButtonSelector: 'popup__submit',
   inactiveButtonClass: 'popup__submit_disabled',
+  errorFieldSelector: '[name="err-', // ${evt.target.name}"]
   // inputErrorClass: 'popup__field-error',
   // errorClass: 'popup__error',
+};
+
+const inputProfile = {
+  form: document.querySelector('.popup__form[name="editInfo"]'),
+  name: document.querySelector('.popup__field[name="name"]'),
+  subtitle: document.querySelector('.popup__field[name="subtitle"]'),
 };
 
 const inputImage = {
-  form: '.popup__form[name="addImage"]',
-  button: '.popup__submit',
-  inactiveButtonClass: 'popup__submit_disabled',
-  // inputErrorClass: 'popup__field-error',
-  // errorClass: 'popup__error',
+  form: document.querySelector('.popup__form[name="addImage"]'),
+  title: document.querySelector('.popup__field[name="title"]'),
+  url: document.querySelector('.popup__field[name="url"]'),
 };
-
 
 // Модальные окна
 const popupArray = document.querySelectorAll('.popup');
@@ -65,25 +69,31 @@ const initialElements = initialCards.map(cardObject => gatherCard(cardObject, te
 // Рендерим массив заготовленных элементов
 initialElements.forEach(el => renderCard(el, cardContainer));
 
-// Запуск валидации на указанных формах
-enableValidation(inputProfile);
-enableValidation(inputImage);
+// Запуск валидации на всех формах
+enableValidation(formsPrefs);
 
 // Подключение событий клика на кнопки
-buttonAddImage.addEventListener('mousedown',() =>
-  openPopup(popupAddImage, inputImage)
-);
-buttonEditProfile.addEventListener('mousedown',() => {
-  // Устанавливаем данные пользователя в поля ввода
-  inputProfile.form.name.value = profile.name.textContent;
-  inputProfile.form.subtitle.value = profile.subtitle.textContent;
-  openPopup(popupEditProfile, inputProfile);
+buttonAddImage.addEventListener('mousedown',() => {
+  openPopup(popupAddImage, inputImage);
 });
-buttonsClosePopup.forEach(button =>
-  button.addEventListener('mousedown',() =>
-    closePopup()
-));
+buttonEditProfile.addEventListener('mousedown',() => {
 
+  const evtInput = new Event('input');
+
+  // Устанавливаем данные пользователя в поля ввода
+  inputProfile.name.value = profile.name.textContent;
+  inputProfile.subtitle.value = profile.subtitle.textContent;
+
+  openPopup(popupEditProfile, inputProfile);
+
+  // запускаем событие ввода данных на заполненных полях, для сброса валидации
+  // если модальное окно было очищено вручную от данных и закрыто без сохранения
+  inputProfile.name.dispatchEvent(evtInput);
+  inputProfile.subtitle.dispatchEvent(evtInput);
+});
+
+buttonsClosePopup.forEach(button =>
+  button.addEventListener('mousedown',() => closePopup()));
 
 // После загрузки страницы сменяем display с "none" на "flex",
 // чтобы при первичной загрузке не было паразитной анимации
@@ -102,7 +112,7 @@ inputImage.form.addEventListener('submit', (evt) => {
   renderCard( gatherCard( handleImageFormSubmit(inputImage), templateCard, imagePopup), cardContainer);
   closePopup();
   evt.target.reset();
-  toggleButton();
+  toggleButton(formsPrefs);
 });
 
 
