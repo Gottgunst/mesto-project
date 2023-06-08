@@ -1,3 +1,25 @@
+// Подводные леса
+// https://3d.gottgunst.ru/img/nerpa-in-forest_1131w.jpeg
+
+// Рыбка в кораллах
+// https://3d.gottgunst.ru/img/coral-riff_1143w.jpeg
+
+// Чистый лёд
+// https://3d.gottgunst.ru/img/baikal-ice_1102w.jpeg
+
+// Подводный сад
+// https://3d.gottgunst.ru/img/baikal-garden_1152w.jpeg
+
+// Колонии Байкала
+// https://3d.gottgunst.ru/img/green-coral_1050w.jpeg
+
+// Нерпа в сиянии водорослей
+// https://3d.gottgunst.ru/img/nerpa-shine_1134w.jpeg
+
+// аватар
+// https://3d.gottgunst.ru/img/ava.png
+
+
 export const initialCards = [
   {
     _id: '11i38',

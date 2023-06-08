@@ -23,7 +23,7 @@ const profile = {
 };
 
 // Получаем данные c сервера
-const initProfile = await getData(pathConfig.userPath);
+window.userData = await getData(pathConfig.userPath);
 const initCards = await getData(pathConfig.cardsPath);
 
 // Формы
@@ -71,9 +71,9 @@ const buttonsClosePopup = document.querySelectorAll('.popup__close');
 // #####################
 
 // Заполняем сайт данными с сервера
-profile.name.textContent = initProfile.name;
-profile.subtitle.textContent = initProfile.about;
-profile.avatar.src = initProfile.avatar;
+profile.name.textContent = window.userData.name;
+profile.subtitle.textContent = window.userData.about;
+profile.avatar.src = window.userData.avatar;
 
 const initialElements = initCards.map(cardObject => gatherCard(cardObject, templateCard, imagePopup));
 initialElements.forEach(el => renderCard(el, cardContainer));

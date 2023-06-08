@@ -62,4 +62,19 @@ export async function postData(path, postBody){
     });
 }
 
-
+export async function delData(path, postBody){
+  return fetch(`${config.baseUrl}${path}`,
+    {
+      method: 'DELETE',
+      headers: config.headers,
+      body: JSON.stringify(postBody)
+    })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+    })
+    .catch(err => {
+      return `Ошибка: ${err.status}`;
+    });
+}

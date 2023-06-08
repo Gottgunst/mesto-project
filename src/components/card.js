@@ -1,3 +1,4 @@
+import { getData, pathConfig } from './api';
 import { delCard, likeCard } from './buttons';
 import { openPopupImage } from './modal';
 
@@ -10,6 +11,7 @@ export function gatherCard(cardObject, templateCard, imagePopup) {
   const cardElement = templateCard.querySelector('.element__wrapper').cloneNode(true);
   const image = cardElement.querySelector('.element__image');
   const caption = cardElement.querySelector('.element__caption');
+  const delButton = cardElement.querySelector('.element__button-del');
 
   cardElement.id = cardObject._id;
   caption.textContent = cardObject.name;
@@ -26,9 +28,10 @@ export function gatherCard(cardObject, templateCard, imagePopup) {
 
   image.addEventListener('click', () => openPopupImage(cardObject, imagePopup));
   cardElement.querySelector('.element__button-like').addEventListener('click', likeCard);
-  cardElement.querySelector('.element__button-del').addEventListener('click', delCard);
 
-
+  cardObject.owner._id === window.userData._id ?
+    delButton.addEventListener('click', delCard) :
+    delButton.parentNode.removeChild(delButton);
 
   return cardElement;
 }
