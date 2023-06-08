@@ -82,10 +82,10 @@ initialElements.forEach(el => renderCard(el, cardContainer));
 enableValidation(formsPrefs);
 
 // Подключение событий клика на кнопки
-buttonAddImage.addEventListener('mousedown',() => {
+buttonAddImage.addEventListener('click',() => {
   openPopup(popupAddImage, inputImage);
 });
-buttonEditProfile.addEventListener('mousedown',() => {
+buttonEditProfile.addEventListener('click',() => {
 
   const evtInput = new Event('input');
 
@@ -121,7 +121,7 @@ inputImage.form.addEventListener('submit', async (evt) => {
   renderCard( gatherCard( await handleImageFormSubmit(inputImage) , templateCard, imagePopup), cardContainer);
   closePopup();
   evt.target.reset();
-  toggleButton(formsPrefs);
+  toggleButton(formsPrefs, inputImage.form);
 });
 
 

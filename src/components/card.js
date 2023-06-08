@@ -24,9 +24,9 @@ export function gatherCard(cardObject, templateCard, imagePopup) {
   image.alt = cardObject.title; // cardObject.imageAlt ||
   cardElement.querySelector('.element__likes-counter').textContent = cardObject.likes.length>0 ? cardObject.likes.length : "";
 
-  image.addEventListener('mousedown', () => openPopupImage(cardObject, imagePopup));
-  cardElement.querySelector('.element__button-like').addEventListener('mousedown', likeCard);
-  cardElement.querySelector('.element__button-del').addEventListener('mousedown', delCard);
+  image.addEventListener('click', () => openPopupImage(cardObject, imagePopup));
+  cardElement.querySelector('.element__button-like').addEventListener('click', likeCard);
+  cardElement.querySelector('.element__button-del').addEventListener('click', delCard);
 
 
 

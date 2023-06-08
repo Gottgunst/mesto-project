@@ -3,21 +3,29 @@
 // ########################
 
 export function enableValidation(formsPrefs){
-  const inputFields = document.querySelectorAll(`.${formsPrefs.inputSelector}`);
+  const allForms = document.querySelectorAll(`.${formsPrefs.formSelector}`);
 
-  Array.from(inputFields).forEach((field) => {
-    field.addEventListener('input', (evt) => isValid(evt, formsPrefs));
-    if(field.type === 'text'){
-      field.addEventListener('keydown', (evt) => isKeyValid(evt, formsPrefs));
-    }
+
+  Array.from(allForms).forEach(form => {
+    const inputFields = form.querySelectorAll(`.${formsPrefs.inputSelector}`);
+
+    Array.from(inputFields).forEach((field) => {
+      field.addEventListener('input', (evt) => isValid(evt, formsPrefs, form));
+      if(field.type === 'text'){
+        field.addEventListener('keydown', (evt) => isKeyValid(evt, formsPrefs));
+      }
   });
+  });
+
+
+
 }
 
 // ########################
 // Валидация во время ввода
 // ########################
 
-function isValid (evt, formsPrefs){
+function isValid (evt, formsPrefs, form){
   // находим поле для вывода ошибки
   const errField = document.querySelector(`${formsPrefs.errorFieldSelector}${evt.target.name}"]`);
 
@@ -51,7 +59,7 @@ function isValid (evt, formsPrefs){
   // }
 
   // запускаем переключатель для submit
-  toggleButton(formsPrefs);
+  toggleButton(formsPrefs, form);
 }
 
 // ########################
@@ -95,10 +103,10 @@ function hasDoubleKey(evt, key){
 // Переключатель кнопки
 // ########################
 
-export function toggleButton(formsPrefs) {
-  const button = window.currPopup.querySelector(`.${formsPrefs.submitButtonSelector}`);
+export function toggleButton(formsPrefs, form) {
+  const button = form.querySelector(`.${formsPrefs.submitButtonSelector}`);
 
-  if (hasInvalidInput(formsPrefs)){
+  if (hasInvalidInput(formsPrefs, form)){
     button.classList.add(formsPrefs.inactiveButtonClass);
     button.setAttribute('disabled','disabled');
   } else {
@@ -111,6 +119,6 @@ export function toggleButton(formsPrefs) {
 // Проверка всех форм на невалидность
 // ########################
 
-function hasInvalidInput(formsPrefs) {
-  return Array.from(window.currPopup.querySelectorAll(`.${formsPrefs.inputSelector}`)).some((el) => !el.validity.valid);
+function hasInvalidInput(formsPrefs, form) {
+  return Array.from(form.querySelectorAll(`.${formsPrefs.inputSelector}`)).some((el) => !el.validity.valid);
 }
