@@ -12,20 +12,23 @@ export function gatherCard(cardObject, templateCard, imagePopup) {
   const caption = cardElement.querySelector('.element__caption');
 
   cardElement.id = cardObject._id;
-  caption.textContent = cardObject.title;
+  caption.textContent = cardObject.name;
 
   // проверяем данные карточки — она из базы данных или загружена пользователем
-  if (cardObject.initial) {
-    image.src = cardObject.images[0];
-  } else {
-    image.src = cardObject.image;
-  }
-  image.setAttribute('data-init', cardObject.initial);
-  image.alt = cardObject.imageAlt || cardObject.title;
+  // if (cardObject.initial) {
+  //   image.src = cardObject.images[0];
+  // } else {
+  image.src = cardObject.link;
+  // }
+  // image.setAttribute('data-init', cardObject.initial);
+  image.alt = cardObject.title; // cardObject.imageAlt ||
+  cardElement.querySelector('.element__likes-counter').textContent = cardObject.likes.length>0 ? cardObject.likes.length : "";
 
   image.addEventListener('mousedown', () => openPopupImage(cardObject, imagePopup));
   cardElement.querySelector('.element__button-like').addEventListener('mousedown', likeCard);
   cardElement.querySelector('.element__button-del').addEventListener('mousedown', delCard);
+
+
 
   return cardElement;
 }

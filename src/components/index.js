@@ -1,9 +1,11 @@
+import { getData, pathConfig } from './api.js';
 import { gatherCard, renderCard } from './card.js';
-import { initialCards } from './data.js';
+// import { initialCards } from './data.js';
 import { handleImageFormSubmit, handleProfileFormSubmit, openPopup, closePopup } from './modal.js';
 import { enableValidation, toggleButton } from './validate.js';
 
 import '../page/index.css';
+
 
 // ######################
 // Конфигурация элементов
@@ -16,8 +18,13 @@ const templateCard = document.querySelector('#templateCard').content;
 // Данные пользователя
 const profile = {
   name: document.querySelector('.profile__name'),
-  subtitle: document.querySelector('.profile__subtitle')
+  subtitle: document.querySelector('.profile__subtitle'),
+  avatar: document.querySelector('.profile__avatar')
 };
+
+// Получаем данные c сервера
+const initProfile = await getData(pathConfig.userPath);
+const initCards = await getData(pathConfig.cardsPath);
 
 // Формы
 const formsPrefs = {
@@ -63,10 +70,12 @@ const buttonsClosePopup = document.querySelectorAll('.popup__close');
 // Инициализация функций
 // #####################
 
-// Получаем массив заготовленных элементов
-const initialElements = initialCards.map(cardObject => gatherCard(cardObject, templateCard, imagePopup));
+// Заполняем сайт данными с сервера
+profile.name.textContent = initProfile.name;
+profile.subtitle.textContent = initProfile.about;
+profile.avatar.src = initProfile.avatar;
 
-// Рендерим массив заготовленных элементов
+const initialElements = initCards.map(cardObject => gatherCard(cardObject, templateCard, imagePopup));
 initialElements.forEach(el => renderCard(el, cardContainer));
 
 // Запуск валидации на всех формах
@@ -106,10 +115,10 @@ inputProfile.form.addEventListener('submit', (evt) => {
   closePopup();
 });
 
-inputImage.form.addEventListener('submit', (evt) => {
+inputImage.form.addEventListener('submit', async (evt) => {
   evt.preventDefault();
   //Получение → Сборка → Отображение данных карточки
-  renderCard( gatherCard( handleImageFormSubmit(inputImage), templateCard, imagePopup), cardContainer);
+  renderCard( gatherCard( await handleImageFormSubmit(inputImage) , templateCard, imagePopup), cardContainer);
   closePopup();
   evt.target.reset();
   toggleButton(formsPrefs);

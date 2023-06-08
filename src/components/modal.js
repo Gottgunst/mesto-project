@@ -1,3 +1,4 @@
+import { patchData, pathConfig, postData } from './api.js';
 import { genId, sliceExt } from "./utils.js";
 
 // ######################
@@ -29,23 +30,28 @@ function handleEscape(evt) {
 // POP-UP Profile Form Data
 // ########################
 
-export function handleProfileFormSubmit(profile, {form}) {
-  profile.name.textContent = form.name.value;
-  profile.subtitle.textContent = form.subtitle.value;
+export async function handleProfileFormSubmit(profile, {form}) {
+
+  const res = await patchData(pathConfig.userPath,
+  {
+    name: form.name.value,
+    about: form.subtitle.value
+  });
+
+  profile.name.textContent = res.name;
+  profile.subtitle.textContent = res.about;
 }
 
 // ########################
 // POP-UP Image Form Data
 // ########################
 
-export function handleImageFormSubmit({form}) {
-  const newCard = {
-    _id: genId(),
-    title: form.title.value,
-    image: form.url.value,
-    initial: false,
-  };
-
+export async function handleImageFormSubmit({form}) {
+  const newCard = await postData(pathConfig.cardsPath,
+  {
+    name: form.title.value,
+    link: form.url.value,
+  });
   return newCard;
 }
 
@@ -55,25 +61,25 @@ export function handleImageFormSubmit({form}) {
 
 export function openPopupImage(cardObject, imagePopup) {
   //обнуляю данные, чтобы избавиться от паразитных данных прошлой итерации
-  imagePopup.image.sizes = '';
-  imagePopup.image.srcset = '';
+  // imagePopup.image.sizes = '';
+  // imagePopup.image.srcset = '';
   imagePopup.image.src = '';
 
-  imagePopup.caption.textContent = cardObject.title;
+  imagePopup.caption.textContent = cardObject.name;
 
   // если карточка из заготовленных используем расширенный функционал
-  if(cardObject.initial) {
-    // Обозначение свойства <img sizes="">
-    // для правильной работы адаптивности <img scrset="">
-    imagePopup.image.sizes = `(max-width: 2000px) 100vw, 2000px`;
-    imagePopup.image.srcset = cardObject.images.map((img, index) =>
-      index===0 ? '':
-      `${img} ${sliceExt(img)},`
-    );
-  }
+  // if(cardObject.initial) {
+  //   // Обозначение свойства <img sizes="">
+  //   // для правильной работы адаптивности <img scrset="">
+  //   imagePopup.image.sizes = `(max-width: 2000px) 100vw, 2000px`;
+  //   imagePopup.image.srcset = cardObject.images.map((img, index) =>
+  //     index===0 ? '':
+  //     `${img} ${sliceExt(img)},`
+  //   );
+  // }
 
-  imagePopup.image.src = cardObject.image;
-  imagePopup.image.alt = cardObject.imageAlt || cardObject.title;
+  imagePopup.image.src = cardObject.link;
+  imagePopup.image.alt = cardObject.name; //cardObject.imageAlt ||
 
   openPopup(imagePopup.container);
 }

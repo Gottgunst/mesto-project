@@ -11,8 +11,30 @@ export const pathConfig = {
   cardsPath: '/cards'
 }
 
-export function getData(path){
-  return fetch(`${config.baseUrl}${path}`, {headers: config.headers})
+export async function getData(path){
+  return fetch(`${config.baseUrl}${path}`, {
+    method: 'GET',
+    headers: config.headers,
+  })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .then(data => {return data;})
+    .catch(err => {
+      return `Ошибка: ${err.status}`;
+    });
+}
+
+export async function patchData(path, patchBody){
+  return fetch(`${config.baseUrl}${path}`,
+    {
+      method: 'PATCH',
+      headers: config.headers,
+      body: JSON.stringify(patchBody)
+    })
     .then(res => {
       if (res.ok) {
         return res.json();
@@ -22,3 +44,22 @@ export function getData(path){
       return `Ошибка: ${err.status}`;
     });
 }
+
+export async function postData(path, postBody){
+  return fetch(`${config.baseUrl}${path}`,
+    {
+      method: 'POST',
+      headers: config.headers,
+      body: JSON.stringify(postBody)
+    })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+    })
+    .catch(err => {
+      return `Ошибка: ${err.status}`;
+    });
+}
+
+
