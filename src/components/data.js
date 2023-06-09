@@ -1,4 +1,24 @@
-// export const newCards = [];
+// Подводные леса
+// https://3d.gottgunst.ru/img/nerpa-in-forest_1131w.jpeg
+
+// Рыбка в кораллах
+// https://3d.gottgunst.ru/img/coral-riff_1143w.jpeg
+
+// Чистый лёд
+// https://3d.gottgunst.ru/img/baikal-ice_1102w.jpeg
+
+// Подводный сад
+// https://3d.gottgunst.ru/img/baikal-garden_1152w.jpeg
+
+// Колонии Байкала
+// https://3d.gottgunst.ru/img/green-coral_1050w.jpeg
+
+// Нерпа в сиянии водорослей
+// https://3d.gottgunst.ru/img/nerpa-shine_1134w.jpeg
+
+// аватар
+// https://3d.gottgunst.ru/img/ava.png
+
 
 export const initialCards = [
   {
@@ -62,7 +82,6 @@ export const initialCards = [
     title: 'Коралловые рифы',
     image: new URL('../images/places/coral-riff.jpeg', import.meta.url),
     images: [
-
       new URL('../images/places/coral-riff_thumb.jpeg', import.meta.url),
       new URL('../images/places/coral-riff_480w.jpeg', import.meta.url),
       new URL('../images/places/coral-riff_1143w.jpeg', import.meta.url),

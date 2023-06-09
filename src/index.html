@@ -17,9 +17,11 @@
   <main class="main">
 
     <section class="profile">
-      <img class='profile__avatar'
-        src="<%=require('../src/images/avatar/avatar_240w.jpeg')%>"
-        alt='Фотопортрет Кусто'>
+      <div class="profile__avatar-wrapper">
+        <img class='profile__avatar'
+          src="<%=require('../src/images/avatar/avatar_240w.jpeg')%>"
+          alt='Фотопортрет Кусто'>
+      </div>
       <div class="profile__info">
         <h1 class="profile__name">Жак-Ив Кусто</h1>
         <button class="button profile__button profile__button_type_edit" title="Редактировать" type="button" aria-label="Редактировать имя"></button>
@@ -35,7 +37,10 @@
               <button class="button element__button-del" title="Удалить" type="button" aria-label="Удалить фотокарточку"></button>
               <img class='element__image' src="<%=require('../src/images/filler.png')%>" alt="Заглушка">
               <h2 class="element__caption">Заглушка</h2>
-              <button class="button element__button-like" title="Нравится" type="button" aria-label="Нравится фотография"></button>
+              <div class="element__likes">
+                <button class="button element__button-like" title="Нравится" type="button" aria-label="Нравится фотография"></button>
+                <p class="element__likes-counter"></p>
+              </div>
             </article>
           </li></template>
       </ul>
@@ -52,11 +57,11 @@
     <div class="popup__container">
       <h2 class="popup__title">Редактировать профиль</h2>
       <form class="popup__form" name="editInfo" method="POST" novalidate >
-        <input type="text" name="name" class="popup__field" placeholder="Имя" required minlength="2" maxlength="42" pattern="[A-zА-яЁё\-\s]+" data-error-message="Можно латинские, кириллические буквы, дефис и пробел">
+        <input type="text" name="name" class="popup__field" placeholder="Имя" required minlength="2" maxlength="42" pattern="[A-zА-яЁё\-\s,]+" data-error-message="Можно латинские, кириллические буквы, дефис и пробел">
         <span class="popup__error" name="err-name"></span>
-        <input type="text" name="subtitle" class="popup__field" placeholder="О себе" required minlength="2" maxlength="42" pattern="[A-zА-яЁё\-\s]+" data-error-message="Можно латинские, кириллические буквы, дефис и пробел">
+        <input type="text" name="subtitle" class="popup__field" placeholder="О себе" required minlength="2" maxlength="42" pattern="[A-zА-яЁё\-\s,]+" data-error-message="Можно латинские, кириллические буквы, дефис и пробел">
         <span class="popup__error" name="err-subtitle"></span>
-        <button type="submit" name="button" class="popup__submit" aria-label="Сохранить изменения">Сохранить</button>
+        <button type="submit" name="button" class="popup__submit" data-text="Сохранить" aria-label="Сохранить изменения">Сохранить</button>
       </form>
       <button type="button" class="popup__cross popup__close" title="Закрыть" aria-label="Закрыть форму редактирования профиля"></button>
     </div>
@@ -67,11 +72,11 @@
     <div class="popup__container">
       <h2 class="popup__title">Новое место</h2>
       <form class="popup__form" name="addImage" method="POST" novalidate >
-        <input type="text" name="title" class="popup__field" placeholder="Название" required minlength="2" maxlength="42" pattern="[A-zА-яЁё\-\s]+" data-error-message="Можно латинские, кириллические буквы, дефис и пробел">
+        <input type="text" name="title" class="popup__field" placeholder="Название" required minlength="2" maxlength="42" pattern="[A-zА-яЁё\-\s,]+" data-error-message="Можно латинские, кириллические буквы, дефис и пробел">
         <span class="popup__error" name="err-title"></span>
         <input type="url" name="url" class="popup__field" placeholder="Ссылка на фотографию" required minlength="10" >
         <span class="popup__error" name="err-url"></span>
-        <button type="submit" name="button" class="popup__submit popup__submit_disabled" aria-label="Новая фотокарточка" disabled>Создать</button>
+        <button type="submit" name="button" class="popup__submit popup__submit_disabled" data-text="Создать" aria-label="Новая фотокарточка" disabled>Создать</button>
       </form>
       <button type="button" class="popup__cross popup__close" title="Закрыть" aria-label="Закрыть форму добавления фотографии"></button>
     </div>
@@ -88,6 +93,32 @@
     </div>
   </div>
 
+    <div class="popup" id="popup-avatar">
+      <div class="popup__bg popup__close"></div>
+      <div class="popup__container">
+        <h2 class="popup__title">Обновить аватар</h2>
+        <form class="popup__form" name="changeAvatar" method="POST" novalidate>
+          <input type="url" name="urlAvatar" class="popup__field" placeholder="Ссылка на аватар" required minlength="10">
+          <span class="popup__error" name="err-urlAvatar"></span>
+          <button type="submit" name="button" class="popup__submit popup__submit_disabled" data-text="Сохранить" aria-label="Подтверждение"
+            disabled>Сохранить</button>
+        </form>
+        <button type="button" class="popup__cross popup__close" title="Закрыть"
+          aria-label="Закрыть форму изменения аватара"></button>
+      </div>
+    </div>
+    <div class="popup" id="popup-delCard">
+      <div class="popup__bg popup__close"></div>
+      <div class="popup__container">
+        <h2 class="popup__title popup__title_type_del-card">Вы уверены?</h2>
+        <form class="popup__form" name="delCard" method="POST" novalidate>
+          <button type="submit" name="button" class="popup__submit" data-text="Да"
+            aria-label="Подтверждение">Да</button>
+        </form>
+        <button type="button" class="popup__cross popup__close" title="Закрыть"
+          aria-label="Закрыть форму удаления карточки"></button>
+      </div>
+    </div>
   <!-- <script src="./script/index.js" type="module"></script> -->
 </body>
 </html>

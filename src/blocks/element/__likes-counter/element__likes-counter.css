@@ -1,0 +1,7 @@
+.element__likes-counter {
+  margin: 0;
+  padding: 0;
+  color: var(--color__black);
+  text-align: center;
+  font-size: var(--font-size__like);
+}

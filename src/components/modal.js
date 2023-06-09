@@ -1,4 +1,4 @@
-import { genId, sliceExt } from "./utils.js";
+// import { genId, sliceExt } from "./utils.js";
 
 // ######################
 // POP-UP Toggle Function
@@ -25,57 +25,34 @@ function handleEscape(evt) {
   }
 }
 
-// ########################
-// POP-UP Profile Form Data
-// ########################
-
-export function handleProfileFormSubmit(profile, {form}) {
-  profile.name.textContent = form.name.value;
-  profile.subtitle.textContent = form.subtitle.value;
-}
-
-// ########################
-// POP-UP Image Form Data
-// ########################
-
-export function handleImageFormSubmit({form}) {
-  const newCard = {
-    _id: genId(),
-    title: form.title.value,
-    image: form.url.value,
-    initial: false,
-  };
-
-  return newCard;
-}
-
 // #################
 // POP-UP Open Image
 // #################
 
-export function openPopupImage(cardObject, imagePopup) {
+export function openPopupImage(cardObject, popupImage) {
+  console.log(popupImage);
   //обнуляю данные, чтобы избавиться от паразитных данных прошлой итерации
-  imagePopup.image.sizes = '';
-  imagePopup.image.srcset = '';
-  imagePopup.image.src = '';
+  // popupImage.image.sizes = '';
+  // popupImage.image.srcset = '';
+  popupImage.image.src = '';
 
-  imagePopup.caption.textContent = cardObject.title;
+  popupImage.caption.textContent = cardObject.name;
 
   // если карточка из заготовленных используем расширенный функционал
-  if(cardObject.initial) {
-    // Обозначение свойства <img sizes="">
-    // для правильной работы адаптивности <img scrset="">
-    imagePopup.image.sizes = `(max-width: 2000px) 100vw, 2000px`;
-    imagePopup.image.srcset = cardObject.images.map((img, index) =>
-      index===0 ? '':
-      `${img} ${sliceExt(img)},`
-    );
-  }
+  // if(cardObject.initial) {
+  //   // Обозначение свойства <img sizes="">
+  //   // для правильной работы адаптивности <img scrset="">
+  //   popupImage.image.sizes = `(max-width: 2000px) 100vw, 2000px`;
+  //   popupImage.image.srcset = cardObject.images.map((img, index) =>
+  //     index===0 ? '':
+  //     `${img} ${sliceExt(img)},`
+  //   );
+  // }
 
-  imagePopup.image.src = cardObject.image;
-  imagePopup.image.alt = cardObject.imageAlt || cardObject.title;
+  popupImage.image.src = cardObject.link;
+  popupImage.image.alt = cardObject.name; //cardObject.imageAlt ||
 
-  openPopup(imagePopup.container);
+  openPopup(popupImage.container);
 }
 
 // #################
@@ -95,4 +72,3 @@ function fixPopup(fix) {
     document.body.removeAttribute('style');
   }
 }
-
