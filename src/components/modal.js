@@ -55,6 +55,15 @@ export async function handleImageFormSubmit({form}) {
   return newCard;
 }
 
+export async function handleAvatarFormSubmit({form}) {
+  const url = new URL(form.urlAvatar.value);
+  const newAvatar = await workData(path.avatar, 'PATCH', {
+    avatar: url
+  });
+
+  return newAvatar;
+}
+
 // #################
 // POP-UP Open Image
 // #################

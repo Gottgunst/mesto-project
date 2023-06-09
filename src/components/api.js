@@ -19,8 +19,9 @@ export async function workData(path, method='GET', body){
     headers: config.headers,
   };
 
-  if(body) options.body = JSON.stringify(body);
-
+  if(body){
+    options.body = JSON.stringify(body);
+  }
   return fetch(`${config.baseUrl}${path}`, options)
     .then(res => {
       if (res.ok) {

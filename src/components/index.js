@@ -1,7 +1,7 @@
 import { path, workData } from './api.js';
 import { gatherCard, renderCard } from './card.js';
 // import { initialCards } from './data.js';
-import { handleImageFormSubmit, handleProfileFormSubmit, openPopup, closePopup } from './modal.js';
+import { handleImageFormSubmit, handleProfileFormSubmit, openPopup, closePopup, handleAvatarFormSubmit } from './modal.js';
 import { enableValidation, toggleButton } from './validate.js';
 
 import '../page/index.css';
@@ -19,7 +19,8 @@ const templateCard = document.querySelector('#templateCard').content;
 const profile = {
   name: document.querySelector('.profile__name'),
   subtitle: document.querySelector('.profile__subtitle'),
-  avatar: document.querySelector('.profile__avatar')
+  avatar: document.querySelector('.profile__avatar'),
+  avatarWrapper: document.querySelector('.profile__avatar-wrapper'),
 };
 
 // Получаем данные c сервера
@@ -49,10 +50,16 @@ const inputImage = {
   url: document.querySelector('.popup__field[name="url"]'),
 };
 
+const inputAvatar = {
+  form: document.querySelector('.popup__form[name="changeAvatar"]'),
+  url: document.querySelector('.popup__field[name="urlAvatar"]'),
+};
+
 // Модальные окна
 const popupArray = document.querySelectorAll('.popup');
 const popupEditProfile = document.querySelector('#popup-profile');
 const popupAddImage = document.querySelector('#popup-add');
+const popupEditAvatar = document.querySelector('#popup-avatar');
 
 // Модальное окно с полноформатным изображением с подписью
 const imagePopup = {
@@ -82,6 +89,10 @@ initialElements.forEach(el => renderCard(el, cardContainer, 'append'));
 enableValidation(formsPrefs);
 
 // Подключение событий клика на кнопки
+profile.avatarWrapper.addEventListener('click', ()=>{
+  openPopup(popupEditAvatar);
+});
+
 buttonAddImage.addEventListener('click',() => {
   openPopup(popupAddImage, inputImage);
 });
@@ -124,8 +135,15 @@ inputImage.form.addEventListener('submit', async (evt) => {
   toggleButton(formsPrefs, inputImage.form);
 });
 
-
-
+inputAvatar.form.addEventListener('submit', async (evt) => {
+  evt.preventDefault();
+  const avatar = document.querySelector('.profile__avatar');
+  const newAva = await handleAvatarFormSubmit(inputAvatar);
+  avatar.src = newAva.avatar;
+  closePopup();
+  evt.target.reset();
+  toggleButton(formsPrefs, inputAvatar.form);
+});
 
 
 
