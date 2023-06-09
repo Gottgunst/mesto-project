@@ -5,6 +5,7 @@ import { handleImageFormSubmit, handleProfileFormSubmit, openPopup, closePopup, 
 import { enableValidation, toggleButton } from './validate.js';
 
 import '../page/index.css';
+import { loadStatusButton } from './buttons.js';
 
 
 // ######################
@@ -42,17 +43,20 @@ const inputProfile = {
   form: document.querySelector('.popup__form[name="editInfo"]'),
   name: document.querySelector('.popup__field[name="name"]'),
   subtitle: document.querySelector('.popup__field[name="subtitle"]'),
+  button: document.querySelector('.popup__form[name="editInfo"] > .popup__submit'),
 };
 
 const inputImage = {
   form: document.querySelector('.popup__form[name="addImage"]'),
   title: document.querySelector('.popup__field[name="title"]'),
   url: document.querySelector('.popup__field[name="url"]'),
+  button: document.querySelector('.popup__form[name="addImage"] > .popup__submit'),
 };
 
 const inputAvatar = {
   form: document.querySelector('.popup__form[name="changeAvatar"]'),
   url: document.querySelector('.popup__field[name="urlAvatar"]'),
+  button: document.querySelector('.popup__form[name="changeAvatar"] > .popup__submit'),
 };
 
 // Модальные окна
@@ -90,12 +94,15 @@ enableValidation(formsPrefs);
 
 // Подключение событий клика на кнопки
 profile.avatarWrapper.addEventListener('click', ()=>{
+  // Устанавливаем адрес аватара в поля ввода
+  inputAvatar.url.value = profile.avatar.src;
   openPopup(popupEditAvatar);
 });
 
 buttonAddImage.addEventListener('click',() => {
   openPopup(popupAddImage, inputImage);
 });
+
 buttonEditProfile.addEventListener('click',() => {
 
   const evtInput = new Event('input');
@@ -120,16 +127,23 @@ buttonsClosePopup.forEach(button =>
 window.onload = popupArray.forEach(el => el.classList.add('popup_flexed'));
 
 // Связываем кнопки и обработчик данных
-inputProfile.form.addEventListener('submit', (evt) => {
+inputProfile.form.addEventListener('submit', async (evt) => {
   evt.preventDefault();
-  handleProfileFormSubmit(profile, inputProfile);
+
+  const stop = loadStatusButton(inputProfile.button);
+  await handleProfileFormSubmit(profile, inputProfile);
+  loadStatusButton(inputProfile.button, stop);
   closePopup();
 });
 
 inputImage.form.addEventListener('submit', async (evt) => {
   evt.preventDefault();
   //Получение → Сборка → Отображение данных карточки
+  const stop = loadStatusButton(inputImage.button);
+
   renderCard( gatherCard( await handleImageFormSubmit(inputImage) , templateCard, imagePopup), cardContainer, 'prepend');
+
+  loadStatusButton(inputImage.button, stop);
   closePopup();
   evt.target.reset();
   toggleButton(formsPrefs, inputImage.form);
@@ -138,8 +152,12 @@ inputImage.form.addEventListener('submit', async (evt) => {
 inputAvatar.form.addEventListener('submit', async (evt) => {
   evt.preventDefault();
   const avatar = document.querySelector('.profile__avatar');
+  const stop = loadStatusButton(inputAvatar.button);
+
   const newAva = await handleAvatarFormSubmit(inputAvatar);
   avatar.src = newAva.avatar;
+
+  loadStatusButton(inputAvatar.button, stop);
   closePopup();
   evt.target.reset();
   toggleButton(formsPrefs, inputAvatar.form);
