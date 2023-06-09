@@ -27,12 +27,12 @@ export async function workData(path, method='GET', body){
       if (res.ok) {
         return res.json();
       }
-      return Promise.reject(`Ошибка: ${res.status}`);
+      return Promise.reject(res);
     })
     .then(data => {return data;})
     .catch(err => {
-      console.warn(`Ошибка: ${err.status}`);
-      console.error(err);
-      // return `Ошибка: ${err.status}`;
+      console.warn(`Ошибка: ${err.status} / Тип: ${err.type}` );
+      console.log(err);
+      // return 'default';
     });
 }
