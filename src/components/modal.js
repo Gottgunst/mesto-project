@@ -1,4 +1,3 @@
-import { path, workData } from './api.js';
 // import { genId, sliceExt } from "./utils.js";
 
 // ######################
@@ -24,44 +23,6 @@ function handleEscape(evt) {
   if(evt.key === 'Escape'){
     closePopup();
   }
-}
-
-// ########################
-// POP-UP Profile Form Data
-// ########################
-
-export async function handleProfileFormSubmit(profile, {form}) {
-
-  const res = await workData(path.user, 'patch',
-  {
-    name: form.name.value,
-    about: form.subtitle.value
-  });
-
-  profile.name.textContent = res.name;
-  profile.subtitle.textContent = res.about;
-}
-
-// ########################
-// POP-UP Image Form Data
-// ########################
-
-export async function handleImageFormSubmit({form}) {
-  const newCard = await workData(path.cards, 'post',
-  {
-    name: form.title.value,
-    link: form.url.value,
-  });
-  return newCard;
-}
-
-export async function handleAvatarFormSubmit({form}) {
-  const url = new URL(form.urlAvatar.value);
-  const newAvatar = await workData(path.avatar, 'PATCH', {
-    avatar: url
-  });
-
-  return newAvatar;
 }
 
 // #################

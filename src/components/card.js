@@ -1,4 +1,3 @@
-import { getData, pathConfig } from './api';
 import { delCard, likeCard } from './buttons';
 import { openPopupImage } from './modal';
 

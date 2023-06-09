@@ -1,7 +1,8 @@
 import { path, workData } from './api.js';
 import { gatherCard, renderCard } from './card.js';
 // import { initialCards } from './data.js';
-import { handleImageFormSubmit, handleProfileFormSubmit, openPopup, closePopup, handleAvatarFormSubmit } from './modal.js';
+import { handleImageFormSubmit, handleProfileFormSubmit, handleAvatarFormSubmit } from './input.js';
+import { openPopup, closePopup } from './modal.js';
 import { enableValidation, toggleButton } from './validate.js';
 
 import '../page/index.css';
