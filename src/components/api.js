@@ -30,5 +30,9 @@ export async function workData(path, method='GET', body){
       return Promise.reject(`Ошибка: ${res.status}`);
     })
     .then(data => {return data;})
-    .catch(err => {return `Ошибка: ${err.status}`;});
+    .catch(err => {
+      console.warn(`Ошибка: ${err.status}`);
+      console.error(err);
+      // return `Ошибка: ${err.status}`;
+    });
 }
