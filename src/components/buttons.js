@@ -17,17 +17,9 @@ export async function likeCard(evt) {
 // Button Del Function
 // ######################
 
-export function delCard(evt) {
-  if (evt.target.closest('.element__wrapper').querySelector('.element__button-like_active')) {
-    if (confirm('Вы удаляете любимую фотографию?')){
-      evt.target.closest('.element__wrapper').remove();
-    }
-  }
-  else {
-    evt.target.closest('.element__wrapper').remove();
-  }
-
-  workData(`${path.cards}/${evt.target.closest('.element__wrapper').id}`, 'delete');
+export function delCard(card) {
+  card.remove();
+  workData(`${path.cards}/${card.id}`, 'delete');
 }
 
 // #################

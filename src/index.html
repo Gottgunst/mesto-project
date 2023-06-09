@@ -107,6 +107,18 @@
           aria-label="Закрыть форму изменения аватара"></button>
       </div>
     </div>
+    <div class="popup" id="popup-delCard">
+      <div class="popup__bg popup__close"></div>
+      <div class="popup__container">
+        <h2 class="popup__title popup__title_type_del-card">Вы уверены?</h2>
+        <form class="popup__form" name="delCard" method="POST" novalidate>
+          <button type="submit" name="button" class="popup__submit" data-text="Да"
+            aria-label="Подтверждение">Да</button>
+        </form>
+        <button type="button" class="popup__cross popup__close" title="Закрыть"
+          aria-label="Закрыть форму удаления карточки"></button>
+      </div>
+    </div>
   <!-- <script src="./script/index.js" type="module"></script> -->
 </body>
 </html>

@@ -6,7 +6,7 @@ import { openPopup, closePopup } from './modal.js';
 import { enableValidation, toggleButton } from './validate.js';
 
 import '../page/index.css';
-import { loadStatusButton } from './buttons.js';
+import { delCard, loadStatusButton } from './buttons.js';
 
 
 // ######################
@@ -60,14 +60,25 @@ const inputAvatar = {
   button: document.querySelector('.popup__form[name="changeAvatar"] > .popup__submit'),
 };
 
+const inputDelCard = {
+  form: document.querySelector('.popup__form[name="delCard"]'),
+  button: document.querySelector('.popup__form[name="delCard"] > .popup__submit'),
+};
+
 // Модальные окна
 const popupArray = document.querySelectorAll('.popup');
 const popupEditProfile = document.querySelector('#popup-profile');
 const popupAddImage = document.querySelector('#popup-add');
 const popupEditAvatar = document.querySelector('#popup-avatar');
+const popupDelCard = {
+  container: document.querySelector('#popup-delCard'),
+  title: document.querySelector('.popup__title_type_del-card'),
+  button: inputDelCard.button,
+}
+
 
 // Модальное окно с полноформатным изображением с подписью
-const imagePopup = {
+const popupImage = {
   container: document.querySelector('#popup-image'),
   image: document.querySelector('.popup__image'),
   caption: document.querySelector('.popup__caption'),
@@ -87,7 +98,7 @@ profile.name.textContent = window.userData.name;
 profile.subtitle.textContent = window.userData.about;
 profile.avatar.src = window.userData.avatar;
 
-const initialElements = initCards.map(cardObject => gatherCard(cardObject, templateCard, imagePopup));
+const initialElements = initCards.map(cardObject => gatherCard(cardObject, templateCard, popupImage, popupDelCard));
 initialElements.forEach(el => renderCard(el, cardContainer, 'append'));
 
 // Запуск валидации на всех формах
@@ -101,7 +112,7 @@ profile.avatarWrapper.addEventListener('click', ()=>{
 });
 
 buttonAddImage.addEventListener('click',() => {
-  openPopup(popupAddImage, inputImage);
+  openPopup(popupAddImage);
 });
 
 buttonEditProfile.addEventListener('click',() => {
@@ -112,7 +123,7 @@ buttonEditProfile.addEventListener('click',() => {
   inputProfile.name.value = profile.name.textContent;
   inputProfile.subtitle.value = profile.subtitle.textContent;
 
-  openPopup(popupEditProfile, inputProfile);
+  openPopup(popupEditProfile);
 
   // запускаем событие ввода данных на заполненных полях, для сброса валидации
   // если модальное окно было очищено вручную от данных и закрыто без сохранения
@@ -142,7 +153,7 @@ inputImage.form.addEventListener('submit', async (evt) => {
   //Получение → Сборка → Отображение данных карточки
   const stop = loadStatusButton(inputImage.button);
 
-  renderCard( gatherCard( await handleImageFormSubmit(inputImage) , templateCard, imagePopup), cardContainer, 'prepend');
+  renderCard( gatherCard( await handleImageFormSubmit(inputImage) , templateCard, popupImage, popupDelCard), cardContainer, 'prepend');
 
   loadStatusButton(inputImage.button, stop);
   closePopup();
@@ -164,5 +175,8 @@ inputAvatar.form.addEventListener('submit', async (evt) => {
   toggleButton(formsPrefs, inputAvatar.form);
 });
 
-
-
+inputDelCard.form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  delCard(window.cardToDelete);
+  closePopup();
+});

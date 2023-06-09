@@ -29,29 +29,30 @@ function handleEscape(evt) {
 // POP-UP Open Image
 // #################
 
-export function openPopupImage(cardObject, imagePopup) {
+export function openPopupImage(cardObject, popupImage) {
+  console.log(popupImage);
   //обнуляю данные, чтобы избавиться от паразитных данных прошлой итерации
-  // imagePopup.image.sizes = '';
-  // imagePopup.image.srcset = '';
-  imagePopup.image.src = '';
+  // popupImage.image.sizes = '';
+  // popupImage.image.srcset = '';
+  popupImage.image.src = '';
 
-  imagePopup.caption.textContent = cardObject.name;
+  popupImage.caption.textContent = cardObject.name;
 
   // если карточка из заготовленных используем расширенный функционал
   // if(cardObject.initial) {
   //   // Обозначение свойства <img sizes="">
   //   // для правильной работы адаптивности <img scrset="">
-  //   imagePopup.image.sizes = `(max-width: 2000px) 100vw, 2000px`;
-  //   imagePopup.image.srcset = cardObject.images.map((img, index) =>
+  //   popupImage.image.sizes = `(max-width: 2000px) 100vw, 2000px`;
+  //   popupImage.image.srcset = cardObject.images.map((img, index) =>
   //     index===0 ? '':
   //     `${img} ${sliceExt(img)},`
   //   );
   // }
 
-  imagePopup.image.src = cardObject.link;
-  imagePopup.image.alt = cardObject.name; //cardObject.imageAlt ||
+  popupImage.image.src = cardObject.link;
+  popupImage.image.alt = cardObject.name; //cardObject.imageAlt ||
 
-  openPopup(imagePopup.container);
+  openPopup(popupImage.container);
 }
 
 // #################
