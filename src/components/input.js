@@ -1,4 +1,6 @@
 import { path, workData } from './api.js';
+import { delCard } from './buttons.js';
+import { openPopup } from './modal.js';
 
 // ########################
 // Profile Form Data
@@ -36,4 +38,23 @@ export async function handleAvatarFormSubmit({form}) {
   return await workData(path.avatar, 'PATCH', {
     avatar: form.urlAvatar.value
   });
+}
+
+// ########################
+// Delete Card popup
+// ########################
+
+export function handleCardDelate(evt, popupDelCard){
+  openPopup(popupDelCard.container);
+
+  window.cardToDelete = evt.target.closest('.element__wrapper');
+
+  if (evt.target.closest('.element__wrapper').querySelector('.element__button-like_active')){
+    popupDelCard.title.textContent = 'Любимую карточку?';
+    popupDelCard.button.textContent = 'Удалить';
+  } else {
+    popupDelCard.title.textContent = 'Вы уверены?'
+    popupDelCard.button.textContent = 'Да';
+  }
+
 }
