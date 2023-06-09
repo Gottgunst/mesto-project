@@ -41,6 +41,6 @@ export function gatherCard(cardObject, templateCard, imagePopup) {
 // Image Card Render Function
 // ##########################
 
-export function renderCard(cardElement, cardContainer) {
-  cardContainer.prepend(cardElement);
+export function renderCard(cardElement, cardContainer, way='prepend') {
+  cardContainer[way](cardElement);
 }
