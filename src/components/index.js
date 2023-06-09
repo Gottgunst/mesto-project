@@ -1,9 +1,11 @@
-import { initialCards, newCards } from './data.js';
+import { path, workData } from './api.js';
 import { gatherCard, renderCard } from './card.js';
-import { openPopup, editFormHandler, addFormHandler, openPopupImage } from './modal.js';
-import { delCard, likeCard } from './buttons.js';
+// import { initialCards } from './data.js';
+import { handleImageFormSubmit, handleProfileFormSubmit, openPopup, closePopup, handleAvatarFormSubmit } from './modal.js';
+import { enableValidation, toggleButton } from './validate.js';
 
 import '../page/index.css';
+
 
 // ######################
 // Конфигурация элементов
@@ -14,92 +16,134 @@ const cardContainer = document.querySelector('.elements__grid');
 const templateCard = document.querySelector('#templateCard').content;
 
 // Данные пользователя
-const profile = { name:{}, subtitle:{} };
-profile.name = document.querySelector('.profile__name');
-profile.subtitle = document.querySelector('.profile__subtitle');
+const profile = {
+  name: document.querySelector('.profile__name'),
+  subtitle: document.querySelector('.profile__subtitle'),
+  avatar: document.querySelector('.profile__avatar'),
+  avatarWrapper: document.querySelector('.profile__avatar-wrapper'),
+};
+
+// Получаем данные c сервера
+window.userData = await workData(path.user);
+const initCards = await workData(path.cards);
 
 // Формы
-const formEdit = document.forms.editInfo;
-const formAdd = document.forms.addImage;
+const formsPrefs = {
+  formSelector: 'popup__form',
+  inputSelector: 'popup__field',
+  submitButtonSelector: 'popup__submit',
+  inactiveButtonClass: 'popup__submit_disabled',
+  errorFieldSelector: '[name="err-', // ${evt.target.name}"]
+  // inputErrorClass: 'popup__field-error',
+  // errorClass: 'popup__error',
+};
 
-// Содержимое форм
-const inputProfile = { name:{}, subtitle:{}, button:{} };
-inputProfile.name = formEdit.elements.name;
-inputProfile.subtitle = formEdit.elements.subtitle;
-inputProfile.button = formEdit.elements.button;
+const inputProfile = {
+  form: document.querySelector('.popup__form[name="editInfo"]'),
+  name: document.querySelector('.popup__field[name="name"]'),
+  subtitle: document.querySelector('.popup__field[name="subtitle"]'),
+};
 
-const inputImage = { title:{}, url:{}, button:{} };
-inputImage.title = formAdd.elements.title;
-inputImage.url = formAdd.elements.url;
-inputImage.button = formAdd.elements.button;
+const inputImage = {
+  form: document.querySelector('.popup__form[name="addImage"]'),
+  title: document.querySelector('.popup__field[name="title"]'),
+  url: document.querySelector('.popup__field[name="url"]'),
+};
 
-// Кнопки вне форм
-const buttonEdit = document.querySelector('.profile__button_type_edit');
-const buttonAdd = document.querySelector('.profile__button_type_add');
+const inputAvatar = {
+  form: document.querySelector('.popup__form[name="changeAvatar"]'),
+  url: document.querySelector('.popup__field[name="urlAvatar"]'),
+};
 
 // Модальные окна
 const popupArray = document.querySelectorAll('.popup');
 const popupEditProfile = document.querySelector('#popup-profile');
 const popupAddImage = document.querySelector('#popup-add');
+const popupEditAvatar = document.querySelector('#popup-avatar');
 
 // Модальное окно с полноформатным изображением с подписью
-const templatePopup = { container:{}, image:{}, caption: {} };
-templatePopup.container = document.querySelector('#popup-image');
-templatePopup.image = templatePopup.container.querySelector('.popup__image');
-templatePopup.caption = templatePopup.container.querySelector('.popup__caption');
+const imagePopup = {
+  container: document.querySelector('#popup-image'),
+  image: document.querySelector('.popup__image'),
+  caption: document.querySelector('.popup__caption'),
+};
+
+// Кнопки
+const buttonEditProfile = document.querySelector('.profile__button_type_edit');
+const buttonAddImage = document.querySelector('.profile__button_type_add');
+const buttonsClosePopup = document.querySelectorAll('.popup__close');
 
 // #####################
 // Инициализация функций
 // #####################
 
-// Получаем массив заготовленных элементов
-const initialElements = initialCards.map(cardObject => gatherCard(cardObject, templateCard));
+// Заполняем сайт данными с сервера
+profile.name.textContent = window.userData.name;
+profile.subtitle.textContent = window.userData.about;
+profile.avatar.src = window.userData.avatar;
 
-// Рендерим массив заготовленных элементов
-initialElements.forEach(el => renderCard(el, cardContainer));
+const initialElements = initCards.map(cardObject => gatherCard(cardObject, templateCard, imagePopup));
+initialElements.forEach(el => renderCard(el, cardContainer, 'append'));
 
-// Всплытие событий на блоке карточек
-cardContainer.addEventListener('click', (evt) => {
-  switch (evt.target.className) {
-    case 'button element__button-del':
-      delCard(evt);
-      break;
-    case 'button element__button-like':
-      likeCard(evt);
-      break;
-    case 'element__image':
-      const targetId = evt.target.closest('.element__wrapper').id;
-      const allCards = initialCards.concat(newCards);
-      const targetCard = allCards.filter(card => card._id === targetId);
-      openPopupImage(targetCard[0], templatePopup);
-      break;
-  }
+// Запуск валидации на всех формах
+enableValidation(formsPrefs);
+
+// Подключение событий клика на кнопки
+profile.avatarWrapper.addEventListener('click', ()=>{
+  openPopup(popupEditAvatar);
 });
+
+buttonAddImage.addEventListener('click',() => {
+  openPopup(popupAddImage, inputImage);
+});
+buttonEditProfile.addEventListener('click',() => {
+
+  const evtInput = new Event('input');
+
+  // Устанавливаем данные пользователя в поля ввода
+  inputProfile.name.value = profile.name.textContent;
+  inputProfile.subtitle.value = profile.subtitle.textContent;
+
+  openPopup(popupEditProfile, inputProfile);
+
+  // запускаем событие ввода данных на заполненных полях, для сброса валидации
+  // если модальное окно было очищено вручную от данных и закрыто без сохранения
+  inputProfile.name.dispatchEvent(evtInput);
+  inputProfile.subtitle.dispatchEvent(evtInput);
+});
+
+buttonsClosePopup.forEach(button =>
+  button.addEventListener('mousedown',() => closePopup()));
 
 // После загрузки страницы сменяем display с "none" на "flex",
 // чтобы при первичной загрузке не было паразитной анимации
 window.onload = popupArray.forEach(el => el.classList.add('popup_flexed'));
 
-// Связываем кнопки и модальные окна
-buttonEdit.addEventListener('click', () => {
-  // Устанавливаем данные пользователя в поля ввода
-  inputProfile.name.value = profile.name.textContent;
-  inputProfile.subtitle.value = profile.subtitle.textContent;
-  openPopup(popupEditProfile, inputProfile);
-});
-
-buttonAdd.addEventListener('click', () => {
-  // Очищаем поля ввода
-  formAdd.reset();
-  openPopup(popupAddImage, inputImage);
-});
-
 // Связываем кнопки и обработчик данных
-formEdit.addEventListener('submit', (evt) => {editFormHandler(evt, profile, inputProfile)});
-formAdd.addEventListener('submit', (evt) => {
-  renderCard( gatherCard( addFormHandler(evt, inputImage), templateCard), cardContainer)});
+inputProfile.form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  handleProfileFormSubmit(profile, inputProfile);
+  closePopup();
+});
 
+inputImage.form.addEventListener('submit', async (evt) => {
+  evt.preventDefault();
+  //Получение → Сборка → Отображение данных карточки
+  renderCard( gatherCard( await handleImageFormSubmit(inputImage) , templateCard, imagePopup), cardContainer, 'prepend');
+  closePopup();
+  evt.target.reset();
+  toggleButton(formsPrefs, inputImage.form);
+});
 
+inputAvatar.form.addEventListener('submit', async (evt) => {
+  evt.preventDefault();
+  const avatar = document.querySelector('.profile__avatar');
+  const newAva = await handleAvatarFormSubmit(inputAvatar);
+  avatar.src = newAva.avatar;
+  closePopup();
+  evt.target.reset();
+  toggleButton(formsPrefs, inputAvatar.form);
+});
 
 
 

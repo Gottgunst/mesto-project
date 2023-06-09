@@ -1,32 +1,55 @@
+import { getData, pathConfig } from './api';
+import { delCard, likeCard } from './buttons';
+import { openPopupImage } from './modal';
+
 // #########################
 // Image Card Crate Function
 // #########################
 
-export function gatherCard(cardObject, templateCard) {
+export function gatherCard(cardObject, templateCard, imagePopup) {
 
   const cardElement = templateCard.querySelector('.element__wrapper').cloneNode(true);
   const image = cardElement.querySelector('.element__image');
   const caption = cardElement.querySelector('.element__caption');
+  const delButton = cardElement.querySelector('.element__button-del');
+  const counter = cardElement.querySelector('.element__likes-counter');
 
   cardElement.id = cardObject._id;
+  caption.textContent = cardObject.name;
 
   // проверяем данные карточки — она из базы данных или загружена пользователем
-  if (cardObject.initial) {
-    image.src = cardObject.images[0];
-  } else {
-    image.src = cardObject.image;
+  // if (cardObject.initial) {
+  //   image.src = cardObject.images[0];
+  // } else {
+  image.src = cardObject.link;
+  // }
+  // image.setAttribute('data-init', cardObject.initial);
+  image.alt = cardObject.title; // cardObject.imageAlt ||
+
+  if(cardObject.likes.length>0) {
+    counter.textContent = cardObject.likes.length;
+    if(cardObject.likes.some(user => user._id === window.userData._id))
+      cardElement.querySelector('.element__button-like')
+        .classList.add('element__button-like_active');
+  }else{
+    counter.textContent = "";
   }
 
-  image.alt = cardObject.imageAlt || cardObject.title;
-  caption.textContent = cardObject.title;
+  image.addEventListener('click', () => openPopupImage(cardObject, imagePopup));
+  cardElement.querySelector('.element__button-like').addEventListener('click', likeCard);
+
+  cardObject.owner._id === window.userData._id ?
+    delButton.addEventListener('click', delCard) :
+    delButton.parentNode.removeChild(delButton);
 
   return cardElement;
 }
+
 
 // ##########################
 // Image Card Render Function
 // ##########################
 
-export function renderCard(cardElement, cardContainer) {
-  cardContainer.append(cardElement);
+export function renderCard(cardElement, cardContainer, way='prepend') {
+  cardContainer[way](cardElement);
 }
