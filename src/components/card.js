@@ -12,6 +12,7 @@ export function gatherCard(cardObject, templateCard, imagePopup) {
   const image = cardElement.querySelector('.element__image');
   const caption = cardElement.querySelector('.element__caption');
   const delButton = cardElement.querySelector('.element__button-del');
+  const counter = cardElement.querySelector('.element__likes-counter');
 
   cardElement.id = cardObject._id;
   caption.textContent = cardObject.name;
@@ -24,7 +25,15 @@ export function gatherCard(cardObject, templateCard, imagePopup) {
   // }
   // image.setAttribute('data-init', cardObject.initial);
   image.alt = cardObject.title; // cardObject.imageAlt ||
-  cardElement.querySelector('.element__likes-counter').textContent = cardObject.likes.length>0 ? cardObject.likes.length : "";
+
+  if(cardObject.likes.length>0) {
+    counter.textContent = cardObject.likes.length;
+    if(cardObject.likes.some(user => user._id === window.userData._id))
+      cardElement.querySelector('.element__button-like')
+        .classList.add('element__button-like_active');
+  }else{
+    counter.textContent = "";
+  }
 
   image.addEventListener('click', () => openPopupImage(cardObject, imagePopup));
   cardElement.querySelector('.element__button-like').addEventListener('click', likeCard);
