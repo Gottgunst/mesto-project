@@ -1,4 +1,4 @@
-import { getData, pathConfig } from './api.js';
+import { path, workData } from './api.js';
 import { gatherCard, renderCard } from './card.js';
 // import { initialCards } from './data.js';
 import { handleImageFormSubmit, handleProfileFormSubmit, openPopup, closePopup } from './modal.js';
@@ -23,8 +23,8 @@ const profile = {
 };
 
 // Получаем данные c сервера
-window.userData = await getData(pathConfig.userPath);
-const initCards = await getData(pathConfig.cardsPath);
+window.userData = await workData(path.user);
+const initCards = await workData(path.cards);
 
 // Формы
 const formsPrefs = {
@@ -76,7 +76,7 @@ profile.subtitle.textContent = window.userData.about;
 profile.avatar.src = window.userData.avatar;
 
 const initialElements = initCards.map(cardObject => gatherCard(cardObject, templateCard, imagePopup));
-initialElements.forEach(el => renderCard(el, cardContainer));
+initialElements.forEach(el => renderCard(el, cardContainer, 'append'));
 
 // Запуск валидации на всех формах
 enableValidation(formsPrefs);
@@ -118,7 +118,7 @@ inputProfile.form.addEventListener('submit', (evt) => {
 inputImage.form.addEventListener('submit', async (evt) => {
   evt.preventDefault();
   //Получение → Сборка → Отображение данных карточки
-  renderCard( gatherCard( await handleImageFormSubmit(inputImage) , templateCard, imagePopup), cardContainer);
+  renderCard( gatherCard( await handleImageFormSubmit(inputImage) , templateCard, imagePopup), cardContainer, 'prepend');
   closePopup();
   evt.target.reset();
   toggleButton(formsPrefs, inputImage.form);

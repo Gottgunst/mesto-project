@@ -1,8 +1,8 @@
+import { path, workData } from './api';
+
 // ######################
 // Button Like Function
 // ######################
-
-import { delData, pathConfig } from './api';
 
 export function likeCard(evt) {
   evt.target.classList.toggle('element__button-like_active');
@@ -22,5 +22,5 @@ export function delCard(evt) {
     evt.target.closest('.element__wrapper').remove();
   }
 
-  delData(`${pathConfig.cardsPath}/${evt.target.closest('.element__wrapper').id}`);
+  workData(`${path.cards}/${evt.target.closest('.element__wrapper').id}`, 'delete');
 }

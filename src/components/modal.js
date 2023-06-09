@@ -1,5 +1,5 @@
-import { patchData, pathConfig, postData } from './api.js';
-import { genId, sliceExt } from "./utils.js";
+import { path, workData } from './api.js';
+// import { genId, sliceExt } from "./utils.js";
 
 // ######################
 // POP-UP Toggle Function
@@ -32,7 +32,7 @@ function handleEscape(evt) {
 
 export async function handleProfileFormSubmit(profile, {form}) {
 
-  const res = await patchData(pathConfig.userPath,
+  const res = await workData(path.user, 'patch',
   {
     name: form.name.value,
     about: form.subtitle.value
@@ -47,7 +47,7 @@ export async function handleProfileFormSubmit(profile, {form}) {
 // ########################
 
 export async function handleImageFormSubmit({form}) {
-  const newCard = await postData(pathConfig.cardsPath,
+  const newCard = await workData(path.cards, 'post',
   {
     name: form.title.value,
     link: form.url.value,

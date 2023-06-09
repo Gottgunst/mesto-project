@@ -6,16 +6,22 @@ const config = {
   },
 }
 
-export const pathConfig = {
-  userPath: '/users/me',
-  cardsPath: '/cards'
+export const path = {
+  user: '/users/me',
+  avatar: '/users/me/avatar',
+  cards: '/cards',
+  likes: '/cards/likes'
 }
 
-export async function getData(path){
-  return fetch(`${config.baseUrl}${path}`, {
-    method: 'GET',
+export async function workData(path, method='GET', body){
+  const options ={
+    method: method.toUpperCase(),
     headers: config.headers,
-  })
+  };
+
+  if(body) options.body = JSON.stringify(body);
+
+  return fetch(`${config.baseUrl}${path}`, options)
     .then(res => {
       if (res.ok) {
         return res.json();
@@ -23,58 +29,5 @@ export async function getData(path){
       return Promise.reject(`Ошибка: ${res.status}`);
     })
     .then(data => {return data;})
-    .catch(err => {
-      return `Ошибка: ${err.status}`;
-    });
-}
-
-export async function patchData(path, patchBody){
-  return fetch(`${config.baseUrl}${path}`,
-    {
-      method: 'PATCH',
-      headers: config.headers,
-      body: JSON.stringify(patchBody)
-    })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-    })
-    .catch(err => {
-      return `Ошибка: ${err.status}`;
-    });
-}
-
-export async function postData(path, postBody){
-  return fetch(`${config.baseUrl}${path}`,
-    {
-      method: 'POST',
-      headers: config.headers,
-      body: JSON.stringify(postBody)
-    })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-    })
-    .catch(err => {
-      return `Ошибка: ${err.status}`;
-    });
-}
-
-export async function delData(path, postBody){
-  return fetch(`${config.baseUrl}${path}`,
-    {
-      method: 'DELETE',
-      headers: config.headers,
-      body: JSON.stringify(postBody)
-    })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-    })
-    .catch(err => {
-      return `Ошибка: ${err.status}`;
-    });
+    .catch(err => {return `Ошибка: ${err.status}`;});
 }
