@@ -29,3 +29,31 @@ export function delCard(evt) {
 
   workData(`${path.cards}/${evt.target.closest('.element__wrapper').id}`, 'delete');
 }
+
+// #################
+// Индикация обработки данных
+// #################
+
+export function loadStatusButton(button, intervalId) {
+  if(!intervalId){
+    let flag = 0;
+    const textArr = [
+      'Обрабатываем',
+      'Сохраняем',
+      'Выполняем',
+      'Исполняем',
+      'Загружаем',
+      'Обновляем',
+    ];
+    const textId = Math.floor(Math.random() * textArr.length);
+    // возвращаем ID для его отключения
+    return setInterval(()=>{
+        flag++;
+        const dots = new Array(flag % 5).join('.');
+        button.textContent = textArr[textId] + dots;
+      }, 400);
+  } else {
+    button.textContent = button.getAttribute('data-text') || 'Сохранить';
+    clearInterval(intervalId);
+  }
+}

@@ -110,4 +110,3 @@ function fixPopup(fix) {
     document.body.removeAttribute('style');
   }
 }
-
