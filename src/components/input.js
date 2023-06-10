@@ -1,44 +1,26 @@
-import { path, workData } from './api.js';
-import { delCard } from './buttons.js';
-import { openPopup } from './modal.js';
+import { loadStatusButton } from './buttons.js';
+import { closePopup, openPopup } from './modal.js';
 
 // ########################
-// Profile Form Data
+// Универсальный обработчик submit
 // ########################
 
-export async function handleProfileFormSubmit(profile, {form}) {
+export function handleSubmit(evt, button, request, labelArray=undefined ){
+  evt.preventDefault();
 
-  const res = await workData(path.user, 'patch',
-  {
-    name: form.name.value,
-    about: form.subtitle.value
-  });
+  const label = button.textContent;
+  const stop = labelArray ? loadStatusButton(button, labelArray) : loadStatusButton(button);
 
-  profile.name.textContent = res.name;
-  profile.subtitle.textContent = res.about;
-}
-
-// ########################
-// Image Form Data
-// ########################
-
-export async function handleImageFormSubmit({form}) {
-  return await workData(path.cards, 'post',
-  {
-    name: form.title.value,
-    link: form.url.value,
+  request()
+  .catch((err)=>{
+    console.log(err);
+  })
+  .finally(()=>{
+    closePopup();
+    loadStatusButton(button, [label], stop);
   });
 }
 
-// ########################
-// Avatar Form Data
-// ########################
-
-export async function handleAvatarFormSubmit({form}) {
-  return await workData(path.avatar, 'PATCH', {
-    avatar: form.urlAvatar.value
-  });
-}
 
 // ########################
 // Delete Card popup
