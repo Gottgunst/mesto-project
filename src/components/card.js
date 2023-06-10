@@ -41,7 +41,7 @@ export function gatherCard(cardObject, templateCard, popupImage, popupDelCard) {
 
   cardObject.owner._id === window.userData._id ?
     delButton.addEventListener('click', (evt)=> handleCardDelate(evt, popupDelCard)) :
-    delButton.parentNode.removeChild(delButton);
+    delButton.remove();
 
   return cardElement;
 }
