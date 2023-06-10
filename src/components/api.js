@@ -29,10 +29,5 @@ export async function workData(path, method='GET', body){
       }
       return Promise.reject(res);
     })
-    .then(data => {return data;})
-    .catch(err => {
-      console.warn(`Ошибка: ${err.status} / Тип: ${err.type}` );
-      console.log(err);
-      // return 'default';
-    });
+    .then(data => {return data;});
 }

@@ -30,7 +30,6 @@ function handleEscape(evt) {
 // #################
 
 export function openPopupImage(cardObject, popupImage) {
-  console.log(popupImage);
   //обнуляю данные, чтобы избавиться от паразитных данных прошлой итерации
   // popupImage.image.sizes = '';
   // popupImage.image.srcset = '';
