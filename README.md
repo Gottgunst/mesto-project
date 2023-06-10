@@ -46,3 +46,4 @@ HTML / CSS / JS / WEBPACK / API / БЭМ / GIT / FIGMA
 * [Ссылка на макет в Figma. Первый этап](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)
 * [Ссылка на макет в Figma. Второй этап](https://www.figma.com/file/bjyvbKKJN2naO0ucURl2Z0/JavaScript.-Sprint-5?node-id=0%3A1)
 * [Ссылка на макет в Figma. Третий этап](https://www.figma.com/file/kRVLKwYG3d1HGLvh7JFWRT/JavaScript.-Sprint-6?node-id=0%3A1)
+* [Ссылка на макет в Figma. Четвертый этап](https://www.figma.com/file/PSdQFRHoxXJFs2FH8IXViF/JavaScript.-Sprint-9?node-id=109%3A150)
