@@ -138,7 +138,7 @@ buttonEditProfile.addEventListener('click',() => {
 
 
 buttonsClosePopup.forEach(button =>
-  button.addEventListener('mousedown',() => closePopup()));
+  button.addEventListener('mousedown', closePopup));
 
 
 // После загрузки страницы сменяем display с "none" на "flex",
