@@ -102,10 +102,8 @@ Promise.all([workData(path.user) , workData(path.cards)])
   })
   .catch((err)=>{
     console.log(err);
-  })
-  .finally(()=>{
-
   });
+
 
 // Запуск валидации на всех формах
 enableValidation(formsPrefs);

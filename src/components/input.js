@@ -12,12 +12,13 @@ export function handleSubmit(evt, button, request, labelArray=undefined ){
   const stop = labelArray ? loadStatusButton(button, labelArray) : loadStatusButton(button);
 
   request()
-  .catch((err)=>{
-    console.log(err);
-  })
-  .finally(()=>{
+  .then((res)=>{
     closePopup();
     loadStatusButton(button, [label], stop);
+  })
+  .catch((err)=>{
+    console.log(err);
+    loadStatusButton(button, [`Ошибка: ${err.status}`], stop);
   });
 }
 
