@@ -19,6 +19,10 @@ export function handleSubmit(evt, button, request, labelArray=undefined ){
   .catch((err)=>{
     console.log(err);
     loadStatusButton(button, [`Ошибка: ${err.status}`], stop);
+    // !!!!!!!!!!!!!!!!!!!!!!!!!
+    // возможно тут есть какая-то ошибка
+    // Загружал картинку и получил 404 ошибку от сервера
+    // загрузил другую, но надпись на кнопке не исчезла
   });
 }
 

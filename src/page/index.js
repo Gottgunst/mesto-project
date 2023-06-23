@@ -30,7 +30,7 @@ import {
 // #####################
 
 // Заполняем сайт данными с сервера
-Promise.all([mestoApi.workData('user'), mestoApi.workData('cards')])
+Promise.all([mestoApi.workData(['user']), mestoApi.workData(['cards'])])
   .then((initial)=>{
     window.userData = initial[0];
 
@@ -89,7 +89,7 @@ window.onload = popupArray.forEach(el => el.classList.add('popup_flexed'));
 inputProfile.form.addEventListener('submit', (evt) => {
   handleSubmit(evt, inputProfile.button, ()=>
     {
-      return mestoApi.workData('user', 'patch',
+      return mestoApi.workData(['user'], 'patch',
       {
         name: inputProfile.name.value,
         about: inputProfile.subtitle.value
@@ -105,7 +105,7 @@ inputProfile.form.addEventListener('submit', (evt) => {
 inputImage.form.addEventListener('submit', (evt) => {
     handleSubmit(evt, inputImage.button, ()=>
     {
-      return mestoApi.workData('cards', 'post',
+      return mestoApi.workData(['cards'], 'post',
       {
         name: inputImage.title.value,
         link: inputImage.url.value,
@@ -122,7 +122,7 @@ inputImage.form.addEventListener('submit', (evt) => {
 inputAvatar.form.addEventListener('submit', (evt) => {
   handleSubmit(evt, inputAvatar.button, ()=>
   {
-    return mestoApi.workData('avatar', 'PATCH',
+    return mestoApi.workData(['avatar'], 'PATCH',
     {
       avatar: inputAvatar.url.value
     })
@@ -138,7 +138,7 @@ inputAvatar.form.addEventListener('submit', (evt) => {
 inputDelCard.form.addEventListener('submit', (evt) => {
   handleSubmit(evt, inputDelCard.button, ()=>
   {
-    return mestoApi.workData('cards/'+window.cardToDelete.id, 'delete')
+    return mestoApi.workData(['cards', window.cardToDelete.id], 'delete')
     .then((res)=>{
       window.cardToDelete.remove();
     })

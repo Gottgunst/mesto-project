@@ -10,20 +10,15 @@ export class Api {
       method: method.toUpperCase(),
       headers: this._headers,
     };
-    let collateral = '';
-
-    if(keyPath.indexOf('/') === -1){
-      collateral = this._paths[keyPath];
-    } else {
-      const keyArr = keyPath.split('/');
-      collateral = this._paths[keyArr[0]] + '/' + keyArr[1];
-    }
+    const lateralUrl = keyPath.length < 2 ?
+      this._paths[keyPath[0]] :
+      this._paths[keyPath[0]] + '/'+ keyPath.filter((el,i)=>i>0).join('/');
 
     if(body){
       options.body = JSON.stringify(body);
     }
 
-    return fetch(`${this._baseUrl}${collateral}`, options).then((res) => {
+    return fetch(`${this._baseUrl}${lateralUrl}`, options).then((res) => {
       if (res.ok) {
         return res.json();
       }
