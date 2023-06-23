@@ -5,38 +5,29 @@ import { enableValidation, toggleButton } from '../components/validate.js';
 
 import './index.css';
 
-import { mestoApi,
- cardContainer,
- templateCard,
- profile,
- formsPrefs,
- inputProfile,
- inputImage,
- inputAvatar,
- inputDelCard,
- popupArray,
- popupEditProfile,
- popupAddImage,
- popupEditAvatar,
- popupDelCard,
- popupImage,
- buttonEditProfile,
- buttonAddImage,
- buttonsClosePopup }  from '../utils/constants.js'
+import {
+  mestoApi,
+  cardContainer,
+  templateCard,
+  profile,
+  formsPrefs,
+  inputProfile,
+  inputImage,
+  inputAvatar,
+  inputDelCard,
+  popupArray,
+  popupEditProfile,
+  popupAddImage,
+  popupEditAvatar,
+  popupDelCard,
+  popupImage,
+  buttonEditProfile,
+  buttonAddImage,
+  buttonsClosePopup }  from '../utils/constants.js';
 
 // #####################
 // Инициализация функций
 // #####################
-
-mestoApi.workData("cards")
-  .then((data) => {
-    console.log(data);
-  })
-  .catch((err) => {
-    console.log(err.status);
-  });
-
-
 
 // Заполняем сайт данными с сервера
 Promise.all([mestoApi.workData('user'), mestoApi.workData('cards')])
@@ -147,7 +138,7 @@ inputAvatar.form.addEventListener('submit', (evt) => {
 inputDelCard.form.addEventListener('submit', (evt) => {
   handleSubmit(evt, inputDelCard.button, ()=>
   {
-    return mestoApi.workData(`${'cards'}/${window.cardToDelete.id}`, 'delete')
+    return mestoApi.workData('cards/'+window.cardToDelete.id, 'delete')
     .then((res)=>{
       window.cardToDelete.remove();
     })

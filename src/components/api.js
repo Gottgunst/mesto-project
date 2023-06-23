@@ -1,4 +1,4 @@
-class Api {
+export class Api {
   constructor({baseUrl, headers, paths}){
     this._baseUrl = baseUrl,
     this._headers = headers,
@@ -10,14 +10,13 @@ class Api {
       method: method.toUpperCase(),
       headers: this._headers,
     };
-
-    const collateral = '';
+    let collateral = '';
 
     if(keyPath.indexOf('/') === -1){
+      collateral = this._paths[keyPath];
+    } else {
       const keyArr = keyPath.split('/');
       collateral = this._paths[keyArr[0]] + '/' + keyArr[1];
-    } else {
-      collateral = keyPath;
     }
 
     if(body){
