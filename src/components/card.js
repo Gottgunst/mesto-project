@@ -3,7 +3,7 @@ import { handleCardDelate } from './input';
 import { openPopupImage } from './modal';
 
 // #########################
-// Image Card Crate Function
+// Image Card Create Function
 // #########################
 
 export function gatherCard(cardObject, templateCard, popupImage, popupDelCard) {

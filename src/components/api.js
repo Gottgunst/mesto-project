@@ -5,7 +5,11 @@ export class Api {
     this._paths = paths
   }
 
-
+  _lateralUrl(keyPath){
+    return keyPath.id ?
+        this._paths[keyPath.key] + '/' + keyPath.id :
+        this._paths[keyPath.key];
+  }
 
   workData(keyPath, method='GET', body){
     const options ={
@@ -13,16 +17,11 @@ export class Api {
       headers: this._headers,
     };
 
-    const lateralUrl = !keyPath.id ?
-        this._paths[keyPath.key] :
-        this._paths[keyPath.key] + '/' + keyPath.id;
-
-
     if(body){
       options.body = JSON.stringify(body);
     }
 
-    return fetch(`${this._baseUrl}${lateralUrl}`, options).then((res) => {
+    return fetch(`${this._baseUrl}${this._lateralUrl(keyPath)}`, options).then((res) => {
       if (res.ok) {
         return res.json();
       }
