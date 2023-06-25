@@ -5,12 +5,10 @@ export class Api {
     this._paths = paths
   }
 
-  _analyseURL(keyPath){
-    //Правильно я понимаю, что при вызове mestoApi.workData, в аргументы мы будем передавать обьект, который
-    //может состоять либо из одного ключа, например {key:'user'}, либо может иметь сколько угодно ключей?
-    //и мне надо написать функцию, которая собирает остаток URL из этого неопределенного количества ключей?
-    keyPath = Object.values(keyPath)
-    return keyPath
+  _lateralUrl(keyPath){
+    return keyPath.id ?
+        this._paths[keyPath.key] + '/' + keyPath.id :
+        this._paths[keyPath.key];
   }
 
   workData(keyPath, method='GET', body){
@@ -19,15 +17,11 @@ export class Api {
       headers: this._headers,
     };
 
-    const lateralUrl = this._analyseURL(keyPath).length < 2 ?
-      this._paths[this._analyseURL(keyPath)[0]] :
-      this._paths[this._analyseURL(keyPath)[0]] + '/'+ this._analyseURL(keyPath).filter((el,i)=>i>0).join('/');
-
     if(body){
       options.body = JSON.stringify(body);
     }
 
-    return fetch(`${this._baseUrl}${lateralUrl}`, options).then((res) => {
+    return fetch(`${this._baseUrl}${this._lateralUrl(keyPath)}`, options).then((res) => {
       if (res.ok) {
         return res.json();
       }
