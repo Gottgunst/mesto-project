@@ -1,5 +1,6 @@
-import { Api } from "../components/api.js";
-import { Card, Section } from '../components/card.js';
+import Api from "../components/api.js";
+import Card from '../components/card.js';
+import Section from '../components/section.js';
 
 // ######################
 // Конфигурация API
@@ -25,7 +26,7 @@ import { Card, Section } from '../components/card.js';
 // ######################
 
 // Карточки
-export const cardContainer = document.querySelector('.elements__grid');
+
 export const templateCard = document.querySelector('#templateCard').content;
 
 // Данные пользователя
@@ -122,4 +123,14 @@ export const cardConfig = {
   }
 };
 
+// ######################
+// Конфигурация секции
+// ######################
 
+const cardContainer = document.querySelector('.elements__grid');
+
+export const cardSection = new Section({
+    items: [],
+    renderer: (cardObject)=>new Card(cardObject, cardConfig)
+  },
+  cardContainer);

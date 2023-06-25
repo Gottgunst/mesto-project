@@ -1,4 +1,4 @@
-export class Api {
+export default class Api {
   constructor({baseUrl, headers, paths}){
     this._baseUrl = baseUrl,
     this._headers = headers,

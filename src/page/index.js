@@ -1,4 +1,4 @@
-import { Card, Section } from '../components/card.js';
+import Card from '../components/card.js';
 import { handleSubmit } from '../components/input.js';
 import { openPopup, closePopup } from '../components/modal.js';
 import { enableValidation, toggleButton } from '../components/validate.js';
@@ -9,7 +9,7 @@ import './index.css';
 import {
   mestoApi,
   cardConfig,
-  cardContainer,
+  cardSection,
   profile,
   formsPrefs,
   inputProfile,
@@ -29,11 +29,7 @@ import {
 // #####################
 
 // если убрать этот класс в константы, то всё ломается… дичь
-export const cardSection = new Section({
-    items: [],
-    renderer: (cardObject)=>new Card(cardObject, cardConfig)
-  },
-  cardContainer);
+
 
 
 // Заполняем сайт данными с сервера
