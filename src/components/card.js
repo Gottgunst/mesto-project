@@ -22,7 +22,7 @@ export class Card {
     // возвращаем при вызове класса
     // результат работы внутренней функции,
     // но ломаем внешние методы
-    // return this._gather();
+    return this._gather();
   }
 
   _gather(){
@@ -83,8 +83,34 @@ export class Card {
       delButton.remove();
   }
 
-  // рендер карточки куда-либо
-  render(cardContainer, way='prepend') {
-    cardContainer[way](this._gather());
+}
+
+
+// содержит приватные методы для каждого обработчика;
+// содержит один публичный метод, который возвращает полностью работоспособный и наполненный данными элемент карточки
+// Сделайте так, чтобы Card принимал в конструктор функцию handleCardClick. При клике на карточку эта функция должна открывать попап с картинкой.
+
+
+// ##########################
+// Section Class
+// ##########################
+
+export class Section{
+  constructor({ items, renderer}, container){
+    this.items = items;
+    this._renderer = renderer;
+    this._container = container;
+  }
+
+  addArray(way='append'){
+    const {items, _renderer, _container} = this;
+
+    items.forEach((item)=>{
+      _container[way](_renderer(item));
+    });
+  }
+
+  addItem(item, way='prepend'){
+    this._container[way](item);
   }
 }

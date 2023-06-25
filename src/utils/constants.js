@@ -1,4 +1,5 @@
 import { Api } from "../components/api.js";
+import { Card, Section } from '../components/card.js';
 
 // ######################
 // Конфигурация API
@@ -120,3 +121,5 @@ export const cardConfig = {
     del: popupDelCard,
   }
 };
+
+
