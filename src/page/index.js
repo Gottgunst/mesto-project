@@ -1,14 +1,15 @@
-import { gatherCard, renderCard } from '../components/card.js';
+import { Card } from '../components/card.js';
 import { handleSubmit } from '../components/input.js';
 import { openPopup, closePopup } from '../components/modal.js';
 import { enableValidation, toggleButton } from '../components/validate.js';
+
 
 import './index.css';
 
 import {
   mestoApi,
+  cardConfig,
   cardContainer,
-  templateCard,
   profile,
   formsPrefs,
   inputProfile,
@@ -19,13 +20,13 @@ import {
   popupEditProfile,
   popupAddImage,
   popupEditAvatar,
-  popupDelCard,
-  popupImage,
   buttonEditProfile,
   buttonAddImage,
   buttonsClosePopup }  from '../utils/constants.js';
 
-// #####################
+
+
+  // #####################
 // Инициализация функций
 // #####################
 
@@ -38,8 +39,11 @@ Promise.all([mestoApi.workData({key:'user'}), mestoApi.workData({key:'cards'})])
     profile.subtitle.textContent = window.userData.about;
     profile.avatar.src = window.userData.avatar;
 
-    const initialElements = initial[1].map(cardObject => gatherCard(cardObject, templateCard, popupImage, popupDelCard));
-    initialElements.forEach(el => renderCard(el, cardContainer, 'append'));
+
+    initial[1].forEach(cardObject => {
+      new Card(cardObject,cardConfig).render(cardContainer, 'append');
+    });
+
 
   })
   .catch((err)=>{
@@ -111,7 +115,8 @@ inputImage.form.addEventListener('submit', (evt) => {
         link: inputImage.url.value,
       })
       .then((res)=>{
-        renderCard( gatherCard( res, templateCard, popupImage, popupDelCard), cardContainer, 'prepend');
+        new Card(res,cardConfig).render(cardContainer, 'prepend');
+
         evt.target.reset();
         toggleButton(formsPrefs, inputImage.form);
       })
