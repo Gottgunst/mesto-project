@@ -1,33 +1,28 @@
-const config = {
-  baseUrl: 'https://mesto.nomoreparties.co/v1/plus-cohort-25',
-  headers: {
-    authorization: 'd709f1d7-61bc-4f4a-a795-fd13fa11ff95',
-    'Content-Type': 'application/json'
-  },
-}
-
-export const path = {
-  user: '/users/me',
-  avatar: '/users/me/avatar',
-  cards: '/cards',
-  likes: '/cards/likes'
-}
-
-export async function workData(path, method='GET', body){
-  const options ={
-    method: method.toUpperCase(),
-    headers: config.headers,
-  };
-
-  if(body){
-    options.body = JSON.stringify(body);
+export class Api {
+  constructor({baseUrl, headers, paths}){
+    this._baseUrl = baseUrl,
+    this._headers = headers,
+    this._paths = paths
   }
-  return fetch(`${config.baseUrl}${path}`, options)
-    .then(res => {
+
+  workData(keyPath, method='GET', body){
+    const options ={
+      method: method.toUpperCase(),
+      headers: this._headers,
+    };
+    const lateralUrl = keyPath.length < 2 ?
+      this._paths[keyPath[0]] :
+      this._paths[keyPath[0]] + '/'+ keyPath.filter((el,i)=>i>0).join('/');
+
+    if(body){
+      options.body = JSON.stringify(body);
+    }
+
+    return fetch(`${this._baseUrl}${lateralUrl}`, options).then((res) => {
       if (res.ok) {
         return res.json();
       }
       return Promise.reject(res);
-    })
-    .then(data => {return data;});
+    });
+  }
 }
