@@ -19,8 +19,6 @@ import { Api } from "../components/api.js";
   }
 });
 
-
-
 // ######################
 // Конфигурация элементов
 // ######################
@@ -84,7 +82,6 @@ export const popupDelCard = {
   button: inputDelCard.button,
 }
 
-
 // Модальное окно с полноформатным изображением с подписью
 export const popupImage = {
   container: document.querySelector('#popup-image'),
@@ -97,3 +94,29 @@ export const buttonEditProfile = document.querySelector('.profile__button_type_e
 export const buttonAddImage = document.querySelector('.profile__button_type_add');
 export const buttonsClosePopup = document.querySelectorAll('.popup__close');
 
+// ######################
+// Конфигурация карточек
+// ######################
+
+export const cardConfig = {
+  template: '#templateCard',
+  cardEls: {
+    image: '.element__image',
+    caption: '.element__caption',
+    counter: '.element__likes-counter',
+    delButton: '.element__button-del',
+    like: '.element__button-like',
+    likeActive: 'element__button-like_active'
+  },
+  backendKeys: {
+    image: 'link',
+    caption: 'name',
+    counter: 'likes',
+    id: '_id',
+    owner: 'owner',
+  },
+  popups: {
+    open: popupImage,
+    del: popupDelCard,
+  }
+};
