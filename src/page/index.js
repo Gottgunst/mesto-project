@@ -1,7 +1,7 @@
 import { Card } from '../components/card.js';
 import { handleSubmit } from '../components/input.js';
 import { openPopup, closePopup } from '../components/modal.js';
-import { enableValidation, toggleButton } from '../components/validate.js';
+import { enableValidation, toggleButton, FormValidator } from '../components/validate.js';
 
 
 import './index.css';
@@ -50,9 +50,15 @@ Promise.all([mestoApi.workData(['user']), mestoApi.workData(['cards'])])
     console.log(err);
   });
 
-// Запуск валидации на всех формах
-enableValidation(formsPrefs);
+// обьявляем инстансы класса FormValidator
+const  formValidatorImage = new FormValidator(formsPrefs, inputImage.form);
+const  formValidatorAvatar = new FormValidator(formsPrefs, inputAvatar.form);
+const  formValidatorProfile = new FormValidator(formsPrefs, inputProfile.form);
 
+// Запуск валидации на всех формах
+formValidatorImage.enableValidation();
+formValidatorAvatar.enableValidation();
+formValidatorProfile.enableValidation();
 
 // Подключение событий клика на кнопки
 profile.avatarWrapper.addEventListener('click', ()=>{
@@ -118,7 +124,7 @@ inputImage.form.addEventListener('submit', (evt) => {
         new Card(res,cardConfig).render(cardContainer, 'prepend');
 
         evt.target.reset();
-        toggleButton(formsPrefs, inputImage.form);
+        //toggleButton(formsPrefs, inputImage.form);
       })
     });
 });
@@ -134,7 +140,7 @@ inputAvatar.form.addEventListener('submit', (evt) => {
     .then((res)=>{
       document.querySelector('.profile__avatar').src = res.avatar;
       evt.target.reset();
-      toggleButton(formsPrefs, inputAvatar.form);
+      //toggleButton(formsPrefs, inputAvatar.form);
     })
   });
 });
