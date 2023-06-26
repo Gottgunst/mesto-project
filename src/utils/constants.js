@@ -1,5 +1,6 @@
 import Api from "../components/api.js";
 import Card from '../components/card.js';
+import Popup from '../components/modal.js';
 import Section from '../components/section.js';
 
 // ######################
@@ -24,10 +25,6 @@ import Section from '../components/section.js';
 // ######################
 // Конфигурация элементов
 // ######################
-
-// Карточки
-
-export const templateCard = document.querySelector('#templateCard').content;
 
 // Данные пользователя
 export const profile = {
@@ -73,28 +70,10 @@ export const inputDelCard = {
   button: document.querySelector('.popup__form[name="delCard"] > .popup__submit'),
 };
 
-// Модальные окна
-export const popupArray = document.querySelectorAll('.popup');
-export const popupEditProfile = document.querySelector('#popup-profile');
-export const popupAddImage = document.querySelector('#popup-add');
-export const popupEditAvatar = document.querySelector('#popup-avatar');
-export const popupDelCard = {
-  container: document.querySelector('#popup-delCard'),
-  title: document.querySelector('.popup__title_type_del-card'),
-  button: inputDelCard.button,
-}
-
-// Модальное окно с полноформатным изображением с подписью
-export const popupImage = {
-  container: document.querySelector('#popup-image'),
-  image: document.querySelector('.popup__image'),
-  caption: document.querySelector('.popup__caption'),
-};
-
 // Кнопки
 export const buttonEditProfile = document.querySelector('.profile__button_type_edit');
 export const buttonAddImage = document.querySelector('.profile__button_type_add');
-export const buttonsClosePopup = document.querySelectorAll('.popup__close');
+
 
 // ######################
 // Конфигурация карточек
@@ -134,3 +113,28 @@ export const cardSection = new Section({
     renderer: (cardObject)=>new Card(cardObject, cardConfig)
   },
   cardContainer);
+
+
+// ######################
+// Конфигурация модальных окон
+// ######################
+
+// Модальные окна
+
+export const popupEditProfile = new Popup('#popup-profile');
+export const popupAddImage = new Popup('#popup-add');
+export const popupEditAvatar = new Popup('#popup-avatar');
+
+export const popupDelCard = {
+  container: document.querySelector('#popup-delCard'),
+  title: document.querySelector('.popup__title_type_del-card'),
+  button: inputDelCard.button,
+}
+
+// Модальное окно с полноформатным изображением с подписью
+export const popupImage = {
+  container: document.querySelector('#popup-image'),
+  image: document.querySelector('.popup__image'),
+  caption: document.querySelector('.popup__caption'),
+};
+

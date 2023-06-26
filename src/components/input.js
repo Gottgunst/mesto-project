@@ -13,7 +13,7 @@ export function handleSubmit(evt, button, request, labelArray=undefined ){
 
   request()
   .then((res)=>{
-    closePopup();
+    // closePopup();
     loadStatusButton(button, [label], stop);
   })
   .catch((err)=>{
@@ -32,7 +32,7 @@ export function handleSubmit(evt, button, request, labelArray=undefined ){
 // ########################
 
 export function handleCardDelate(evt, popupDelCard){
-  openPopup(popupDelCard.container);
+  // openPopup(popupDelCard.container);
 
   window.cardToDelete = evt.target.closest('.element__wrapper');
 

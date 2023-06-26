@@ -1,6 +1,5 @@
 import Card from '../components/card.js';
 import { handleSubmit } from '../components/input.js';
-import { openPopup, closePopup } from '../components/modal.js';
 import { enableValidation, toggleButton } from '../components/validate.js';
 
 
@@ -16,20 +15,16 @@ import {
   inputImage,
   inputAvatar,
   inputDelCard,
-  popupArray,
   popupEditProfile,
   popupAddImage,
   popupEditAvatar,
   buttonEditProfile,
   buttonAddImage,
-  buttonsClosePopup }  from '../utils/constants.js';
+}  from '../utils/constants.js';
 
 // #####################
 // Инициализация функций
 // #####################
-
-// если убрать этот класс в константы, то всё ломается… дичь
-
 
 
 // Заполняем сайт данными с сервера
@@ -57,12 +52,12 @@ enableValidation(formsPrefs);
 profile.avatarWrapper.addEventListener('click', ()=>{
   // Устанавливаем адрес аватара в поля ввода
   inputAvatar.url.value = profile.avatar.src;
-  openPopup(popupEditAvatar);
+  popupEditAvatar.openPopup();
 });
 
 
 buttonAddImage.addEventListener('click',() => {
-  openPopup(popupAddImage);
+  popupAddImage.openPopup();
 });
 
 
@@ -71,21 +66,13 @@ buttonEditProfile.addEventListener('click',() => {
   // Устанавливаем данные пользователя в поля ввода
   inputProfile.name.value = profile.name.textContent;
   inputProfile.subtitle.value = profile.subtitle.textContent;
-  openPopup(popupEditProfile);
+  popupEditProfile.openPopup();
   // запускаем событие ввода данных на заполненных полях, для сброса валидации
   // если модальное окно было очищено вручную от данных и закрыто без сохранения
   inputProfile.name.dispatchEvent(evtInput);
   inputProfile.subtitle.dispatchEvent(evtInput);
 });
 
-
-buttonsClosePopup.forEach(button =>
-  button.addEventListener('mousedown', closePopup));
-
-
-// После загрузки страницы сменяем display с "none" на "flex",
-// чтобы при первичной загрузке не было паразитной анимации
-window.onload = popupArray.forEach(el => el.classList.add('popup_flexed'));
 
 
 // Связываем кнопки и обработчик данных
