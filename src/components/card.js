@@ -6,7 +6,7 @@ import { openPopupImage } from './modal';
 // Image Card Class
 // ##########################
 
-export class Card {
+export default class Card {
   constructor(cardObject, {template, cardEls, backendKeys, popups}){
     // Объект карточки с сервера
     this._cardObject = cardObject;
@@ -22,7 +22,7 @@ export class Card {
     // возвращаем при вызове класса
     // результат работы внутренней функции,
     // но ломаем внешние методы
-    // return this._gather();
+    return this._gather();
   }
 
   _gather(){
@@ -83,8 +83,14 @@ export class Card {
       delButton.remove();
   }
 
-  // рендер карточки куда-либо
-  render(cardContainer, way='prepend') {
-    cardContainer[way](this._gather());
-  }
 }
+
+
+// содержит приватные методы для каждого обработчика;
+// содержит один публичный метод, который возвращает полностью работоспособный и наполненный данными элемент карточки
+// Сделайте так, чтобы Card принимал в конструктор функцию handleCardClick. При клике на карточку эта функция должна открывать попап с картинкой.
+
+
+// ##########################
+// Section Class
+// ##########################

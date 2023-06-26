@@ -1,4 +1,4 @@
-import { Card } from '../components/card.js';
+import Card from '../components/card.js';
 import { handleSubmit } from '../components/input.js';
 import { openPopup, closePopup } from '../components/modal.js';
 import { enableValidation, toggleButton } from '../components/validate.js';
@@ -9,7 +9,7 @@ import './index.css';
 import {
   mestoApi,
   cardConfig,
-  cardContainer,
+  cardSection,
   profile,
   formsPrefs,
   inputProfile,
@@ -24,11 +24,13 @@ import {
   buttonAddImage,
   buttonsClosePopup }  from '../utils/constants.js';
 
-
-
-  // #####################
+// #####################
 // Инициализация функций
 // #####################
+
+// если убрать этот класс в константы, то всё ломается… дичь
+
+
 
 // Заполняем сайт данными с сервера
 Promise.all([mestoApi.workData({key:'user'}), mestoApi.workData({key:'cards'})])
@@ -39,11 +41,8 @@ Promise.all([mestoApi.workData({key:'user'}), mestoApi.workData({key:'cards'})])
     profile.subtitle.textContent = window.userData.about;
     profile.avatar.src = window.userData.avatar;
 
-
-    initial[1].forEach(cardObject => {
-      new Card(cardObject,cardConfig).render(cardContainer, 'append');
-    });
-
+    cardSection.items = initial[1];
+    cardSection.addArray();
 
   })
   .catch((err)=>{
@@ -115,7 +114,8 @@ inputImage.form.addEventListener('submit', (evt) => {
         link: inputImage.url.value,
       })
       .then((res)=>{
-        new Card(res,cardConfig).render(cardContainer, 'prepend');
+
+        cardSection.addItem(new Card(res, cardConfig));
 
         evt.target.reset();
         toggleButton(formsPrefs, inputImage.form);
