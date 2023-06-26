@@ -1,6 +1,7 @@
 import Api from "../components/api.js";
+import { likeCard } from '../components/buttons.js';
 import Card from '../components/card.js';
-import Popup from '../components/modal.js';
+import Popup, { PopupDelete, PopupImage } from '../components/modal.js';
 import Section from '../components/section.js';
 
 // ######################
@@ -96,9 +97,10 @@ export const cardConfig = {
     id: '_id',
     owner: 'owner',
   },
-  popups: {
-    open: popupImage,
-    del: popupDelCard,
+  fn: {
+    open: (image, caption)=>popupImage.openPopup(image, caption),
+    del: (evt)=>popupDelCard.openPopup(evt),
+    like: (evt)=>likeCard(evt),
   }
 };
 
@@ -119,22 +121,8 @@ export const cardSection = new Section({
 // Конфигурация модальных окон
 // ######################
 
-// Модальные окна
-
 export const popupEditProfile = new Popup('#popup-profile');
 export const popupAddImage = new Popup('#popup-add');
 export const popupEditAvatar = new Popup('#popup-avatar');
-
-export const popupDelCard = {
-  container: document.querySelector('#popup-delCard'),
-  title: document.querySelector('.popup__title_type_del-card'),
-  button: inputDelCard.button,
-}
-
-// Модальное окно с полноформатным изображением с подписью
-export const popupImage = {
-  container: document.querySelector('#popup-image'),
-  image: document.querySelector('.popup__image'),
-  caption: document.querySelector('.popup__caption'),
-};
-
+export const popupImage = new PopupImage('#popup-image');
+export const popupDelCard = new PopupDelete('#popup-delCard');

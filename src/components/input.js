@@ -25,23 +25,3 @@ export function handleSubmit(evt, button, request, labelArray=undefined ){
     // загрузил другую, но надпись на кнопке не исчезла
   });
 }
-
-
-// ########################
-// Delete Card popup
-// ########################
-
-export function handleCardDelate(evt, popupDelCard){
-  // openPopup(popupDelCard.container);
-
-  window.cardToDelete = evt.target.closest('.element__wrapper');
-
-  if (evt.target.closest('.element__wrapper').querySelector('.element__button-like_active')){
-    popupDelCard.title.textContent = 'Любимую карточку?';
-    popupDelCard.button.textContent = 'Удалить';
-  } else {
-    popupDelCard.title.textContent = 'Вы уверены?'
-    popupDelCard.button.textContent = 'Да';
-  }
-
-}

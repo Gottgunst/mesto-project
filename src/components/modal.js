@@ -1,41 +1,12 @@
-
 // #################
-// POP-UP Open Image
+// POP-UP Class
 // #################
-
-export function openPopupImage(cardObject, popupImage) {
-  //обнуляю данные, чтобы избавиться от паразитных данных прошлой итерации
-  // popupImage.image.sizes = '';
-  // popupImage.image.srcset = '';
-  popupImage.image.src = '';
-
-  popupImage.caption.textContent = cardObject.name;
-
-  // если карточка из заготовленных используем расширенный функционал
-  // if(cardObject.initial) {
-  //   // Обозначение свойства <img sizes="">
-  //   // для правильной работы адаптивности <img scrset="">
-  //   popupImage.image.sizes = `(max-width: 2000px) 100vw, 2000px`;
-  //   popupImage.image.srcset = cardObject.images.map((img, index) =>
-  //     index===0 ? '':
-  //     `${img} ${sliceExt(img)},`
-  //   );
-  // }
-
-  popupImage.image.src = cardObject.link;
-  popupImage.image.alt = cardObject.name; //cardObject.imageAlt ||
-
-  openPopup(popupImage.container);
-}
-
-
-
 
 export default class Popup{
   constructor(popupSelector,
     styleCfg = {
     open: 'popup_opened',
-    close: 'popup__close',
+    close: '.popup__close',
     flex: 'popup_flexed',
     fixPage: 'page_fixed',
   })
@@ -58,9 +29,7 @@ export default class Popup{
     this._setEventListeners();
   }
 
-  // #################
   // Открыть окно
-  // #################
   openPopup() {
     const {open} = this._style;
 
@@ -70,9 +39,7 @@ export default class Popup{
     document.addEventListener('keydown', this._bindHandleEsc);
   }
 
-  // #################
   // Закрыть окно
-  // #################
   closePopup() {
     const {open} = this._style;
 
@@ -82,32 +49,25 @@ export default class Popup{
     this._fixPopup(false);
   }
 
-  // #################
-  // Уст. слушателей
-  // на кнопки закрытия
-  // #################
+  // Уст. слушателей на кнопки закрытия
   _setEventListeners(){
     const {close} = this._style;
 
-    this._popupElement.querySelectorAll('.'+close).forEach(
+    this._popupElement.querySelectorAll(close).forEach(
       button => button.addEventListener('mousedown',this._bindClose)
     );
   }
 
-  // #################
   // Ловим кнопку Esc
-  // #################
   _handleEscape(evt) {
     if(evt.key === 'Escape'){
       this.closePopup();
     }
   }
 
-  // #################
   // фиксации модального окна
   // относительно положения
   // прокрутки страницы
-  // #################
   _fixPopup(fix) {
     const {fixPage} = this._style;
 
@@ -126,6 +86,77 @@ export default class Popup{
 
 }
 
+// #################
+// POP-UP Image Class
+// #################
 
 export class PopupImage extends Popup{
+  constructor(popupSelector, styleImgCfg = {
+    image: '.popup__image',
+    caption: '.popup__caption',
+  }, ...args)
+  {
+    super(popupSelector, ...args);
+
+    // Расширяю настройки имен стилей
+    this._style.image = styleImgCfg.image;
+    this._style.caption = styleImgCfg.caption;
+    // находим элементы
+    this._imageEl = this._popupElement.querySelector(this._style.image);
+    this._captionEl = this._popupElement.querySelector(this._style.caption);
+  }
+
+  openPopup(image, caption){
+    const {_imageEl, _captionEl} = this;
+    //обнуляю данные, чтобы избавиться
+    // от паразитных данных прошлой итерации
+    _imageEl.src = '';
+    _captionEl.textContent = caption;
+
+    _imageEl.src = image;
+    _imageEl.alt = caption;
+
+    super.openPopup();
+  }
+}
+
+// #################
+// POP-UP Delete Class
+// #################
+
+export class PopupDelete extends Popup{
+  constructor(popupSelector, styleDelCfg = {
+    title: '.popup__title_type_del-card',
+    wrapper: '.element__wrapper',
+    activeLike: '.element__button-like_active',
+    submit: '.popup__submit',
+  }, ...args)
+  {
+    super(popupSelector, ...args);
+
+    // Расширяю настройки имен стилей
+    this._style.title = styleDelCfg.title;
+    this._style.wrapper = styleDelCfg.wrapper;
+    this._style.activeLike = styleDelCfg.activeLike;
+    this._style.submit = styleDelCfg.submit;
+
+    // находим элементы
+    this._titleEl = this._popupElement.querySelector(this._style.title);
+    this._submit = this._popupElement.querySelector(this._style.submit);
+  }
+
+  openPopup(evt){
+    const {wrapper, activeLike} = this._style;
+    super.openPopup();
+
+    window.cardToDelete = evt.target.closest(wrapper);
+
+    if (evt.target.closest(wrapper).querySelector(activeLike)){
+      this._titleEl.textContent = 'Любимую карточку?';
+      this._submit .textContent = 'Удалить';
+    } else {
+      this._titleEl.textContent = 'Вы уверены?'
+      this._submit .textContent = 'Да';
+    }
+  }
 }

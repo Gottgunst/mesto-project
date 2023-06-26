@@ -74,7 +74,6 @@ buttonEditProfile.addEventListener('click',() => {
 });
 
 
-
 // Связываем кнопки и обработчик данных
 inputProfile.form.addEventListener('submit', (evt) => {
   handleSubmit(evt, inputProfile.button, ()=>
