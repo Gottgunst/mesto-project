@@ -1,4 +1,5 @@
 import { Api } from "../components/api.js";
+import FormValidator from "../components/validate.js";
 
 // ######################
 // Конфигурация API
@@ -120,3 +121,23 @@ export const cardConfig = {
     del: popupDelCard,
   }
 };
+
+// ######################
+// Конфигурация FormValidator
+// ######################
+
+const formValidatorImage = new FormValidator(formsPrefs, inputImage.form);
+const formValidatorAvatar = new FormValidator(formsPrefs, inputAvatar.form);
+const formValidatorProfile = new FormValidator(formsPrefs, inputProfile.form);
+
+const formValidators = {
+  Image: formValidatorImage,
+  Avatar: formValidatorAvatar,
+  Profile: formValidatorProfile
+}
+
+export const {
+  Image,
+  Avatar,
+  Profile
+} = formValidators;
