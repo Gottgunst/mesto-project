@@ -1,3 +1,4 @@
+import FormValidator from "../components/validate.js";
 import Api from "../components/api.js";
 import { likeCard } from '../components/buttons.js';
 import Card from '../components/card.js';
@@ -106,6 +107,26 @@ export const cardConfig = {
 };
 
 // ######################
+// Конфигурация FormValidator
+// ######################
+
+const formValidatorImage = new FormValidator(formsPrefs, inputImage.form);
+const formValidatorAvatar = new FormValidator(formsPrefs, inputAvatar.form);
+const formValidatorProfile = new FormValidator(formsPrefs, inputProfile.form);
+
+const formValidators = {
+  Image: formValidatorImage,
+  Avatar: formValidatorAvatar,
+  Profile: formValidatorProfile
+}
+
+export const {
+  Image,
+  Avatar,
+  Profile
+} = formValidators;
+
+// ######################
 // Конфигурация секции
 // ######################
 
@@ -180,3 +201,4 @@ export const popupDelCard = new PopupDelete('#popup-delCard', (evt)=>
     'Удаляем',
     'Забываем',
   ]);
+

@@ -1,4 +1,6 @@
+import { Image, Avatar, Profile } from '../utils/constants.js';
 import { enableValidation } from '../components/validate.js';
+
 
 
 import './index.css';
@@ -39,9 +41,11 @@ Promise.all([mestoApi.workData({key:'user'}), mestoApi.workData({key:'cards'})])
     console.log(err);
   });
 
-// Запуск валидации на всех формах
-enableValidation(formsPrefs);
 
+// Запуск валидации на всех формах
+Image.enableValidation();
+Avatar.enableValidation();
+Profile.enableValidation();
 
 // Подключение событий клика на кнопки
 profile.avatarWrapper.addEventListener('click', ()=>{
