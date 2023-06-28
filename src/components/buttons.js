@@ -1,4 +1,4 @@
-import { mestoApi } from '../utils/constants';
+import { mestoApi } from '../page/index.js';
 
 // ######################
 // Button Like Function
