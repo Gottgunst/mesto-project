@@ -1,8 +1,9 @@
 import Api from "../components/api.js";
 import { likeCard } from '../components/buttons.js';
 import Card from '../components/card.js';
-import Popup, { PopupDelete, PopupImage } from '../components/modal.js';
+import { PopupDelete, PopupImage, PopupSubmit } from '../components/modal.js';
 import Section from '../components/section.js';
+import { toggleButton } from '../components/validate.js';
 
 // ######################
 // Конфигурация API
@@ -108,21 +109,74 @@ export const cardConfig = {
 // Конфигурация секции
 // ######################
 
-const cardContainer = document.querySelector('.elements__grid');
-
 export const cardSection = new Section({
     items: [],
     renderer: (cardObject)=>new Card(cardObject, cardConfig)
   },
-  cardContainer);
-
+  '.elements__grid');
 
 // ######################
 // Конфигурация модальных окон
 // ######################
 
-export const popupEditProfile = new Popup('#popup-profile');
-export const popupAddImage = new Popup('#popup-add');
-export const popupEditAvatar = new Popup('#popup-avatar');
+export const popupEditProfile = new PopupSubmit('#popup-profile', ()=>
+  {
+    return mestoApi.workData({key:'user'}, 'patch',
+    {
+      name: inputProfile.name.value,
+      about: inputProfile.subtitle.value
+    })
+    .then((res)=>{
+      profile.name.textContent = res.name;
+      profile.subtitle.textContent = res.about;
+    })
+  },
+  [
+    'Переписываем',
+    'Исправляем',
+    'Меняем',
+  ]);
+
+export const popupAddImage = new PopupSubmit('#popup-add', (evt)=>
+  {
+    return mestoApi.workData({key:'cards'}, 'post',
+    {
+      name: inputImage.title.value,
+      link: inputImage.url.value,
+    })
+    .then((res)=>{
+
+      cardSection.addItem(new Card(res, cardConfig));
+
+      evt.target.reset();
+      toggleButton(formsPrefs, inputImage.form);
+    })
+  });
+
+export const popupEditAvatar = new PopupSubmit('#popup-avatar', (evt)=>
+  {
+    return mestoApi.workData({key:'avatar'}, 'PATCH',
+    {
+      avatar: inputAvatar.url.value
+    })
+    .then((res)=>{
+      document.querySelector('.profile__avatar').src = res.avatar;
+      evt.target.reset();
+      toggleButton(formsPrefs, inputAvatar.form);
+    })
+  });
+
+
 export const popupImage = new PopupImage('#popup-image');
-export const popupDelCard = new PopupDelete('#popup-delCard');
+export const popupDelCard = new PopupDelete('#popup-delCard', (evt)=>
+  {
+    return mestoApi.workData({key:'cards', id: window.cardToDelete.id}, 'delete')
+    .then((res)=>{
+      window.cardToDelete.remove();
+    })
+  },
+  [
+    'Стираем',
+    'Удаляем',
+    'Забываем',
+  ]);
