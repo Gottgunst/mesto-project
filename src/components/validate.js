@@ -1,24 +1,27 @@
 export default class FormValidator {
-  constructor(formsPrefs, formElement){
+  constructor(formElement, formsPrefs = {
+  formSelector: 'popup__form',
+  inputSelector: 'popup__field',
+  submitButtonSelector: 'popup__submit',
+  inactiveButtonClass: 'popup__submit_disabled',
+  errorFieldSelector: '[name="err-',}){
     this._formsPrefs = formsPrefs;
     this._formElement = formElement;
-    ({
-      formSelector: this.formSelector,
-      inputSelector: this.inputSelector,
-      submitButtonSelector: this.submitButtonSelector,
-      inactiveButtonClass: this.inactiveButtonClass,
-      errorFieldSelector: this. errorFieldSelector} = this._formsPrefs);
+    this._button = this._formElement.querySelector(this._formsPrefs.submitButtonSelector);
+
   }
 
   // Переключатель кнопки
   toggleButton() {
-    const button = this._formElement.querySelector(`.${this.submitButtonSelector}`);
+    const { submitButtonSelector, inactiveButtonClass, _formsPrefs, _formElement } = this;
 
-    if (this._hasInvalidInput(this._formsPrefs, this._formElement)){
-      button.classList.add(this.inactiveButtonClass);
+
+
+    if (this._hasInvalidInput(_formsPrefs, _formElement)){
+      button.classList.add(inactiveButtonClass);
       button.setAttribute('disabled','disabled');
     } else {
-      button.classList.remove(this.inactiveButtonClass);
+      button.classList.remove(inactiveButtonClass);
       button.removeAttribute('disabled');
     }
   }
