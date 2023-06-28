@@ -1,13 +1,10 @@
-import { likeCard } from './buttons';
-import { handleCardDelate } from './input';
-import { openPopupImage } from './modal';
-
 // ##########################
 // Image Card Class
 // ##########################
 
 export default class Card {
-  constructor(cardObject, {template, cardEls, backendKeys, popups}){
+  constructor(cardObject, {template, cardEls, backendKeys, fn},
+    ){
     // Объект карточки с сервера
     this._cardObject = cardObject;
     // Шаблон карточки из HTML
@@ -16,15 +13,19 @@ export default class Card {
     this._cardEls = cardEls;
     // Ключи объектов бекэнда
     this._backendKeys = backendKeys;
-    // привязка к модальным окнам
-    this._popups = popups;
-
+    // привязка к внешним функциям
+    this._fn = fn;
     // возвращаем при вызове класса
     // результат работы внутренней функции,
     // но ломаем внешние методы
     return this._gather();
   }
+  // явный метод получения карточки
+  // getCard(){
+  //   return this._gather();
+  // }
 
+  // собираем карточку
   _gather(){
     // клонируем разметку
     const cardElement = document.querySelector(this._template).content.cloneNode(true);
@@ -54,13 +55,13 @@ export default class Card {
     counter.textContent = this._checkLikes(obj, key, like, el);
 
     // назначение событий клика
-    this._addEvents(image, like, delButton, obj, key, this._popups);
+    this._addEvents(image, like, delButton, obj, key, this._fn);
 
     return cardElement;
   }
 
+  // проверяем кол-во лайков
   _checkLikes(obj, key, like, { likeActive }){
-
     if(obj[key.counter].length>0) {
       // проверка личного лайка
       if(obj[key.counter].some(user => user[key.id] === window.userData[key.id]))
@@ -73,24 +74,20 @@ export default class Card {
     return "";
   }
 
-  _addEvents(image, like, delButton, obj, key, popups){
-    image.addEventListener('click', () => openPopupImage(obj, popups.open));
-    like.addEventListener('click', likeCard);
+  // устанавливаем события
+  _addEvents(image, like, delButton, obj, key, fn){
+
+    image.addEventListener('click',
+      ()=>fn.open(obj[key.image],obj[key.caption]));
+
+    like.addEventListener('click',
+      (evt)=>fn.like(evt));
 
     // если карточка не наша, её нет возможности удалить
     obj[key.owner][key.id] === window.userData[key.id] ?
-      delButton.addEventListener('click', (evt)=> handleCardDelate(evt, popups.del)) :
+      delButton.addEventListener('click',(evt)=>fn.del(evt)) :
       delButton.remove();
   }
-
 }
 
 
-// содержит приватные методы для каждого обработчика;
-// содержит один публичный метод, который возвращает полностью работоспособный и наполненный данными элемент карточки
-// Сделайте так, чтобы Card принимал в конструктор функцию handleCardClick. При клике на карточку эта функция должна открывать попап с картинкой.
-
-
-// ##########################
-// Section Class
-// ##########################

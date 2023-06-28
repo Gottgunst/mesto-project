@@ -1,6 +1,9 @@
 import Api from "../components/api.js";
+import { likeCard } from '../components/buttons.js';
 import Card from '../components/card.js';
+import { PopupDelete, PopupImage, PopupSubmit } from '../components/modal.js';
 import Section from '../components/section.js';
+import { toggleButton } from '../components/validate.js';
 
 // ######################
 // Конфигурация API
@@ -24,10 +27,6 @@ import Section from '../components/section.js';
 // ######################
 // Конфигурация элементов
 // ######################
-
-// Карточки
-
-export const templateCard = document.querySelector('#templateCard').content;
 
 // Данные пользователя
 export const profile = {
@@ -73,28 +72,10 @@ export const inputDelCard = {
   button: document.querySelector('.popup__form[name="delCard"] > .popup__submit'),
 };
 
-// Модальные окна
-export const popupArray = document.querySelectorAll('.popup');
-export const popupEditProfile = document.querySelector('#popup-profile');
-export const popupAddImage = document.querySelector('#popup-add');
-export const popupEditAvatar = document.querySelector('#popup-avatar');
-export const popupDelCard = {
-  container: document.querySelector('#popup-delCard'),
-  title: document.querySelector('.popup__title_type_del-card'),
-  button: inputDelCard.button,
-}
-
-// Модальное окно с полноформатным изображением с подписью
-export const popupImage = {
-  container: document.querySelector('#popup-image'),
-  image: document.querySelector('.popup__image'),
-  caption: document.querySelector('.popup__caption'),
-};
-
 // Кнопки
 export const buttonEditProfile = document.querySelector('.profile__button_type_edit');
 export const buttonAddImage = document.querySelector('.profile__button_type_add');
-export const buttonsClosePopup = document.querySelectorAll('.popup__close');
+
 
 // ######################
 // Конфигурация карточек
@@ -117,9 +98,10 @@ export const cardConfig = {
     id: '_id',
     owner: 'owner',
   },
-  popups: {
-    open: popupImage,
-    del: popupDelCard,
+  fn: {
+    open: (image, caption)=>popupImage.openPopup(image, caption),
+    del: (evt)=>popupDelCard.openPopup(evt),
+    like: (evt)=>likeCard(evt),
   }
 };
 
@@ -127,10 +109,74 @@ export const cardConfig = {
 // Конфигурация секции
 // ######################
 
-const cardContainer = document.querySelector('.elements__grid');
-
 export const cardSection = new Section({
     items: [],
     renderer: (cardObject)=>new Card(cardObject, cardConfig)
   },
-  cardContainer);
+  '.elements__grid');
+
+// ######################
+// Конфигурация модальных окон
+// ######################
+
+export const popupEditProfile = new PopupSubmit('#popup-profile', ()=>
+  {
+    return mestoApi.workData({key:'user'}, 'patch',
+    {
+      name: inputProfile.name.value,
+      about: inputProfile.subtitle.value
+    })
+    .then((res)=>{
+      profile.name.textContent = res.name;
+      profile.subtitle.textContent = res.about;
+    })
+  },
+  [
+    'Переписываем',
+    'Исправляем',
+    'Меняем',
+  ]);
+
+export const popupAddImage = new PopupSubmit('#popup-add', (evt)=>
+  {
+    return mestoApi.workData({key:'cards'}, 'post',
+    {
+      name: inputImage.title.value,
+      link: inputImage.url.value,
+    })
+    .then((res)=>{
+
+      cardSection.addItem(new Card(res, cardConfig));
+
+      evt.target.reset();
+      toggleButton(formsPrefs, inputImage.form);
+    })
+  });
+
+export const popupEditAvatar = new PopupSubmit('#popup-avatar', (evt)=>
+  {
+    return mestoApi.workData({key:'avatar'}, 'PATCH',
+    {
+      avatar: inputAvatar.url.value
+    })
+    .then((res)=>{
+      document.querySelector('.profile__avatar').src = res.avatar;
+      evt.target.reset();
+      toggleButton(formsPrefs, inputAvatar.form);
+    })
+  });
+
+
+export const popupImage = new PopupImage('#popup-image');
+export const popupDelCard = new PopupDelete('#popup-delCard', (evt)=>
+  {
+    return mestoApi.workData({key:'cards', id: window.cardToDelete.id}, 'delete')
+    .then((res)=>{
+      window.cardToDelete.remove();
+    })
+  },
+  [
+    'Стираем',
+    'Удаляем',
+    'Забываем',
+  ]);
