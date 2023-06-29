@@ -40,9 +40,9 @@ export const mestoApi = new Api ({
 // ######################
 // Конфигурация FormValidator
 // ######################
-export const formValidatorImage = new FormValidator(inputImage.form);
-export const formValidatorAvatar = new FormValidator(inputAvatar.form);
-export const formValidatorProfile = new FormValidator(inputProfile.form);
+export const formValidatorImage = new FormValidator(formsPrefs, inputImage.form);
+export const formValidatorAvatar = new FormValidator(formsPrefs, inputAvatar.form);
+export const formValidatorProfile = new FormValidator(formsPrefs, inputProfile.form);
 
 // обьект с инстансами класса FormValidator
 const formsValidator = {

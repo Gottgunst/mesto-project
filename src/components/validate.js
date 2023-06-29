@@ -1,20 +1,13 @@
 export default class FormValidator {
-  constructor(formElement, formsPrefs = {
-    formSelector: '.popup__form',
-    inputSelector: '.popup__field',
-    submitButtonSelector: '.popup__submit',
-    inactiveButtonClass: 'popup__submit_disabled',
-    errorFieldSelector: '[name="err-',}){
-  this._formElement = formElement;
-  this._formsPrefs = formsPrefs;
-
+  constructor(formsPrefs, formElement){
+    this._formsPrefs = formsPrefs;
+    this._formElement = formElement;
   }
 
-  // Переключатель кнопки
   toggleButton() {
-    const { inactiveButtonClass, _formsPrefs, _formElement } = this;
-    const button = _formElement.querySelector(submitButtonSelector);
-
+    const {_formsPrefs, _formElement} = this
+    const {submitButtonSelector, inactiveButtonClass} = _formsPrefs
+    const button = _formElement.querySelector(`.${submitButtonSelector}`);
 
     if (this._hasInvalidInput(_formsPrefs, _formElement)){
       button.classList.add(inactiveButtonClass);
@@ -24,12 +17,12 @@ export default class FormValidator {
       button.removeAttribute('disabled');
     }
   }
-
   // Валидация во время ввода
   _isValid (evt){
-    const { errorFieldSelector, _formsPrefs, _formElement } = this;
+    const {_formsPrefs, _formElement} = this
+    const {errorFieldSelector} = _formsPrefs
     // находим поле для вывода ошибки
-    const errField = document.querySelector(`.${errorFieldSelector}${evt.target.name}"]`);
+    const errField = document.querySelector(`${errorFieldSelector}${evt.target.name}"]`);
 
     // проверка текущего поля согласно настройкам формы в HTML
     evt.target.validity.patternMismatch ?
@@ -51,9 +44,10 @@ export default class FormValidator {
   }
 
   _isKeyValid(evt) {
-    const { errorFieldSelector } = this;
+    const {_formsPrefs} = this
+    const {errorFieldSelector} = _formsPrefs
     // находим поле для вывода ошибки
-    const errField = document.querySelector(`.${errorFieldSelector}${evt.target.name}"]`);
+    const errField = document.querySelector(`${errorFieldSelector}${evt.target.name}"]`);
 
     errField.textContent = this._hasDoubleKey(evt, ' ') ?
       "Два пробела подряд" :
@@ -71,16 +65,19 @@ export default class FormValidator {
   }
 
   _hasInvalidInput() {
-    const { inputSelector, _formElement } = this;
-    return Array.from(_formElement.querySelectorAll(inputSelector)).some((el) => !el.validity.valid);
+    const {_formsPrefs, _formElement} = this
+    const {inputSelector} = _formsPrefs
+    return Array.from(_formElement.querySelectorAll(`.${inputSelector}`)).some((el) => !el.validity.valid);
   }
 
   enableValidation(){
-    const { inputSelector, formSelector, _formsPrefs, _formElement } = this;
-    const allForms = document.querySelectorAll(formSelector);
+    const {_formsPrefs, _formElement} = this
+    const {formSelector, inputSelector} = _formsPrefs
+
+    const allForms = document.querySelectorAll(`.${formSelector}`);
 
     Array.from(allForms).forEach(form => {
-      const inputFields = form.querySelectorAll(inputSelector);
+      const inputFields = form.querySelectorAll(`.${inputSelector}`);
 
       Array.from(inputFields).forEach((field) => {
         field.addEventListener('input', (evt) => this._isValid(evt, _formsPrefs, _formElement));
@@ -89,5 +86,8 @@ export default class FormValidator {
         }
     });
     });
+
   }
+
 }
+
