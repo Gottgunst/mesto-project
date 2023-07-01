@@ -2,19 +2,20 @@ export default class FormValidator {
   constructor(formsPrefs, formElement){
     this._formsPrefs = formsPrefs;
     this._formElement = formElement;
+    this._button = this._formElement.querySelector('.popup__submit');
   }
 
   toggleButton() {
     const {_formsPrefs, _formElement} = this
-    const {submitButtonSelector, inactiveButtonClass} = _formsPrefs
-    const button = _formElement.querySelector(`.${submitButtonSelector}`);
+    const {inactiveButtonClass} = _formsPrefs
+    // const button = _formElement.querySelector(`.${submitButtonSelector}`);
 
     if (this._hasInvalidInput(_formsPrefs, _formElement)){
-      button.classList.add(inactiveButtonClass);
-      button.setAttribute('disabled','disabled');
+      this._button.classList.add(inactiveButtonClass);
+      this._button.setAttribute('disabled','disabled');
     } else {
-      button.classList.remove(inactiveButtonClass);
-      button.removeAttribute('disabled');
+      this._button.classList.remove(inactiveButtonClass);
+      this._button.removeAttribute('disabled');
     }
   }
   // Валидация во время ввода
