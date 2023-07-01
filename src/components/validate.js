@@ -73,22 +73,15 @@ export default class FormValidator {
 
   enableValidation(){
     const {_formsPrefs, _formElement} = this
-    const {formSelector, inputSelector} = _formsPrefs
+    const {inputSelector} = _formsPrefs
 
-    const allForms = document.querySelectorAll(`.${formSelector}`);
-
-    Array.from(allForms).forEach(form => {
-      const inputFields = form.querySelectorAll(`.${inputSelector}`);
-
+    const inputFields = _formElement.querySelectorAll(`.${inputSelector}`);
       Array.from(inputFields).forEach((field) => {
         field.addEventListener('input', (evt) => this._isValid(evt, _formsPrefs, _formElement));
         if(field.type === 'text'){
           field.addEventListener('keydown', (evt) => this._isKeyValid(evt, _formsPrefs));
         }
     });
-    });
-
   }
-
 }
 
