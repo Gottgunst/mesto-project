@@ -2,6 +2,7 @@ import Api from "../components/api.js"
 import FormValidator from '../components/validate.js';
 import Section from '../components/section.js';
 import Card from '../components/card.js';
+import UserInfo from "../components/user-info.js";
 import { PopupSubmit, PopupImage, PopupDelete } from "../components/modal.js";
 
 
@@ -18,7 +19,10 @@ import {
   cardConfig
 }  from '../utils/constants.js';
 
-
+// ######################
+// Конфигурация UserInfo
+// ######################
+const userInfo = new UserInfo(profile)
 
 // ######################
 // Конфигурация Api
@@ -45,7 +49,7 @@ export const formValidatorAvatar = new FormValidator(formsPrefs, inputAvatar.for
 export const formValidatorProfile = new FormValidator(formsPrefs, inputProfile.form);
 
 // обьект с инстансами класса FormValidator
-const formsValidator = {
+export const formsValidator = {
   image: formValidatorImage,
   avatar: formValidatorAvatar,
   profile: formValidatorProfile
@@ -61,22 +65,30 @@ export const cardSection = new Section({
 },
 '.elements__grid');
 
+// Заполняем сайт данными с сервера
+Promise.all([mestoApi.workData({key:'user'}), mestoApi.workData({key:'cards'})])
+  .then((initial)=>{
+    window.userData = initial[0];
+
+    userInfo.setUserInfo(initial[0]);
+
+    cardSection.items = initial[1];
+    cardSection.addArray();
+
+  })
+  .catch((err)=>{
+    console.log(err);
+  });
+
+
 // ######################
 // Конфигурация модальных окон
 // ######################
 
-export const popupEditProfile = new PopupSubmit('#popup-profile', ()=>
-{
-  return mestoApi.workData({key:'user'}, 'patch',
-  {
-    name: inputProfile.name.value,
-    about: inputProfile.subtitle.value
-  })
-  .then((res)=>{
-    profile.name.textContent = res.name;
-    profile.subtitle.textContent = res.about;
-  })
-},
+export const popupEditProfile = new PopupSubmit('#popup-profile', ()=> userInfo.setUserInfo({
+  name: inputProfile.name.value,
+  about: inputProfile.subtitle.value
+}),
 [
   'Переписываем',
   'Исправляем',
@@ -99,18 +111,9 @@ export const popupAddImage = new PopupSubmit('#popup-add', (evt)=>
   })
 });
 
-export const popupEditAvatar = new PopupSubmit('#popup-avatar', (evt)=>
-{
-  return mestoApi.workData({key:'avatar'}, 'PATCH',
-  {
-    avatar: inputAvatar.url.value
-  })
-  .then((res)=>{
-    document.querySelector('.profile__avatar').src = res.avatar;
-    evt.target.reset();
-    formsValidator.avatar.toggleButton();
-  })
-});
+export const popupEditAvatar = new PopupSubmit('#popup-avatar', ()=> userInfo.setUserInfo({
+  avatar: inputAvatar.url.value
+}, 'avatar'))
 
 export const popupImage = new PopupImage('#popup-image');
 export const popupDelCard = new PopupDelete('#popup-delCard', (evt)=>
@@ -128,28 +131,10 @@ export const popupDelCard = new PopupDelete('#popup-delCard', (evt)=>
 
 
 
-
 // #####################
 // Инициализация функций
 // #####################
 
-
-// Заполняем сайт данными с сервера
-Promise.all([mestoApi.workData({key:'user'}), mestoApi.workData({key:'cards'})])
-  .then((initial)=>{
-    window.userData = initial[0];
-
-    profile.name.textContent = window.userData.name;
-    profile.subtitle.textContent = window.userData.about;
-    profile.avatar.src = window.userData.avatar;
-
-    cardSection.items = initial[1];
-    cardSection.addArray();
-
-  })
-  .catch((err)=>{
-    console.log(err);
-  });
 
 
 // Запуск валидации на всех формах
@@ -158,9 +143,9 @@ formsValidator.avatar.enableValidation();
 formsValidator.profile.enableValidation();
 
 // Подключение событий клика на кнопки
-profile.avatarWrapper.addEventListener('click', ()=>{
+profile.avatarWrapperProfile.addEventListener('click', ()=>{
   // Устанавливаем адрес аватара в поля ввода
-  inputAvatar.url.value = profile.avatar.src;
+  inputAvatar.url.value = userInfo.getUserInfo().avatar;
   popupEditAvatar.openPopup();
 });
 
@@ -173,12 +158,13 @@ buttonAddImage.addEventListener('click',() => {
 buttonEditProfile.addEventListener('click',() => {
   const evtInput = new Event('input');
   // Устанавливаем данные пользователя в поля ввода
-  inputProfile.name.value = profile.name.textContent;
-  inputProfile.subtitle.value = profile.subtitle.textContent;
+  inputProfile.name.value = userInfo.getUserInfo().name;
+  inputProfile.subtitle.value = userInfo.getUserInfo().subtitle;
   popupEditProfile.openPopup();
   // запускаем событие ввода данных на заполненных полях, для сброса валидации
   // если модальное окно было очищено вручную от данных и закрыто без сохранения
   inputProfile.name.dispatchEvent(evtInput);
   inputProfile.subtitle.dispatchEvent(evtInput);
 });
+
 

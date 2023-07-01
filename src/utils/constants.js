@@ -10,10 +10,10 @@ import { formValidatorAvatar, formValidatorImage, formValidatorProfile,   } from
 
 // Данные пользователя
 export const profile = {
-  name: document.querySelector('.profile__name'),
-  subtitle: document.querySelector('.profile__subtitle'),
-  avatar: document.querySelector('.profile__avatar'),
-  avatarWrapper: document.querySelector('.profile__avatar-wrapper'),
+  nameProfile: document.querySelector('.profile__name'),
+  subtitleProfile: document.querySelector('.profile__subtitle'),
+  avatarProfile: document.querySelector('.profile__avatar'),
+  avatarWrapperProfile: document.querySelector('.profile__avatar-wrapper'),
 };
 
 // Формы
