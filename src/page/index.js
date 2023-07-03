@@ -18,11 +18,6 @@ import {
   cardConfig
 }  from '../utils/constants.js';
 
-// ######################
-// Конфигурация UserInfo
-// ######################
-const userInfo = new UserInfo(userProfile, (path, body)=>
-  mestoApi.workData({key: path}, 'patch', body));
 
 // ######################
 // Конфигурация Api
@@ -41,23 +36,7 @@ export const mestoApi = new Api ({
   }
 });
 
-
-// Заполняем сайт данными с сервера
-Promise.all([mestoApi.workData({key:'user'}), mestoApi.workData({key:'cards'})])
-  .then((initial)=>{
-    window.userData = initial[0];
-
-    userInfo.userInfo = initial[0];
-
-    cardSection.items = initial[1];
-    cardSection.addArray();
-
-  })
-  .catch((err)=>{
-    console.log(err);
-  });
-
-  // ######################
+// ######################
 // Конфигурация FormValidator
 // ######################
 
@@ -72,19 +51,24 @@ export const formsValidator = {
 // ######################
 
 export const cardSection = new Section({
-  items: [],
-  renderer: (cardObject)=>new Card(cardObject, cardConfig).getCard()
-},
-'.elements__grid');
+    items: [],
+    renderer: (cardObject)=>new Card(cardObject, cardConfig).getCard()
+  },
+  '.elements__grid');
+
+// ######################
+// Конфигурация UserInfo
+// ######################
+const userMesto = new UserInfo(userProfile, (path, body)=>
+  mestoApi.workData({key: path}, 'patch', body));
 
 // ######################
 // Конфигурация модальных окон
 // ######################
-
 export const popupEditProfile = new PopupSubmit(
   "#popup-profile",
   () =>
-    userInfo.workUserInfo("user", {
+    userMesto.workUserInfo("user", {
       name: inputProfile.name.value,
       about: inputProfile.subtitle.value,
     }),
@@ -99,7 +83,7 @@ export const popupAddImage = new PopupSubmit("#popup-add", (evt) => {
       link: inputImage.url.value,
     })
     .then((res) => {
-      cardSection.addItem(new Card(res, cardConfig));
+      cardSection.addItem(new Card(res, cardConfig).getCard());
 
       evt.target.reset();
       formsValidator.image.toggleButton();
@@ -108,7 +92,7 @@ export const popupAddImage = new PopupSubmit("#popup-add", (evt) => {
 popupAddImage.setEventListeners();
 
 export const popupEditAvatar = new PopupSubmit("#popup-avatar", (evt) => {
-  return userInfo
+  return userMesto
     .workUserInfo("avatar", { avatar: inputAvatar.url.value })
     .then((res) => {
       evt.target.reset();
@@ -120,6 +104,7 @@ popupEditAvatar.setEventListeners();
 
 export const popupImage = new PopupImage("#popup-image");
 popupImage.setEventListeners();
+
 export const popupDelCard = new PopupDelete(
   "#popup-delCard",
   (evt) => {
@@ -138,16 +123,31 @@ popupDelCard.setEventListeners();
 // Инициализация функций
 // #####################
 
+// Заполняем сайт данными с сервера
+Promise.all([mestoApi.workData({key:'user'}), mestoApi.workData({key:'cards'})])
+  .then((initial)=>{
+    window.userData = initial[0];
+
+    userMesto.userInfo = initial[0];
+
+    cardSection.items = initial[1];
+    cardSection.addArray();
+
+  })
+  .catch((err)=>{
+    console.log(err);
+  });
 
 // Запуск валидации на всех формах
 formsValidator.image.enableValidation();
 formsValidator.avatar.enableValidation();
 formsValidator.profile.enableValidation();
 
+
 // Подключение событий клика на кнопки
 userProfile.avatarWrapperProfile.addEventListener('click', ()=>{
   // Устанавливаем адрес аватара в поля ввода
-  inputAvatar.url.value = userInfo.userInfo.avatar;
+  inputAvatar.url.value = userMesto.userInfo.avatar;
   popupEditAvatar.openPopup();
 });
 
@@ -160,8 +160,8 @@ buttonAddImage.addEventListener('click',() => {
 buttonEditProfile.addEventListener('click',() => {
   const evtInput = new Event('input');
   // Устанавливаем данные пользователя в поля ввода
-  inputProfile.name.value = userInfo.userInfo.name;
-  inputProfile.subtitle.value = userInfo.userInfo.subtitle;
+  inputProfile.name.value = userMesto.userInfo.name;
+  inputProfile.subtitle.value = userMesto.userInfo.subtitle;
   popupEditProfile.openPopup();
   // запускаем событие ввода данных на заполненных полях, для сброса валидации
   // если модальное окно было очищено вручную от данных и закрыто без сохранения
