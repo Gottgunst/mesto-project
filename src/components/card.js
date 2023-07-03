@@ -1,56 +1,114 @@
-import { likeCard } from './buttons';
-import { handleCardDelate } from './input';
-import { openPopupImage } from './modal';
+// ##########################
+// Image Card Class
+// ##########################
 
-// #########################
-// Image Card Crate Function
-// #########################
+export default class Card {
+  constructor(cardObject, {template, cardEls, backendKeys, fn},
+    ){
+    // Объект карточки с сервера
+    this._cardObject = cardObject;
+    // Шаблон карточки из HTML
+    // клонируем разметку
+    this._cardElement = document.querySelector(template).content.cloneNode(true);
 
-export function gatherCard(cardObject, templateCard, popupImage, popupDelCard) {
+    // Селекторы элементов карточки
+    this._cardEls = cardEls;
 
-  const cardElement = templateCard.querySelector('.element__wrapper').cloneNode(true);
-  const image = cardElement.querySelector('.element__image');
-  const caption = cardElement.querySelector('.element__caption');
-  const delButton = cardElement.querySelector('.element__button-del');
-  const counter = cardElement.querySelector('.element__likes-counter');
+    // находим в разметке элементы
+    this._image = this._cardElement.querySelector(cardEls.image);
+    this._caption = this._cardElement.querySelector(cardEls.caption);
+    this._counter = this._cardElement.querySelector(cardEls.counter);
+    this._delButton = this._cardElement.querySelector(cardEls.delButton);
+    this._like = this._cardElement.querySelector(cardEls.like);
 
-
-  cardElement.id = cardObject._id;
-  caption.textContent = cardObject.name;
-
-  // проверяем данные карточки — она из базы данных или загружена пользователем
-  // if (cardObject.initial) {
-  //   image.src = cardObject.images[0];
-  // } else {
-  image.src = cardObject.link;
-  // }
-  // image.setAttribute('data-init', cardObject.initial);
-  image.alt = cardObject.title; // cardObject.imageAlt ||
-
-  if(cardObject.likes.length>0) {
-    counter.textContent = cardObject.likes.length;
-    if(cardObject.likes.some(user => user._id === window.userData._id))
-      cardElement.querySelector('.element__button-like')
-        .classList.add('element__button-like_active');
-  }else{
-    counter.textContent = "";
+    // Ключи объектов бекэнда
+    this._backendKeys = backendKeys;
+    // привязка к внешним функциям
+    this._fn = fn;
+  }
+  // явный метод получения карточки
+  getCard(){
+    return this._gather();
   }
 
-  image.addEventListener('click', () => openPopupImage(cardObject, popupImage));
-  cardElement.querySelector('.element__button-like').addEventListener('click', likeCard);
+  // собираем карточку
+  _gather(){
+    const { _cardElement, _caption, _image, _counter, _delButton, _like } = this;
 
-  cardObject.owner._id === window.userData._id ?
-    delButton.addEventListener('click', (evt)=> handleCardDelate(evt, popupDelCard)) :
-    delButton.remove();
+    // переменные для данных с сервера
+    const obj = this._cardObject;
+    const key = this._backendKeys;
 
-  return cardElement;
+    // присваиваем:
+    // — id карточке
+    _cardElement.firstChild.id = obj[key.id];
+    // — заголовок
+    _caption.textContent = obj[key.caption];
+    // — изображение
+    _image.src = obj[key.image];
+    _image.alt = obj[key.caption];
+    // — кол-во лайков + проверка на свой лайк
+    _counter.textContent = this._checkLikes();
+
+    // назначение событий клика
+    this._addEvents();
+
+    return _cardElement;
+  }
+
+  // проверяем кол-во лайков
+  _checkLikes(){
+    // переменные для данных с сервера
+    const obj = this._cardObject;
+    const key = this._backendKeys;
+
+    if(obj[key.counter].length>0) {
+      // проверка личного лайка
+      if(obj[key.counter].some(user => user[key.id] === window.userData[key.id]))
+        this._like.classList.add(this._cardEls.likeActive);
+
+      // возвращаем кол-во лайков
+      return obj[key.counter].length;
+    }
+    // возвращаем пусто, если нет лайков
+    return "";
+  }
+
+  _likeCard(evt){
+    // переменные для данных с сервера
+    const obj = this._cardObject;
+    const key = this._backendKeys;
+
+    const method = evt.target.classList.toggle(this._cardEls.likeActive) ? 'put': 'delete';
+
+    this._fn.likeRequest(obj[key.id], method)
+    .then((res)=>{
+      const cardObject = res;
+      this._counter.textContent = cardObject.likes.length>0 ? cardObject.likes.length : "";
+    })
+    .catch((err)=>{
+      console.log(err);
+    });
+  }
+
+  // устанавливаем события
+  _addEvents(){
+    const { _fn, _image, _delButton, _like } = this;
+    // переменные для данных с сервера
+    const obj = this._cardObject;
+    const key = this._backendKeys;
+
+    _image.addEventListener('click',
+      ()=>_fn.open(obj[key.image],obj[key.caption]));
+
+    _like.addEventListener('click',
+      (evt)=>{this._likeCard(evt)});
+
+    // если карточка не наша, её нет возможности удалить
+    obj[key.owner][key.id] === window.userData[key.id] ?
+      _delButton.addEventListener('click',(evt)=>_fn.del(evt)) :
+      _delButton.remove();
+  }
 }
 
 
-// ##########################
-// Image Card Render Function
-// ##########################
-
-export function renderCard(cardElement, cardContainer, way='prepend') {
-  cardContainer[way](cardElement);
-}
