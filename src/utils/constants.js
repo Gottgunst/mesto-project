@@ -1,7 +1,5 @@
 import { likeCard } from '../components/buttons.js';
-import { formValidatorAvatar, formValidatorImage, formValidatorProfile,   } from "../page/index.js";
-
-
+import { popupImage, popupDelCard } from "../page/index.js";
 
 
 // ######################
@@ -9,7 +7,7 @@ import { formValidatorAvatar, formValidatorImage, formValidatorProfile,   } from
 // ######################
 
 // Данные пользователя
-export const profile = {
+export const userProfile = {
   nameProfile: document.querySelector('.profile__name'),
   subtitleProfile: document.querySelector('.profile__subtitle'),
   avatarProfile: document.querySelector('.profile__avatar'),
@@ -17,15 +15,6 @@ export const profile = {
 };
 
 // Формы
-export const formsPrefs = {
-  formSelector: 'popup__form',
-  inputSelector: 'popup__field',
-  submitButtonSelector: 'popup__submit',
-  inactiveButtonClass: 'popup__submit_disabled',
-  errorFieldSelector: '[name="err-', // ${evt.target.name}"]
-  // inputErrorClass: 'popup__field-error',
-  // errorClass: 'popup__error',
-};
 
 export const inputProfile = {
   form: document.querySelector('.popup__form[name="editInfo"]'),
