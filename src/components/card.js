@@ -18,12 +18,12 @@ export default class Card {
     // возвращаем при вызове класса
     // результат работы внутренней функции,
     // но ломаем внешние методы
-    return this._gather();
+    // return this._gather();
   }
   // явный метод получения карточки
-  // getCard(){
-  //   return this._gather();
-  // }
+  getCard(){
+    return this._gather();
+  }
 
   // собираем карточку
   _gather(){
