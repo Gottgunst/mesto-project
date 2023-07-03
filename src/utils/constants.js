@@ -1,6 +1,33 @@
-import { likeCard } from '../components/buttons.js';
-import { popupImage, popupDelCard } from "../page/index.js";
+import { popupImage, popupDelCard, mestoApi } from "../page/index.js";
 
+
+// ######################
+// Конфигурация карточек
+// ######################
+
+export const cardConfig = {
+  template: '#templateCard',
+  cardEls: {
+    image: '.element__image',
+    caption: '.element__caption',
+    counter: '.element__likes-counter',
+    delButton: '.element__button-del',
+    like: '.element__button-like',
+    likeActive: 'element__button-like_active'
+  },
+  backendKeys: {
+    image: 'link',
+    caption: 'name',
+    counter: 'likes',
+    id: '_id',
+    owner: 'owner',
+  },
+  fn: {
+    open: (image, caption)=>popupImage.openPopup(image, caption),
+    del: (evt)=>popupDelCard.openPopup(evt),
+    likeRequest: (idCard, method)=>mestoApi.workData({key : 'likes', id : idCard}, method),
+  }
+};
 
 // ######################
 // Конфигурация элементов
@@ -15,7 +42,6 @@ export const userProfile = {
 };
 
 // Формы
-
 export const inputProfile = {
   form: document.querySelector('.popup__form[name="editInfo"]'),
   name: document.querySelector('.popup__field[name="name"]'),
@@ -46,33 +72,7 @@ export const buttonEditProfile = document.querySelector('.profile__button_type_e
 export const buttonAddImage = document.querySelector('.profile__button_type_add');
 
 
-// ######################
-// Конфигурация карточек
-// ######################
 
-export const cardConfig = {
-  template: '#templateCard',
-  cardEls: {
-    image: '.element__image',
-    caption: '.element__caption',
-    counter: '.element__likes-counter',
-    delButton: '.element__button-del',
-    like: '.element__button-like',
-    likeActive: 'element__button-like_active'
-  },
-  backendKeys: {
-    image: 'link',
-    caption: 'name',
-    counter: 'likes',
-    id: '_id',
-    owner: 'owner',
-  },
-  fn: {
-    open: (image, caption)=>popupImage.openPopup(image, caption),
-    del: (evt)=>popupDelCard.openPopup(evt),
-    like: (evt)=>likeCard(evt),
-  }
-};
 
 
 
