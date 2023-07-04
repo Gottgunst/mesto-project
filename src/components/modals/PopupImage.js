@@ -1,4 +1,4 @@
-import { Popup } from './Popup';
+import { Popup } from '.';
 
 // #################
 // POP-UP Image Class

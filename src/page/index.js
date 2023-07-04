@@ -5,7 +5,6 @@ import Card from '../components/card.js';
 import UserInfo from "../components/user-info.js";
 import { PopupSubmit, PopupImage, PopupDelete } from "../components/modals";
 
-
 import './index.css';
 
 import {

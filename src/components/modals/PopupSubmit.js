@@ -1,5 +1,4 @@
-import { Popup } from './Popup';
-
+import { Popup } from '.';
 
 // #################
 // POP-UP Submit Class

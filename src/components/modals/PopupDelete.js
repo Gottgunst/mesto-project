@@ -1,4 +1,4 @@
-import {PopupSubmit} from './PopupSubmit';
+import {PopupSubmit} from '.';
 
 // #################
 // POP-UP Delete Class
