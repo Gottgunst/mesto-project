@@ -3,7 +3,7 @@ import FormValidator from '../components/validate.js';
 import Section from '../components/section.js';
 import Card from '../components/card.js';
 import UserInfo from "../components/user-info.js";
-import { PopupSubmit, PopupImage, PopupDelete } from "../components/modal.js";
+import { PopupSubmit, PopupImage, PopupDelete } from "../components/modals";
 
 
 import './index.css';
