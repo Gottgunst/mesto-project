@@ -107,7 +107,7 @@ export class PopupImage extends Popup{
     this._imageEl = this._popupElement.querySelector(this._style.image);
     this._captionEl = this._popupElement.querySelector(this._style.caption);
 
-    super.setEventListeners();
+    // super.setEventListeners();
   }
 
   openPopup(image, caption){
@@ -166,7 +166,7 @@ export class PopupSubmit extends Popup{
     this._titleEl = this._popupElement.querySelector(this._style.title);
     this._submit = this._popupElement.querySelector(this._style.submit);
 
-    this.setEventListeners();
+    // this.setEventListeners();
   }
 
   // расширяем функционал
