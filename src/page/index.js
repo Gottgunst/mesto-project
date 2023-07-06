@@ -58,11 +58,13 @@ export const cardConfig = {
   fn: {
     open: (image, caption)=>popupImage.openPopup(image, caption),
     del: (evt)=>popupDelCard.openPopup(evt),
-    likeRequest: (idCard, method, _counter) => {
+    likeRequest: (idCard, method, setLikes) => {
+      // запрос на сервер
       mestoApi.workData({key : 'likes', id : idCard}, method)
       .then((res)=>{
         const cardObject = res;
-        _counter.textContent = cardObject.likes.length>0 ? cardObject.likes.length : "";
+        // если всё ок, вносим данные
+        setLikes(cardObject.likes.length);
       })
       .catch((err)=>{
         console.log(err);

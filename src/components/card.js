@@ -23,6 +23,10 @@ export default class Card {
 
     // Ключи объектов бекэнда
     this._backendKeys = backendKeys;
+
+    // Биндим функцию для передачи её в колбек
+    this._bindSetLikes = this._setLikes.bind(this);
+
     // привязка к внешним функциям
     this._fn = fn;
   }
@@ -81,7 +85,13 @@ export default class Card {
 
     const method = this._like.classList.toggle(this._cardEls.likeActive) ? 'put': 'delete';
 
-    this._fn.likeRequest(obj[key.id], method, this._counter);
+    // отправляем в коллбек данные для лайка
+    this._fn.likeRequest(obj[key.id], method, this._bindSetLikes);
+  }
+
+  _setLikes(likesQuantity){
+    // рисуем кол-во лайков
+    this._counter.textContent = likesQuantity>0 ? likesQuantity : "";
   }
 
   // устанавливаем события
