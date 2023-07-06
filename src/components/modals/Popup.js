@@ -6,7 +6,7 @@ export class Popup{
   constructor(popupSelector,
     styleCfg = {
     open: 'popup_opened',
-    close: '.popup__close',
+    close: '[data-close="popup"]',
     flex: 'popup_flexed',
     fixPage: 'page_fixed',
   })
@@ -54,6 +54,8 @@ export class Popup{
   setEventListeners(){
     const {close} = this._style;
 
+    // идём циклом по всем кнопкам в рамках инстанса класса
+    // которые должны закрывать popup — фон, крестик…
     this._popupElement.querySelectorAll(close).forEach(
       button => button.addEventListener('mousedown',this._bindClose)
     );
