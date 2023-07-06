@@ -105,16 +105,23 @@ const userMesto = new UserInfo(userProfile, (path, body)=>
 // ######################
 export const popupEditProfile = new PopupSubmit(
   "#popup-profile",
-  () =>
+  (evt, _succeedSubmit, _errSubmit) =>
     userMesto.workUserInfo("user", {
       name: inputProfile.name.value,
       about: inputProfile.subtitle.value,
+    })
+    .then((res) => {
+      _succeedSubmit();
+    })
+    .catch((err)=>{
+      console.log(err);
+      _errSubmit(err);
     }),
   ["Переписываем", "Исправляем", "Меняем"]
 );
 popupEditProfile.setEventListeners();
 
-export const popupAddImage = new PopupSubmit("#popup-add", (evt) => {
+export const popupAddImage = new PopupSubmit("#popup-add", (evt, _succeedSubmit, _errSubmit) => {
   return mestoApi
     .workData({ key: "cards" }, "post", {
       name: inputImage.title.value,
@@ -125,16 +132,26 @@ export const popupAddImage = new PopupSubmit("#popup-add", (evt) => {
 
       evt.target.reset();
       formsValidator.image.toggleButton();
+      _succeedSubmit();
+    })
+    .catch((err)=>{
+      console.log(err);
+      _errSubmit(err);
     });
 });
 popupAddImage.setEventListeners();
 
-export const popupEditAvatar = new PopupSubmit("#popup-avatar", (evt) => {
+export const popupEditAvatar = new PopupSubmit("#popup-avatar", (evt, _succeedSubmit, _errSubmit) => {
   return userMesto
     .workUserInfo("avatar", { avatar: inputAvatar.url.value })
     .then((res) => {
       evt.target.reset();
       formsValidator.avatar.toggleButton();
+      _succeedSubmit();
+    })
+    .catch((err)=>{
+      console.log(err);
+      _errSubmit(err);
     });
 });
 popupEditAvatar.setEventListeners();
@@ -145,12 +162,17 @@ popupImage.setEventListeners();
 
 export const popupDelCard = new PopupDelete(
   "#popup-delCard",
-  (evt) => {
+  (evt, _succeedSubmit, _errSubmit) => {
     return mestoApi
       .workData({ key: "cards", id: window.cardToDelete.id }, "delete")
       .then((res) => {
         window.cardToDelete.remove();
-      });
+       _succeedSubmit();
+    })
+    .catch((err)=>{
+      console.log(err);
+      _errSubmit(err);
+    });
   },
   ["Стираем", "Удаляем", "Забываем"]
 );
