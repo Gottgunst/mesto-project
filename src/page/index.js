@@ -5,7 +5,6 @@ import Card from '../components/card.js';
 import UserInfo from "../components/user-info.js";
 import { PopupSubmit, PopupImage, PopupDelete } from "../components/modals";
 
-
 import './index.css';
 
 import {
@@ -15,7 +14,6 @@ import {
   inputImage,
   buttonEditProfile,
   buttonAddImage,
-  cardConfig
 }  from '../utils/constants.js';
 
 
@@ -37,9 +35,47 @@ export const mestoApi = new Api ({
 });
 
 // ######################
-// Конфигурация FormValidator
+// Конфигурация карточек
 // ######################
 
+export const cardConfig = {
+  template: '#templateCard',
+  cardEls: {
+    image: '.element__image',
+    caption: '.element__caption',
+    counter: '.element__likes-counter',
+    delButton: '.element__button-del',
+    like: '.element__button-like',
+    likeActive: 'element__button-like_active'
+  },
+  backendKeys: {
+    image: 'link',
+    caption: 'name',
+    counter: 'likes',
+    id: '_id',
+    owner: 'owner',
+  },
+  fn: {
+    open: (image, caption)=>popupImage.openPopup(image, caption),
+    del: (evt)=>popupDelCard.openPopup(evt),
+    likeRequest: (idCard, method, setLikes) => {
+      // запрос на сервер
+      mestoApi.workData({key : 'likes', id : idCard}, method)
+      .then((res)=>{
+        const cardObject = res;
+        // если всё ок, вносим данные
+        setLikes(cardObject.likes.length);
+      })
+      .catch((err)=>{
+        console.log(err);
+      });
+    },
+  }
+};
+
+// ######################
+// Конфигурация FormValidator
+// ######################
 export const formsValidator = {
   image: new FormValidator(inputImage.form),
   avatar: new FormValidator(inputAvatar.form),
@@ -49,7 +85,6 @@ export const formsValidator = {
 // ######################
 // Конфигурация секции
 // ######################
-
 export const cardSection = new Section({
     items: [],
     renderer: (cardObject)=>new Card(cardObject, cardConfig).getCard()

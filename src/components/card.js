@@ -23,6 +23,10 @@ export default class Card {
 
     // Ключи объектов бекэнда
     this._backendKeys = backendKeys;
+
+    // Биндим функцию для передачи её в колбек
+    this._bindSetLikes = this._setLikes.bind(this);
+
     // привязка к внешним функциям
     this._fn = fn;
   }
@@ -74,21 +78,20 @@ export default class Card {
     return "";
   }
 
-  _likeCard(evt){
+  _likeCard(){
     // переменные для данных с сервера
     const obj = this._cardObject;
     const key = this._backendKeys;
 
-    const method = evt.target.classList.toggle(this._cardEls.likeActive) ? 'put': 'delete';
+    const method = this._like.classList.toggle(this._cardEls.likeActive) ? 'put': 'delete';
 
-    this._fn.likeRequest(obj[key.id], method)
-    .then((res)=>{
-      const cardObject = res;
-      this._counter.textContent = cardObject.likes.length>0 ? cardObject.likes.length : "";
-    })
-    .catch((err)=>{
-      console.log(err);
-    });
+    // отправляем в коллбек данные для лайка
+    this._fn.likeRequest(obj[key.id], method, this._bindSetLikes);
+  }
+
+  _setLikes(likesQuantity){
+    // рисуем кол-во лайков
+    this._counter.textContent = likesQuantity>0 ? likesQuantity : "";
   }
 
   // устанавливаем события
@@ -102,7 +105,7 @@ export default class Card {
       ()=>_fn.open(obj[key.image],obj[key.caption]));
 
     _like.addEventListener('click',
-      (evt)=>{this._likeCard(evt)});
+      ()=>{this._likeCard()});
 
     // если карточка не наша, её нет возможности удалить
     obj[key.owner][key.id] === window.userData[key.id] ?
