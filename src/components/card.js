@@ -39,6 +39,8 @@ export default class Card {
   _gather(){
     const { _cardElement, _caption, _image, _counter, _delButton, _like } = this;
 
+
+
     // переменные для данных с сервера
     const obj = this._cardObject;
     const key = this._backendKeys;
@@ -68,7 +70,7 @@ export default class Card {
 
     if(obj[key.counter].length>0) {
       // проверка личного лайка
-      if(obj[key.counter].some(user => user[key.id] === window.userData[key.id]))
+      if(obj[key.counter].some(user => user[key.id] === this._fn.userId))
         this._like.classList.add(this._cardEls.likeActive);
 
       // возвращаем кол-во лайков
@@ -108,10 +110,11 @@ export default class Card {
       ()=>{this._likeCard()});
 
     // если карточка не наша, её нет возможности удалить
-    obj[key.owner][key.id] === window.userData[key.id] ?
+    obj[key.owner][key.id] === this._fn.userId ?
       _delButton.addEventListener('click',(evt)=>_fn.del(evt)) :
       _delButton.remove();
   }
+
 }
 
 
