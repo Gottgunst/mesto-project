@@ -53,7 +53,7 @@
   </footer>
 
   <div class="popup" id="popup-profile">
-    <div class="popup__bg popup__close"></div>
+    <div class="popup__bg" data-close='popup'></div>
     <div class="popup__container">
       <h2 class="popup__title">Редактировать профиль</h2>
       <form class="popup__form" name="editInfo" method="POST" novalidate >
@@ -63,12 +63,12 @@
         <span class="popup__error" name="err-subtitle"></span>
         <button type="submit" name="button" class="popup__submit" aria-label="Сохранить изменения">Сохранить</button>
       </form>
-      <button type="button" class="popup__cross popup__close" title="Закрыть" aria-label="Закрыть форму редактирования профиля"></button>
+      <button type="button" class="popup__cross" data-close='popup' title="Закрыть" aria-label="Закрыть форму редактирования профиля"></button>
     </div>
   </div>
 
   <div class="popup" id="popup-add">
-    <div class="popup__bg popup__close"></div>
+    <div class="popup__bg" data-close='popup'></div>
     <div class="popup__container">
       <h2 class="popup__title">Новое место</h2>
       <form class="popup__form" name="addImage" method="POST" novalidate >
@@ -78,23 +78,23 @@
         <span class="popup__error" name="err-url"></span>
         <button type="submit" name="button" class="popup__submit popup__submit_disabled" aria-label="Новая фотокарточка" disabled>Создать</button>
       </form>
-      <button type="button" class="popup__cross popup__close" title="Закрыть" aria-label="Закрыть форму добавления фотографии"></button>
+      <button type="button" class="popup__cross" data-close='popup' title="Закрыть" aria-label="Закрыть форму добавления фотографии"></button>
     </div>
   </div>
 
   <div class="popup popup_type_image" id="popup-image">
-    <div class="popup__bg popup__bg_darked popup__close"></div>
+    <div class="popup__bg popup__bg_darked" data-close='popup'></div>
     <div class="popup__container popup__container_type_image">
       <figure class="popup__figure" >
         <img class="popup__image" src="<%=require('../src/images/filler.png')%>" alt="Filler">
         <figcaption class="popup__caption">Заглушка</figcaption>
       </figure>
-      <button type="button" class="popup__cross popup__close" title="Закрыть" aria-label="Закрыть фотографию"></button>
+      <button type="button" class="popup__cross" data-close='popup' title="Закрыть" aria-label="Закрыть фотографию"></button>
     </div>
   </div>
 
     <div class="popup" id="popup-avatar">
-      <div class="popup__bg popup__close"></div>
+      <div class="popup__bg" data-close='popup'></div>
       <div class="popup__container">
         <h2 class="popup__title">Обновить аватар</h2>
         <form class="popup__form" name="changeAvatar" method="POST" novalidate>
@@ -103,19 +103,19 @@
           <button type="submit" name="button" class="popup__submit popup__submit_disabled" aria-label="Подтверждение"
             disabled>Сохранить</button>
         </form>
-        <button type="button" class="popup__cross popup__close" title="Закрыть"
+        <button type="button" class="popup__cross" data-close='popup' title="Закрыть"
           aria-label="Закрыть форму изменения аватара"></button>
       </div>
     </div>
     <div class="popup" id="popup-delCard">
-      <div class="popup__bg popup__close"></div>
+      <div class="popup__bg" data-close='popup'></div>
       <div class="popup__container">
         <h2 class="popup__title popup__title_type_del-card">Вы уверены?</h2>
         <form class="popup__form" name="delCard" method="POST" novalidate>
           <button type="submit" name="button" class="popup__submit"
             aria-label="Подтверждение">Да</button>
         </form>
-        <button type="button" class="popup__cross popup__close" title="Закрыть"
+        <button type="button" class="popup__cross" data-close='popup' title="Закрыть"
           aria-label="Закрыть форму удаления карточки"></button>
       </div>
     </div>
