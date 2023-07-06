@@ -74,21 +74,14 @@ export default class Card {
     return "";
   }
 
-  _likeCard(evt){
+  _likeCard(){
     // переменные для данных с сервера
     const obj = this._cardObject;
     const key = this._backendKeys;
 
-    const method = evt.target.classList.toggle(this._cardEls.likeActive) ? 'put': 'delete';
+    const method = this._like.classList.toggle(this._cardEls.likeActive) ? 'put': 'delete';
 
-    this._fn.likeRequest(obj[key.id], method)
-    .then((res)=>{
-      const cardObject = res;
-      this._counter.textContent = cardObject.likes.length>0 ? cardObject.likes.length : "";
-    })
-    .catch((err)=>{
-      console.log(err);
-    });
+    this._fn.likeRequest(obj[key.id], method, this._counter);
   }
 
   // устанавливаем события
@@ -102,7 +95,7 @@ export default class Card {
       ()=>_fn.open(obj[key.image],obj[key.caption]));
 
     _like.addEventListener('click',
-      (evt)=>{this._likeCard(evt)});
+      ()=>{this._likeCard()});
 
     // если карточка не наша, её нет возможности удалить
     obj[key.owner][key.id] === window.userData[key.id] ?
