@@ -97,18 +97,21 @@ export const cardSection = new Section({
 // ######################
 // Конфигурация UserInfo
 // ######################
-const userMesto = new UserInfo(userProfile, (path, body)=>
-  mestoApi.workData({key: path}, 'patch', body));
+export const userMesto = new UserInfo(userProfile);
 
 // ######################
 // Конфигурация модальных окон
 // ######################
 export const popupEditProfile = new PopupSubmit(
   "#popup-profile",
-  (evt, _succeedSubmit, _errSubmit) =>
-    userMesto.workUserInfo("user", {
+  (evt, _succeedSubmit, _errSubmit) => {
+   mestoApi
+    .workData({ key: "user" }, "patch", {
       name: inputProfile.name.value,
       about: inputProfile.subtitle.value,
+    })
+    .then((userData) => {
+    userMesto.workUserInfo(userData)
     })
     .then((res) => {
       _succeedSubmit();
@@ -118,7 +121,7 @@ export const popupEditProfile = new PopupSubmit(
       _errSubmit(err);
     }),
   ["Переписываем", "Исправляем", "Меняем"]
-);
+  });
 popupEditProfile.setEventListeners();
 
 export const popupAddImage = new PopupSubmit("#popup-add", (evt, _succeedSubmit, _errSubmit) => {
@@ -142,8 +145,11 @@ export const popupAddImage = new PopupSubmit("#popup-add", (evt, _succeedSubmit,
 popupAddImage.setEventListeners();
 
 export const popupEditAvatar = new PopupSubmit("#popup-avatar", (evt, _succeedSubmit, _errSubmit) => {
-  return userMesto
-    .workUserInfo("avatar", { avatar: inputAvatar.url.value })
+  return mestoApi
+    .workData({ key: "avatar" }, "patch", { avatar: inputAvatar.url.value })
+    .then((userData) => {
+    userMesto.workUserInfo(userData)
+  })
     .then((res) => {
       evt.target.reset();
       formsValidator.avatar.toggleButton();
@@ -186,7 +192,6 @@ popupDelCard.setEventListeners();
 // Заполняем сайт данными с сервера
 Promise.all([mestoApi.workData({key:'user'}), mestoApi.workData({key:'cards'})])
   .then((initial)=>{
-    window.userData = initial[0];
 
     userMesto.userInfo = initial[0];
 
@@ -206,8 +211,10 @@ formsValidator.profile.enableValidation();
 
 // Подключение событий клика на кнопки
 userProfile.avatarWrapperProfile.addEventListener('click', ()=>{
+  // Создаем локальную переменную с обьектом данных пользователя
+  const userInfoData = userMesto.userInfo;
   // Устанавливаем адрес аватара в поля ввода
-  inputAvatar.url.value = userMesto.userInfo.avatar;
+  inputAvatar.url.value = userInfoData.avatar;
   popupEditAvatar.openPopup();
 });
 
@@ -219,14 +226,18 @@ buttonAddImage.addEventListener('click',() => {
 
 buttonEditProfile.addEventListener('click',() => {
   const evtInput = new Event('input');
+  // Создаем локальную переменную с обьектом данных пользователя
+  const userInfoData = userMesto.userInfo;
   // Устанавливаем данные пользователя в поля ввода
-  inputProfile.name.value = userMesto.userInfo.name;
-  inputProfile.subtitle.value = userMesto.userInfo.subtitle;
+  inputProfile.name.value = userInfoData.name;
+  inputProfile.subtitle.value = userInfoData.subtitle;
   popupEditProfile.openPopup();
   // запускаем событие ввода данных на заполненных полях, для сброса валидации
   // если модальное окно было очищено вручную от данных и закрыто без сохранения
   inputProfile.name.dispatchEvent(evtInput);
   inputProfile.subtitle.dispatchEvent(evtInput);
 });
+
+
 
 

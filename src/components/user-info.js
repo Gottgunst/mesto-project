@@ -1,38 +1,37 @@
 export default class UserInfo{
-  constructor(profile, request){
+  constructor(profile, idProfile = null){
     this._profile = profile;
-    this._request = request;
+    this.idProfile = idProfile;
   }
-//метод возвращает объект с данными пользователя. Данные для этого метода нужно получать от методов класса Api
-//— подумайте над тем, как внедрить метод класса Api в getUserInfo. Когда данные пользователя нужно будет
-// подставить в форму при открытии — метод вам пригодится.
 
+// сеттер и геттер для данных пользователя
   get userInfo(){
     const {nameProfile, subtitleProfile, avatarProfile} = this._profile;
+    const {idProfile} = this
 
     return {
       name: nameProfile.textContent,
       subtitle: subtitleProfile.textContent,
-      avatar: avatarProfile.src
+      avatar: avatarProfile.src,
+      _id: idProfile
     }
   }
   set userInfo(obj){
-    const {nameProfile, subtitleProfile, avatarProfile} = this._profile;
+    const {nameProfile, subtitleProfile, avatarProfile } = this._profile;
 
     nameProfile.textContent = obj.name;
     subtitleProfile.textContent = obj.about;
     avatarProfile.src = obj.avatar;
+    this.idProfile  = obj._id;
   }
 
-    //метод принимает новые данные пользователя, отправляет их на сервер и добавляет их на страницу.
-  workUserInfo(path, body) {
-    const {nameProfile, subtitleProfile, avatarProfile} = this._profile;
+// метод принимает новые данные пользователя от сервера и добавляет их на страницу.
+  workUserInfo({name, about, avatar, _id}) {
+    const {nameProfile, subtitleProfile, avatarProfile } = this._profile;
 
-    return this._request(path, body)
-    .then(({name, about, avatar})=>{
       nameProfile.textContent = name;
       subtitleProfile.textContent = about;
       avatarProfile.src = avatar;
-    });
+      this.idProfile = _id;
   }
 }
