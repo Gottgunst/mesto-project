@@ -3,8 +3,7 @@ import FormValidator from '../components/validate.js';
 import Section from '../components/section.js';
 import Card from '../components/card.js';
 import UserInfo from "../components/user-info.js";
-import { PopupSubmit, PopupImage, PopupDelete } from "../components/modal.js";
-
+import { PopupSubmit, PopupImage, PopupDelete } from "../components/modals";
 
 import './index.css';
 
@@ -15,7 +14,6 @@ import {
   inputImage,
   buttonEditProfile,
   buttonAddImage,
-  cardConfig
 }  from '../utils/constants.js';
 
 
@@ -37,9 +35,50 @@ export const mestoApi = new Api ({
 });
 
 // ######################
+// Конфигурация карточек
+// ######################
+function getNewCard(cardObject){
+  const cardConfig = {
+    template: '#templateCard',
+    cardEls: {
+      image: '.element__image',
+      caption: '.element__caption',
+      counter: '.element__likes-counter',
+      delButton: '.element__button-del',
+      like: '.element__button-like',
+      likeActive: 'element__button-like_active'
+    },
+    backendKeys: {
+      image: 'link',
+      caption: 'name',
+      counter: 'likes',
+      id: '_id',
+      owner: 'owner',
+    },
+    fn: {
+      open: (image, caption)=>popupImage.openPopup(image, caption),
+      del: (evt)=>popupDelCard.openPopup(evt),
+      likeRequest: (idCard, method, setLikes) => {
+        // запрос на сервер
+        mestoApi.workData({key : 'likes', id : idCard}, method)
+        .then((res)=>{
+          const cardObject = res;
+          // если всё ок, вносим данные
+          setLikes(cardObject.likes.length);
+        })
+        .catch((err)=>{
+          console.log(err);
+        });
+      },
+    }
+  };
+
+  return new Card(cardObject, cardConfig).getCard();
+}
+
+// ######################
 // Конфигурация FormValidator
 // ######################
-
 export const formsValidator = {
   image: new FormValidator(inputImage.form),
   avatar: new FormValidator(inputAvatar.form),
@@ -49,10 +88,9 @@ export const formsValidator = {
 // ######################
 // Конфигурация секции
 // ######################
-
 export const cardSection = new Section({
     items: [],
-    renderer: (cardObject)=>new Card(cardObject, cardConfig).getCard()
+    renderer: (cardObject)=>getNewCard(cardObject)
   },
   '.elements__grid');
 
@@ -67,36 +105,53 @@ const userMesto = new UserInfo(userProfile, (path, body)=>
 // ######################
 export const popupEditProfile = new PopupSubmit(
   "#popup-profile",
-  () =>
+  (evt, _succeedSubmit, _errSubmit) =>
     userMesto.workUserInfo("user", {
       name: inputProfile.name.value,
       about: inputProfile.subtitle.value,
+    })
+    .then((res) => {
+      _succeedSubmit();
+    })
+    .catch((err)=>{
+      console.log(err);
+      _errSubmit(err);
     }),
   ["Переписываем", "Исправляем", "Меняем"]
 );
 popupEditProfile.setEventListeners();
 
-export const popupAddImage = new PopupSubmit("#popup-add", (evt) => {
+export const popupAddImage = new PopupSubmit("#popup-add", (evt, _succeedSubmit, _errSubmit) => {
   return mestoApi
     .workData({ key: "cards" }, "post", {
       name: inputImage.title.value,
       link: inputImage.url.value,
     })
     .then((res) => {
-      cardSection.addItem(new Card(res, cardConfig).getCard());
+      cardSection.addItem(getNewCard(res));
 
       evt.target.reset();
       formsValidator.image.toggleButton();
+      _succeedSubmit();
+    })
+    .catch((err)=>{
+      console.log(err);
+      _errSubmit(err);
     });
 });
 popupAddImage.setEventListeners();
 
-export const popupEditAvatar = new PopupSubmit("#popup-avatar", (evt) => {
+export const popupEditAvatar = new PopupSubmit("#popup-avatar", (evt, _succeedSubmit, _errSubmit) => {
   return userMesto
     .workUserInfo("avatar", { avatar: inputAvatar.url.value })
     .then((res) => {
       evt.target.reset();
       formsValidator.avatar.toggleButton();
+      _succeedSubmit();
+    })
+    .catch((err)=>{
+      console.log(err);
+      _errSubmit(err);
     });
 });
 popupEditAvatar.setEventListeners();
@@ -107,12 +162,17 @@ popupImage.setEventListeners();
 
 export const popupDelCard = new PopupDelete(
   "#popup-delCard",
-  (evt) => {
+  (evt, _succeedSubmit, _errSubmit) => {
     return mestoApi
       .workData({ key: "cards", id: window.cardToDelete.id }, "delete")
       .then((res) => {
         window.cardToDelete.remove();
-      });
+       _succeedSubmit();
+    })
+    .catch((err)=>{
+      console.log(err);
+      _errSubmit(err);
+    });
   },
   ["Стираем", "Удаляем", "Забываем"]
 );

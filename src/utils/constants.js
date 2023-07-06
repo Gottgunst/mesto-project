@@ -1,34 +1,3 @@
-import { popupImage, popupDelCard, mestoApi } from "../page/index.js";
-
-
-// ######################
-// Конфигурация карточек
-// ######################
-
-export const cardConfig = {
-  template: '#templateCard',
-  cardEls: {
-    image: '.element__image',
-    caption: '.element__caption',
-    counter: '.element__likes-counter',
-    delButton: '.element__button-del',
-    like: '.element__button-like',
-    likeActive: 'element__button-like_active'
-  },
-  backendKeys: {
-    image: 'link',
-    caption: 'name',
-    counter: 'likes',
-    id: '_id',
-    owner: 'owner',
-  },
-  fn: {
-    open: (image, caption)=>popupImage.openPopup(image, caption),
-    del: (evt)=>popupDelCard.openPopup(evt),
-    likeRequest: (idCard, method)=>mestoApi.workData({key : 'likes', id : idCard}, method),
-  }
-};
-
 // ######################
 // Конфигурация элементов
 // ######################
