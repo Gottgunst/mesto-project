@@ -41,7 +41,16 @@ export class PopupSubmit extends Popup{
     this._titleEl = this._popupElement.querySelector(this._style.title);
     this._submit = this._popupElement.querySelector(this._style.submit);
 
-    // this.setEventListeners();
+    // объявляем переменную для Id анимации — чтобы её остановить
+    this._stopAnimation;
+
+    // привязываем контекст к функциям, которые отправятся в коллбек
+    this._bindSucceedSubmit = this._succeedSubmit.bind(this);
+    this._bindErrSubmit = this._errSubmit.bind(this);
+
+    // сохраняем начальный label у submit
+    this._labelButton = this._submit.textContent;
+
   }
 
   // расширяем функционал
@@ -53,28 +62,29 @@ export class PopupSubmit extends Popup{
 
   // Универсальный обработчик submit
   _getInputValues(evt){
-    const {_submit, _labelArray, _loadStatusButton} = this;
+    const {_submit, _labelArray, _loadStatusButton, _bindSucceedSubmit, _bindErrSubmit} = this;
     evt.preventDefault();
 
-    // сохраняем начальный label у submit
-    const label = _submit.textContent;
     // запускаем анимацию загрузки и сохраняем в stop её id для остановки
     // передаём массив вариантов label, если он передан в конструктор
-    const stop = _labelArray ? _loadStatusButton(_submit, _labelArray) : _loadStatusButton(_submit);
+    this._stopAnimation = _loadStatusButton(_submit, _labelArray);
 
-    // запускаем реквест-функцию из конструктора
-    this._request(evt)
-    .then((res)=>{
-      this.closePopup();
-      // останавливаем анимацию и возвращаем начальное имя
-      _loadStatusButton(_submit, [label], stop);
-    })
-    .catch((err)=>{
-      console.log(err);
-      _loadStatusButton(_submit, [`Ошибка: ${err.status}`], stop);
-      // возвращаем начальное имя спустя пару секунд шока
-      setTimeout(()=>_loadStatusButton(_submit, [label], stop), 2000);
-    });
+    // запускаем реквест-функцию из конструктора и передаём нужные параметры
+    this._request(evt, _bindSucceedSubmit, _bindErrSubmit);
+  }
+
+  _succeedSubmit(){
+    const {_submit, _stopAnimation, _labelButton, _loadStatusButton} = this;
+    this.closePopup();
+    // останавливаем анимацию и возвращаем начальное имя
+    _loadStatusButton(_submit, [_labelButton], _stopAnimation);
+  }
+
+  _errSubmit(err){
+    const {_submit, _stopAnimation, _labelButton, _loadStatusButton} = this;
+    _loadStatusButton(_submit, [`Ошибка: ${err.status}`], _stopAnimation);
+    // возвращаем начальное имя спустя пару секунд шока
+    setTimeout(()=>_loadStatusButton(_submit,  [_labelButton], _stopAnimation), 2000);
   }
 
   // Индикация обработки данных
