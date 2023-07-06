@@ -37,41 +37,44 @@ export const mestoApi = new Api ({
 // ######################
 // Конфигурация карточек
 // ######################
-
-export const cardConfig = {
-  template: '#templateCard',
-  cardEls: {
-    image: '.element__image',
-    caption: '.element__caption',
-    counter: '.element__likes-counter',
-    delButton: '.element__button-del',
-    like: '.element__button-like',
-    likeActive: 'element__button-like_active'
-  },
-  backendKeys: {
-    image: 'link',
-    caption: 'name',
-    counter: 'likes',
-    id: '_id',
-    owner: 'owner',
-  },
-  fn: {
-    open: (image, caption)=>popupImage.openPopup(image, caption),
-    del: (evt)=>popupDelCard.openPopup(evt),
-    likeRequest: (idCard, method, setLikes) => {
-      // запрос на сервер
-      mestoApi.workData({key : 'likes', id : idCard}, method)
-      .then((res)=>{
-        const cardObject = res;
-        // если всё ок, вносим данные
-        setLikes(cardObject.likes.length);
-      })
-      .catch((err)=>{
-        console.log(err);
-      });
+function getNewCard(cardObject){
+  const cardConfig = {
+    template: '#templateCard',
+    cardEls: {
+      image: '.element__image',
+      caption: '.element__caption',
+      counter: '.element__likes-counter',
+      delButton: '.element__button-del',
+      like: '.element__button-like',
+      likeActive: 'element__button-like_active'
     },
-  }
-};
+    backendKeys: {
+      image: 'link',
+      caption: 'name',
+      counter: 'likes',
+      id: '_id',
+      owner: 'owner',
+    },
+    fn: {
+      open: (image, caption)=>popupImage.openPopup(image, caption),
+      del: (evt)=>popupDelCard.openPopup(evt),
+      likeRequest: (idCard, method, setLikes) => {
+        // запрос на сервер
+        mestoApi.workData({key : 'likes', id : idCard}, method)
+        .then((res)=>{
+          const cardObject = res;
+          // если всё ок, вносим данные
+          setLikes(cardObject.likes.length);
+        })
+        .catch((err)=>{
+          console.log(err);
+        });
+      },
+    }
+  };
+
+  return new Card(cardObject, cardConfig).getCard();
+}
 
 // ######################
 // Конфигурация FormValidator
@@ -87,7 +90,7 @@ export const formsValidator = {
 // ######################
 export const cardSection = new Section({
     items: [],
-    renderer: (cardObject)=>new Card(cardObject, cardConfig).getCard()
+    renderer: (cardObject)=>getNewCard(cardObject)
   },
   '.elements__grid');
 
@@ -118,7 +121,7 @@ export const popupAddImage = new PopupSubmit("#popup-add", (evt) => {
       link: inputImage.url.value,
     })
     .then((res) => {
-      cardSection.addItem(new Card(res, cardConfig).getCard());
+      cardSection.addItem(getNewCard(res));
 
       evt.target.reset();
       formsValidator.image.toggleButton();
