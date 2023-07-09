@@ -18,19 +18,25 @@ export class PopupDelete extends PopupSubmit{
     this._style.title = styleDelCfg.title;
     this._style.wrapper = styleDelCfg.wrapper;
     this._style.activeLike = styleDelCfg.activeLike;
+
+    // Переменная для ссылки на карточку.
+    this._cardIdToDelete;
+    this._cardContext;
   }
 
-  openPopup(evt){
+  openPopup(cardId, that){
+
     const {_titleEl, _submit } = this;
-    const { activeLike, wrapper } = this._style;
+    const { activeLike } = this._style;
+
+    // Резервируем id и контекст карточки для её удаления
+    this._cardIdToDelete = cardId;
+    this._cardContext = that;
 
     super.openPopup();
 
-    // Резервируем объект для удаления
-    window.cardToDelete = evt.target.closest(wrapper);
-
     // Давим на жалость
-    if (evt.target.closest(wrapper).querySelector(activeLike)){
+    if (document.getElementById(cardId).querySelector(activeLike)){
       _titleEl.textContent = 'Любимую карточку?';
       _submit.textContent = 'Удалить';
     } else {
