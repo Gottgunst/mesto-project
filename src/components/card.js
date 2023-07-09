@@ -3,7 +3,7 @@
 // ##########################
 
 export default class Card {
-  constructor(cardObject, {template, cardEls, backendKeys, fn},
+  constructor(cardObject, {template, cardEls, backendKeys, sockets},
     ){
     // Объект карточки с сервера
     this._cardObject = cardObject;
@@ -24,22 +24,29 @@ export default class Card {
     // Ключи объектов бекэнда
     this._backendKeys = backendKeys;
 
-    // Биндим функцию для передачи её в колбек
-    this._bindSetLikes = this._setLikes.bind(this);
-
     // привязка к внешним функциям
-    this._fn = fn;
+    this._sockets = sockets;
+
+    // объявляем переменную для Id анимации — чтобы её остановить
+    this._stopAnimation;
   }
   // явный метод получения карточки
   getCard(){
     return this._gather();
   }
 
+  // удаляем карточку
+  removeCard(){
+      // переменные для данных с сервера
+    const obj = this._cardObject;
+    const key = this._backendKeys;
+
+    document.getElementById(obj[key.id]).remove();
+  }
+
   // собираем карточку
   _gather(){
-    const { _cardElement, _caption, _image, _counter, _delButton, _like } = this;
-
-
+    const { _cardElement, _caption, _image, _counter } = this;
 
     // переменные для данных с сервера
     const obj = this._cardObject;
@@ -70,7 +77,7 @@ export default class Card {
 
     if(obj[key.counter].length>0) {
       // проверка личного лайка
-      if(obj[key.counter].some(user => user[key.id] === this._fn.userId))
+      if(obj[key.counter].some(user => user[key.id] === this._sockets.userId))
         this._like.classList.add(this._cardEls.likeActive);
 
       // возвращаем кол-во лайков
@@ -85,36 +92,59 @@ export default class Card {
     const obj = this._cardObject;
     const key = this._backendKeys;
 
-    const method = this._like.classList.toggle(this._cardEls.likeActive) ? 'put': 'delete';
+    const method = this._like.classList.contains(this._cardEls.likeActive) ? 'delete' : 'put';
 
-    // отправляем в коллбек данные для лайка
-    this._fn.likeRequest(obj[key.id], method, this._bindSetLikes);
+    this._stopAnimation = this._loadLikeStatus();
+
+    // отправляем в коллбек данные для лайка с привязкой контекста
+    this._sockets.likeRequest.call(this, obj[key.id], method);
   }
 
   _setLikes(likesQuantity){
     // рисуем кол-во лайков
+    this._loadLikeStatus(this._stopAnimation);
     this._counter.textContent = likesQuantity>0 ? likesQuantity : "";
   }
 
   // устанавливаем события
   _addEvents(){
-    const { _fn, _image, _delButton, _like } = this;
+    const { _sockets, _image, _delButton, _like } = this;
     // переменные для данных с сервера
     const obj = this._cardObject;
     const key = this._backendKeys;
+    // Биндим функции для передачи их по клику
+    const bindLikeCard = this._likeCard.bind(this);
 
     _image.addEventListener('click',
-      ()=>_fn.open(obj[key.image],obj[key.caption]));
+      ()=>_sockets.openImage(obj[key.image],obj[key.caption]));
 
-    _like.addEventListener('click',
-      ()=>{this._likeCard()});
+    _like.addEventListener('click', bindLikeCard);
 
     // если карточка не наша, её нет возможности удалить
-    obj[key.owner][key.id] === this._fn.userId ?
-      _delButton.addEventListener('click',(evt)=>_fn.del(evt)) :
+    obj[key.owner][key.id] === _sockets.userId ?
+      _delButton.addEventListener('click', () => _sockets.deleteImage(obj[key.id], this)) :
       _delButton.remove();
   }
 
+  // Индикация обработки данных
+  _loadLikeStatus(intervalId) {
+    if(!intervalId){
+      let flag=100;
+      this._like.classList.add(this._cardEls.likeLoad);
+      // возвращаем ID для его отключения
+      return setInterval(()=>{
+          flag>0? flag-- : flag=100;
+          this._like.style.opacity = flag / 100 ;
+        }, 10);
+    } else {
+      // останавливаем анимацию и возвращаем label
+      clearInterval(intervalId);
+      // меняем состояние лайка
+      this._like.classList.remove(this._cardEls.likeLoad);
+      this._like.removeAttribute('style');
+      this._like.classList.toggle(this._cardEls.likeActive);
+    }
+  }
 }
 
 
