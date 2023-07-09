@@ -33,7 +33,7 @@ export default class FormValidator {
     const { _formElement } = this;
     const { errorFieldSelector } = this._formsPrefs;
     // находим поле для вывода ошибки
-    const errField = document.querySelector(
+    const errField = this._formElement.querySelector(
       `${errorFieldSelector}${evt.target.name}"]`
     );
 
@@ -63,7 +63,7 @@ export default class FormValidator {
   _isKeyValid(evt) {
     const { errorFieldSelector } = this._formsPrefs;
     // находим поле для вывода ошибки
-    const errField = document.querySelector(
+    const errField = this._formElement.querySelector(
       `${errorFieldSelector}${evt.target.name}"]`
     );
 
