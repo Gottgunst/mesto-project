@@ -86,7 +86,7 @@ export class PopupSubmit extends Popup{
 
   _errSubmit(err){
     const {_submit, _stopAnimation, _labelButton, _loadStatusButton} = this;
-    _loadStatusButton( [`Ошибка: ${err.status}`], _stopAnimation);
+    _loadStatusButton(_submit, [`Ошибка: ${err.status}`], _stopAnimation);
     // возвращаем начальное имя спустя пару секунд шока
     setTimeout(()=>_loadStatusButton(_submit, [_labelButton], _stopAnimation), 2000);
   }
