@@ -26,7 +26,7 @@ export class PopupSubmit extends Popup{
 
     // слабое связывание
     this._request = request;
-    this._bindGetInputValues = this._getInputValues.bind(this);
+    this._bindSubmitForm = this._submitForm.bind(this);
 
     // Расширяю настройки имен стилей
     this._style.title = styleFormCfg.title;
@@ -44,10 +44,6 @@ export class PopupSubmit extends Popup{
     // объявляем переменную для Id анимации — чтобы её остановить
     this._stopAnimation;
 
-    // привязываем контекст к функциям, которые отправятся в коллбек
-    this._bindSucceedSubmit = this._succeedSubmit.bind(this);
-    this._bindErrSubmit = this._errSubmit.bind(this);
-
     // сохраняем начальный label у submit
     this._labelButton = this._submit.textContent;
 
@@ -56,21 +52,29 @@ export class PopupSubmit extends Popup{
   // расширяем функционал
   setEventListeners(){
     // добавлять обработчик сабмита формы.
-    this._submit.form.addEventListener('submit', this._bindGetInputValues);
+    this._submit.form.addEventListener('submit', this._bindSubmitForm );
     super.setEventListeners();
   }
 
-  // Универсальный обработчик submit
-  _getInputValues(evt){
-    const {_submit, _labelArray, _loadStatusButton, _bindSucceedSubmit, _bindErrSubmit} = this;
+  // универсальный обработчик submit
+  _submitForm(evt){
     evt.preventDefault();
 
     // запускаем анимацию загрузки и сохраняем в stop её id для остановки
     // передаём массив вариантов label, если он передан в конструктор
-    this._stopAnimation = _loadStatusButton(_submit, _labelArray);
+    this._stopAnimation = this._loadStatusButton( this._submit, this._labelArray);
 
     // запускаем реквест-функцию из конструктора и передаём нужные параметры
-    this._request(evt, _bindSucceedSubmit, _bindErrSubmit);
+    this._request(evt);
+  }
+
+  // Универсальный сборщик полей формы
+  _getInputValues(){
+    return Object
+      .values(this._submit.form)
+      .filter(el => el.type !== "submit")
+      .reduce((obj, el) =>
+        Object.assign(obj, { [el.name]: el.value }), {});
   }
 
   _succeedSubmit(){
@@ -82,13 +86,13 @@ export class PopupSubmit extends Popup{
 
   _errSubmit(err){
     const {_submit, _stopAnimation, _labelButton, _loadStatusButton} = this;
-    _loadStatusButton(_submit, [`Ошибка: ${err.status}`], _stopAnimation);
+    _loadStatusButton( [`Ошибка: ${err.status}`], _stopAnimation);
     // возвращаем начальное имя спустя пару секунд шока
-    setTimeout(()=>_loadStatusButton(_submit,  [_labelButton], _stopAnimation), 2000);
+    setTimeout(()=>_loadStatusButton(_submit, [_labelButton], _stopAnimation), 2000);
   }
 
   // Индикация обработки данных
-  _loadStatusButton(_submit, textArr , intervalId) {
+  _loadStatusButton( submit, textArr , intervalId) {
     if(!intervalId){
       let flag = 0;
       // берём случайный label из массива
@@ -97,12 +101,12 @@ export class PopupSubmit extends Popup{
       return setInterval(()=>{
           flag++;
           const dots = new Array(flag % 5).join('.');
-          _submit.textContent = textArr[textId] + dots;
+          submit.textContent = textArr[textId] + dots;
         }, 400);
     } else {
       // останавливаем анимацию и возвращаем label
       clearInterval(intervalId);
-      _submit.textContent = textArr[0];
+      submit.textContent = textArr[0];
     }
   }
 }

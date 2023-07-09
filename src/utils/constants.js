@@ -13,21 +13,21 @@ export const userProfile = {
 // Формы
 export const inputProfile = {
   form: document.querySelector('.popup__form[name="editInfo"]'),
-  name: document.querySelector('.popup__field[name="name"]'),
-  subtitle: document.querySelector('.popup__field[name="subtitle"]'),
+  name: document.querySelector('.popup__form[name="editInfo"] >.popup__field[name="name"]'),
+  subtitle: document.querySelector('.popup__form[name="editInfo"] >.popup__field[name="about"]'),
   button: document.querySelector('.popup__form[name="editInfo"] > .popup__submit'),
 };
 
 export const inputImage = {
   form: document.querySelector('.popup__form[name="addImage"]'),
-  title: document.querySelector('.popup__field[name="title"]'),
-  url: document.querySelector('.popup__field[name="url"]'),
+  title: document.querySelector('.popup__form[name="addImage"] >.popup__field[name="name"]'),
+  url: document.querySelector('.popup__form[name="addImage"] >.popup__field[name="link"]'),
   button: document.querySelector('.popup__form[name="addImage"] > .popup__submit'),
 };
 
 export const inputAvatar = {
   form: document.querySelector('.popup__form[name="changeAvatar"]'),
-  url: document.querySelector('.popup__field[name="urlAvatar"]'),
+  url: document.querySelector('.popup__form[name="changeAvatar"] > .popup__field[name="avatar"]'),
   button: document.querySelector('.popup__form[name="changeAvatar"] > .popup__submit'),
 };
 
