@@ -8,14 +8,12 @@ import { PopupSubmit, PopupImage, PopupDelete } from "../components/modals";
 import './index.css';
 
 import {
-  userProfile,
+  avatarWrapper,
   inputProfile,
-  inputAvatar,
-  inputImage,
+  inputAvatarUrl,
   buttonEditProfile,
   buttonAddImage,
 }  from '../utils/constants.js';
-
 
 // ######################
 // Конфигурация Api
@@ -68,10 +66,11 @@ function getNewCard(cardObject){
         .then((res)=>{
           const cardObject = res;
           // если всё ок, вносим данные
-          this._setLikes(cardObject.likes.length);
+          this.setLikes(cardObject.likes.length);
         })
         .catch((err)=>{
           console.log(err);
+          this.loadLikeAnimation(this._stopAnimation);
         });
       },
     }
@@ -84,9 +83,9 @@ function getNewCard(cardObject){
 // Конфигурация FormValidator
 // ######################
 const formsValidator = {
-  image: new FormValidator(inputImage.form),
-  avatar: new FormValidator(inputAvatar.form),
-  profile: new FormValidator(inputProfile.form)
+  image: new FormValidator('[name="addImage"]'),
+  avatar: new FormValidator('[name="changeAvatar"]'),
+  profile: new FormValidator('[name="editInfo"]')
 }
 
 // ######################
@@ -212,9 +211,9 @@ formsValidator.profile.enableValidation();
 
 
 // Подключение событий клика на кнопки
-userProfile.avatarWrapperProfile.addEventListener('click', ()=>{
+avatarWrapper.addEventListener('click', ()=>{
   // Устанавливаем адрес аватара в поля ввода
-  inputAvatar.url.value = userMesto.userInfo.avatar;
+  inputAvatarUrl.value = userMesto.userInfo.avatar;
   popupEditAvatar.openPopup();
 });
 
