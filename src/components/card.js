@@ -94,15 +94,18 @@ export default class Card {
 
     const method = this._like.classList.contains(this._cardEls.likeActive) ? 'delete' : 'put';
 
-    this._stopAnimation = this._loadLikeStatus();
+    this._stopAnimation = this.loadLikeAnimation();
 
     // отправляем в коллбек данные для лайка с привязкой контекста
     this._sockets.likeRequest.call(this, obj[key.id], method);
   }
 
-  _setLikes(likesQuantity){
+  setLikes(likesQuantity){
+    // останавливаем Анимацию
+    this.loadLikeAnimation(this._stopAnimation);
+    // меняем сиконку лакйка
+    this._like.classList.toggle(this._cardEls.likeActive);
     // рисуем кол-во лайков
-    this._loadLikeStatus(this._stopAnimation);
     this._counter.textContent = likesQuantity>0 ? likesQuantity : "";
   }
 
@@ -127,22 +130,31 @@ export default class Card {
   }
 
   // Индикация обработки данных
-  _loadLikeStatus(intervalId) {
+  loadLikeAnimation(intervalId) {
     if(!intervalId){
-      let flag=100;
+      let index = 0;
+      let opacity=[1, .9, .8, .7, .6, .5, .4, .3];
+
       this._like.classList.add(this._cardEls.likeLoad);
       // возвращаем ID для его отключения
       return setInterval(()=>{
-          flag>0? flag-- : flag=100;
-          this._like.style.opacity = flag / 100 ;
-        }, 10);
+
+        this._like.style.opacity = opacity[index];
+
+        // двигаемся по массиву значений, в обоих направлениях
+        if(index<opacity.length-1){
+          index++;
+        }else{
+          opacity.reverse();
+          index=0;
+        }
+      }, 50);
     } else {
       // останавливаем анимацию и возвращаем label
       clearInterval(intervalId);
-      // меняем состояние лайка
+      // меняем удаляем временные стили
       this._like.classList.remove(this._cardEls.likeLoad);
       this._like.removeAttribute('style');
-      this._like.classList.toggle(this._cardEls.likeActive);
     }
   }
 }

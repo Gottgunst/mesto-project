@@ -1,3 +1,4 @@
 .element__button-like_load {
   background-image: url('../../../../images/svg/heart_fill.svg');
+  transform: scale(.85);
 }
