@@ -20,8 +20,8 @@ export class PopupDelete extends PopupSubmit{
     this._style.activeLike = styleDelCfg.activeLike;
 
     // Переменная для ссылки на карточку.
-    this._cardIdToDelete;
-    this._cardContext;
+    this.cardIdToDelete;
+    this.cardContext;
   }
 
   openPopup(cardId, that){
@@ -30,8 +30,8 @@ export class PopupDelete extends PopupSubmit{
     const { activeLike } = this._style;
 
     // Резервируем id и контекст карточки для её удаления
-    this._cardIdToDelete = cardId;
-    this._cardContext = that;
+    this.cardIdToDelete = cardId;
+    this.cardContext = that;
 
     super.openPopup();
 
