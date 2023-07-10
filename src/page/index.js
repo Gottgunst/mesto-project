@@ -110,14 +110,14 @@ const popupEditProfile = new PopupSubmit(
   "#popup-profile",
   function() {
     mestoApi
-      .workData({ key: "user" }, "patch", this._getInputValues())
+      .workData({ key: "user" }, "patch", this.getInputValues())
       .then((userData) => {
         userMesto.userInfo = userData;
-        this._succeedSubmit();
+        this.succeedSubmit();
       })
       .catch((err)=>{
         console.log(err);
-        this._errSubmit(err);
+        this.errSubmit(err);
       });
   },
   ["Переписываем", "Исправляем", "Меняем"]
@@ -128,17 +128,17 @@ popupEditProfile.setEventListeners();
 const popupAddImage = new PopupSubmit("#popup-add",
   async function(evt) {
   return mestoApi
-    .workData({ key: "cards" }, "post", this._getInputValues())
+    .workData({ key: "cards" }, "post", this.getInputValues())
     .then((res) => {
       cardSection.addItem(getNewCard(res));
 
       evt.target.reset();
       formsValidator.image.toggleButton();
-      this._succeedSubmit();
+      this.succeedSubmit();
     })
     .catch((err)=>{
       console.log(err);
-      this._errSubmit(err);
+      this.errSubmit(err);
     });
   });
 popupAddImage.setEventListeners();
@@ -147,18 +147,18 @@ popupAddImage.setEventListeners();
 const popupEditAvatar = new PopupSubmit("#popup-avatar",
   async function (evt){
   return mestoApi
-    .workData({ key: "avatar" }, "patch", this._getInputValues())
+    .workData({ key: "avatar" }, "patch", this.getInputValues())
     .then((userData) => {
 
       userMesto.userInfo = userData;
 
       evt.target.reset();
       formsValidator.avatar.toggleButton();
-      this._succeedSubmit();
+      this.succeedSubmit();
     })
     .catch((err)=>{
       console.log(err);
-      this._errSubmit(err);
+      this.errSubmit(err);
     });
   });
 popupEditAvatar.setEventListeners();
@@ -172,14 +172,14 @@ const popupDelCard = new PopupDelete(
   "#popup-delCard",
   async function() {
     return mestoApi
-      .workData({ key: "cards", id: this._cardIdToDelete }, "delete")
+      .workData({ key: "cards", id: this.cardIdToDelete }, "delete")
       .then((res) => {
-        this._cardContext.removeCard();
-        this._succeedSubmit();
+        this.cardContext.removeCard();
+        this.succeedSubmit();
       })
       .catch((err)=>{
         console.log(err);
-        this._errSubmit(err);
+        this.errSubmit(err);
       });
   },
   ["Стираем", "Удаляем", "Забываем"]

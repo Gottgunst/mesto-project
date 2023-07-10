@@ -69,7 +69,7 @@ export class PopupSubmit extends Popup{
   }
 
   // Универсальный сборщик полей формы
-  _getInputValues(){
+  getInputValues(){
     return Object
       .values(this._submit.form)
       .filter(el => el.type !== "submit")
@@ -77,14 +77,14 @@ export class PopupSubmit extends Popup{
         Object.assign(obj, { [el.name]: el.value }), {});
   }
 
-  _succeedSubmit(){
+  succeedSubmit(){
     const {_submit, _stopAnimation, _labelButton, _loadStatusButton} = this;
     this.closePopup();
     // останавливаем анимацию и возвращаем начальное имя
     _loadStatusButton(_submit, [_labelButton], _stopAnimation);
   }
 
-  _errSubmit(err){
+  errSubmit(err){
     const {_submit, _stopAnimation, _labelButton, _loadStatusButton} = this;
     _loadStatusButton(_submit, [`Ошибка: ${err.status}`], _stopAnimation);
     // возвращаем начальное имя спустя пару секунд шока
