@@ -44,8 +44,8 @@ function getNewCard(cardObject){
       counter: '.element__likes-counter',
       delButton: '.element__button-del',
       like: '.element__button-like',
-      likeActive: 'element__button-like_active',
-      likeLoad: 'element__button-like_load',
+      likeActive: 'element__button-like_type_active',
+      likeLoad: 'element__button-like_type_load',
     },
     backendKeys: {
       image: 'link',
@@ -107,9 +107,9 @@ const userMesto = new UserInfo();
 // ######################
 const popupEditProfile = new PopupSubmit(
   "#popup-profile",
-  function() {
+  function(evt, body) {
     mestoApi
-      .workData({ key: "user" }, "patch", this.getInputValues())
+      .workData({ key: "user" }, "patch", body)
       .then((userData) => {
         userMesto.userInfo = userData;
         this.succeedSubmit();
@@ -125,9 +125,9 @@ popupEditProfile.setEventListeners();
 
 
 const popupAddImage = new PopupSubmit("#popup-add",
-  async function(evt) {
+  async function(evt, body) {
   return mestoApi
-    .workData({ key: "cards" }, "post", this.getInputValues())
+    .workData({ key: "cards" }, "post", body)
     .then((res) => {
       cardSection.addItem(getNewCard(res));
 
@@ -144,9 +144,9 @@ popupAddImage.setEventListeners();
 
 
 const popupEditAvatar = new PopupSubmit("#popup-avatar",
-  async function (evt){
+  async function (evt, body){
   return mestoApi
-    .workData({ key: "avatar" }, "patch", this.getInputValues())
+    .workData({ key: "avatar" }, "patch", body)
     .then((userData) => {
 
       userMesto.userInfo = userData;

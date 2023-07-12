@@ -1,15 +1,15 @@
-import {PopupSubmit} from '.';
+import {PopupAdvance} from '.';
 
 // #################
 // POP-UP Delete Class
 // #################
 
-export class PopupDelete extends PopupSubmit{
+export class PopupDelete extends PopupAdvance{
    constructor(popupSelector, request, labelArray,
     styleDelCfg = {
-    title: '.popup__title_type_del-card',
-    wrapper: '.element__wrapper',
-    activeLike: '.element__button-like_active',
+      wrapper: '.element__wrapper',
+      activeLike: '.element__button-like_type_active',
+      title: '.popup__title_type_del-card'
   }, ...args)
   {
     super(popupSelector, request, labelArray, ...args);
@@ -18,6 +18,9 @@ export class PopupDelete extends PopupSubmit{
     this._style.title = styleDelCfg.title;
     this._style.wrapper = styleDelCfg.wrapper;
     this._style.activeLike = styleDelCfg.activeLike;
+
+    // находим элементы
+    this._titleEl = this._popupElement.querySelector(this._style.title);
 
     // Переменная для ссылки на карточку.
     this.cardIdToDelete;
