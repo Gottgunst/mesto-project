@@ -94,7 +94,7 @@ export default class Card {
 
     const method = this._like.classList.contains(this._cardEls.likeActive) ? 'delete' : 'put';
 
-    this._stopAnimation = this.loadLikeAnimation();
+    this._stopAnimation = this._loadLikeAnimation();
 
     // отправляем в коллбек данные для лайка с привязкой контекста
     this._sockets.likeRequest.call(this, obj[key.id], method);
@@ -102,12 +102,18 @@ export default class Card {
 
   setLikes(likesQuantity){
     // останавливаем Анимацию
-    this.loadLikeAnimation(this._stopAnimation);
+    this._loadLikeAnimation(this._stopAnimation);
     // меняем сиконку лакйка
     this._like.classList.toggle(this._cardEls.likeActive);
     // рисуем кол-во лайков
     this._counter.textContent = likesQuantity>0 ? likesQuantity : "";
   }
+
+  errLikes(err){
+    console.log(err);
+    this._loadLikeAnimation(this._stopAnimation);
+  }
+
 
   // устанавливаем события
   _addEvents(){
@@ -130,7 +136,7 @@ export default class Card {
   }
 
   // Индикация обработки данных
-  loadLikeAnimation(intervalId) {
+  _loadLikeAnimation(intervalId) {
     if(!intervalId){
       let index = 0;
       let opacity=[1, .9, .8, .7, .6, .5, .4, .3];

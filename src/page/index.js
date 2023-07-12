@@ -69,8 +69,7 @@ function getNewCard(cardObject){
           this.setLikes(cardObject.likes.length);
         })
         .catch((err)=>{
-          console.log(err);
-          this.loadLikeAnimation(this._stopAnimation);
+          this.errLikes(err);
         });
       },
     }
