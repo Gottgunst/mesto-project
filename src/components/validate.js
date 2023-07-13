@@ -1,6 +1,6 @@
 export default class FormValidator {
   constructor(
-    formElement,
+    formSelector,
     formsPrefs = {
       formSelector: "popup__form",
       inputSelector: "popup__field",
@@ -11,7 +11,7 @@ export default class FormValidator {
       // errorClass: 'popup__error',
     }
   ) {
-    this._formElement = formElement;//!!! ожидаем селектор
+    this._formElement = document.querySelector(formSelector);
     this._formsPrefs = formsPrefs;
     this._button = this._formElement.querySelector(".popup__submit");
   }
@@ -33,7 +33,7 @@ export default class FormValidator {
     const { _formElement } = this;
     const { errorFieldSelector } = this._formsPrefs;
     // находим поле для вывода ошибки
-    const errField = document.querySelector(
+    const errField = this._formElement.querySelector(
       `${errorFieldSelector}${evt.target.name}"]`
     );
 
@@ -63,7 +63,7 @@ export default class FormValidator {
   _isKeyValid(evt) {
     const { errorFieldSelector } = this._formsPrefs;
     // находим поле для вывода ошибки
-    const errField = document.querySelector(
+    const errField = this._formElement.querySelector(
       `${errorFieldSelector}${evt.target.name}"]`
     );
 
